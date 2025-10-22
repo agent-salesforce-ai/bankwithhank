@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-theme="fireside"> <!-- Default to new Fireside theme --><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANKWITHHANK.COM | A Handshake You Can Bank On</title>
+    <meta name="description" content="BANKWITHHANK.COM: Fast, friendly, and fair merchant cash advances. With Hank, you're not just a client, you're a partner.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'header': ['Bebas Neue', 'sans-serif'],
+                        'body': ['Roboto Slab', 'serif'],
+                    },
+                    colors: {
+                        // Fireside Theme Colors
+                        'fireside-primary': '#4a1401', // Deep reddish-brown (like dark wood/embers)
+                        'fireside-secondary': '#8b2e1b', // Warm red (fire/flannel)
+                        'fireside-accent': '#f4a261', // Orange (flame/marshmallow toast)
+                        'fireside-text-light': '#fdfcfc', // Off-white (smoke/warm light)
+                        'fireside-text-dark': '#2c0b00', // Dark brown (soot/wood)
+                        'fireside-bg-light': '#fef7ed', // Creamy background
+                        'fireside-bg-dark': '#2c0b00',
+
+                        // Patriotic Theme Colors
+                        'patriotic-red': '#b22234',
+                        'patriotic-blue': '#0a3161',
+                        'patriotic-white': '#fdfdfd',
+                        'patriotic-gold': '#ffc107', // Used as accent
+
+                        // Kennedy Theme Colors
+                        'kennedy-navy': '#1a237e',
+                        'kennedy-green': '#2e7d32',
+                        'kennedy-cream': '#fdf6e3',
+                        'kennedy-gold': '#ffc107',
+                        'kennedy-red': '#c62828',
+
+                        // Lumberjack Theme Colors (Adjusted for consistency)
+                        'lumberjack-dark': '#2d3748', // Charcoal
+                        'lumberjack-red': '#a52a2a', // Plaid red
+                        'lumberjack-green': '#22543d', // Plaid green
+                        'lumberjack-tan': '#f5e5c7', // Background light
+                        'lumberjack-gold': '#fdb813', // Accent
+
+                    },
+                    boxShadow: {
+                        'solid': '5px 5px 0px var(--border-color)',
+                    },
+                    backgroundImage: {
+                        'plaid-red': "linear-gradient(rgba(165, 42, 42, 0.9), rgba(165, 42, 42, 0.9)), repeating-linear-gradient(45deg, #2d3748, #2d3748 10px, #a52a2a 10px, #a52a2a 20px)",
+                        'plaid-green': "linear-gradient(rgba(34, 84, 61, 0.9), rgba(34, 84, 61, 0.9)), repeating-linear-gradient(45deg, #2d3748, #2d3748 10px, #22543d 10px, #22543d 20px)",
+                        'fireside-hearth': "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"200\" viewBox=\"0 0 200 200\"><rect width=\"200\" height=\"200\" fill=\"%234a1401\"/><g opacity=\"0.15\"><path d=\"M0 0h100v100H0V0zm100 100h100v100H100V100z\" fill=\"%23f4a261\"/><path d=\"M0 100h100v100H0V100zm100 0h100v100H100V0z\" fill=\"%238b2e1b\"/></g></svg>')",
+                        'fireside-embers': "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 20 20\"><rect width=\"20\" height=\"20\" fill=\"%238b2e1b\"/><rect x=\"0\" y=\"0\" width=\"10\" height=\"10\" fill=\"%23f4a261\" opacity=\"0.1\"/><rect x=\"10\" y=\"10\" width=\"10\" height=\"10\" fill=\"%23f4a261\" opacity=\"0.1\"/></svg>')",
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Define CSS Variables for themes */
+        /* Fireside Theme (Default) */
+        :root, html[data-theme="fireside"] {
+            --color-primary-bg: var(--fireside-primary);
+            --color-secondary-bg: var(--fireside-secondary);
+            --color-secondary-bg-image: var(--fireside-secondary); /* Solid color for secondary by default */
+            --color-accent: var(--fireside-accent);
+            --color-text-light: var(--fireside-text-light);
+            --color-text-dark: var(--fireside-text-dark);
+            --color-text-on-primary: var(--fireside-text-light);
+            --color-text-on-secondary: var(--fireside-text-light);
+            --color-bg-light: var(--fireside-bg-light);
+            --color-bg-dark: var(--fireside-bg-dark);
+            --color-button-primary: var(--fireside-accent);
+            --color-button-primary-hover: #e09457; /* Slightly darker accent */
+            --color-button-secondary: var(--fireside-primary);
+            --color-button-secondary-hover: #3a1100; /* Slightly darker primary */
+            --border-color: var(--fireside-primary);
+            --shadow-style: 5px 5px 0px var(--fireside-primary);
+            --hero-bg-image: linear-gradient(to bottom, rgba(74, 20, 1, 0.8), rgba(74, 20, 1, 0.8)), var(--fireside-hearth);
+        }
+        
+        html[data-theme="patriotic"] {
+            --color-primary-bg: var(--patriotic-blue);
+            --color-secondary-bg: var(--patriotic-red);
+            --color-secondary-bg-image: var(--patriotic-red);
+            --color-accent: var(--patriotic-gold);
+            --color-text-light: var(--patriotic-white);
+            --color-text-dark: var(--patriotic-blue);
+            --color-text-on-primary: var(--patriotic-white);
+            --color-text-on-secondary: var(--patriotic-white);
+            --color-bg-light: var(--patriotic-white);
+            --color-bg-dark: var(--patriotic-blue);
+            --color-button-primary: var(--patriotic-red);
+            --color-button-primary-hover: #9a1c2c;
+            --color-button-secondary: var(--patriotic-blue);
+            --color-button-secondary-hover: #08274d;
+            --border-color: var(--patriotic-blue);
+            --shadow-style: 5px 5px 0px var(--patriotic-blue);
+            --hero-bg-image: none; /* No special background for hero */
+        }
+        
+        html[data-theme="kennedy"] {
+            --color-primary-bg: var(--kennedy-gold);
+            --color-secondary-bg: var(--kennedy-navy);
+            --color-secondary-bg-image: var(--kennedy-navy);
+            --color-accent: var(--kennedy-gold);
+            --color-text-light: var(--kennedy-cream);
+            --color-text-dark: var(--kennedy-navy);
+            --color-text-on-primary: var(--kennedy-navy);
+            --color-text-on-secondary: var(--kennedy-cream);
+            --color-bg-light: var(--kennedy-cream);
+            --color-bg-dark: var(--kennedy-navy);
+            --color-button-primary: var(--kennedy-red);
+            --color-button-primary-hover: #a92121;
+            --color-button-secondary: var(--kennedy-green);
+            --color-button-secondary-hover: #256628;
+            --border-color: var(--kennedy-navy);
+            --shadow-style: 5px 5px 0px var(--kennedy-navy);
+            --hero-bg-image: none;
+        }
+
+        html[data-theme="lumberjack"] {
+            --color-primary-bg: var(--lumberjack-red);
+            --color-secondary-bg: var(--lumberjack-green);
+            --color-secondary-bg-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"200\" viewBox=\"0 0 200 200\"><rect width=\"200\" height=\"200\" fill=\"%2322543d\"/><g opacity=\"0.2\"><path d=\"M0 0h100v100H0V0zm100 100h100v100H100V100z\" fill=\"%232d3748\"/><path d=\"M0 100h100v100H0V100zm100 0h100v100H100V0z\" fill=\"%232d3748\"/></g></svg>');
+            --color-accent: var(--lumberjack-gold);
+            --color-text-light: var(--lumberjack-tan);
+            --color-text-dark: var(--lumberjack-dark);
+            --color-text-on-primary: var(--lumberjack-tan);
+            --color-text-on-secondary: var(--lumberjack-tan);
+            --color-bg-light: var(--lumberjack-tan);
+            --color-bg-dark: var(--lumberjack-dark);
+            --color-button-primary: var(--lumberjack-red);
+            --color-button-primary-hover: #8b2222;
+            --color-button-secondary: var(--lumberjack-green);
+            --color-button-secondary-hover: #1e4835;
+            --border-color: var(--lumberjack-dark);
+            --shadow-style: 5px 5px 0px var(--lumberjack-dark);
+            --hero-bg-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"200\" viewBox=\"0 0 200 200\"><rect width=\"200\" height=\"200\" fill=\"%23a52a2a\"/><g opacity=\"0.2\"><path d=\"M0 0h100v100H0V0zm100 100h100v100H100V100z\" fill=\"%232d3748\"/><path d=\"M0 100h100v100H0V100zm100 0h100v100H100V0z\" fill=\"%232d3748\"/></g></svg>');
+        }
+
+        .retro-panel {
+            border: 4px solid var(--border-color);
+            box-shadow: var(--shadow-style);
+        }
+        .hero-title-stroke {
+             -webkit-text-stroke: 2px var(--border-color);
+        }
+
+        /* Button hover styles */
+        .btn-primary {
+            background-color: var(--color-button-primary);
+            color: var(--color-text-on-primary);
+        }
+        .btn-primary:hover {
+            background-color: var(--color-button-primary-hover);
+        }
+        
+        .btn-secondary {
+            background-color: var(--color-button-secondary);
+            color: var(--color-text-on-secondary);
+        }
+        .btn-secondary:hover {
+            background-color: var(--color-button-secondary-hover);
+        }
+
+        /* Hero section dynamic background */
+        .hero-section {
+            background: var(--color-secondary-bg-image); /* Fallback */
+            background-image: var(--hero-bg-image);
+            background-size: cover; /* Ensures pattern covers area */
+            background-position: center;
+        }
+
+        /* Custom styling for fireside hero image */
+        html[data-theme="fireside"] .hero-section .retro-panel img {
+            border-color: var(--fireside-accent);
+            box-shadow: 5px 5px 0px var(--fireside-accent);
+        }
+
+    </style>
+</head>
+<body class="bg-[var(--color-bg-light)] text-[var(--color-text-dark)] font-body transition-colors duration-300">
+
+    <header class="bg-[var(--color-primary-bg)] fixed top-0 left-0 right-0 z-50 retro-panel mb-4">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="text-3xl font-header text-[var(--color-text-on-primary)] tracking-wider">BANKWITHHANK.COM</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#services" class="text-[var(--color-text-on-primary)] hover:text-[var(--color-accent)] font-bold text-lg">Our Promise</a>
+                <a href="#process" class="text-[var(--color-text-on-primary)] hover:text-[var(--color-accent)] font-bold text-lg">How It Works</a>
+                <a href="https://www.suttonfunding.com/apply/" class="btn-secondary font-header px-5 py-2 rounded-md transition-colors shadow-solid text-lg">Talk to Hank</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-[var(--color-text-on-primary)]">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-[var(--color-primary-bg)] border-t-4 border-[var(--border-color)] p-4">
+            <a href="#services" class="block py-2 text-[var(--color-text-on-primary)] font-bold text-lg">Our Promise</a>
+            <a href="#process" class="block py-2 text-[var(--color-text-on-primary)] font-bold text-lg">How It Works</a>
+            <a href="https://www.suttonfunding.com/apply/" class="mt-4 block text-center btn-secondary font-header py-2 rounded-md transition-colors text-lg">Talk to Hank</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="pt-32 pb-16 text-[var(--color-text-on-secondary)] hero-section">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col lg:flex-row items-center gap-12">
+                    <div class="lg:w-1/2 w-full">
+                        <img src="hanksmores.png" alt="Hank toasting marshmallows over a cozy fireplace" class="w-full h-full object-cover retro-panel bg-[var(--color-bg-light)]">
+                    </div>
+                    <div class="lg:w-1/2 text-center lg:text-left">
+                        <h1 class="font-header text-7xl md:text-8xl text-[var(--color-accent)] hero-title-stroke">A HANDSHAKE YOU CAN BANK ON.</h1>
+                        <p class="text-xl leading-relaxed my-8">Forget faceless lenders. Hank built this business on a handshake, offering fast, fair funding to partners, not numbers. Around here, you're a neighbor.</p>
+                        <a href="https://www.suttonfunding.com/apply/" class="btn-primary font-header px-8 py-4 rounded-md text-2xl transition-colors shadow-solid">Let's Shake On It</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="py-20 bg-[var(--color-bg-light)]">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="font-header text-5xl md:text-6xl text-[var(--color-text-dark)] mb-12">HANK'S PROMISE TO YOU</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="retro-panel bg-white p-6 text-[var(--color-text-dark)]">
+                        <h3 class="font-header text-3xl text-[var(--color-button-secondary)] mb-2">QUICK CAPITAL</h3>
+                        <p>Hank knows you're busy. That's why he gets you funded in as little as 24 hours. He moves at the speed of your business, not the other way around.</p>
+                    </div>
+                    <div class="retro-panel bg-white p-6 text-[var(--color-text-dark)]">
+                        <h3 class="font-header text-3xl text-[var(--color-button-secondary)] mb-2">SIMPLE APPLICATION</h3>
+                        <p>No mountains of paperwork here. Hank's application is straightforward because he believes in your business's health, not just a credit score.</p>
+                    </div>
+                    <div class="retro-panel bg-white p-6 text-[var(--color-text-dark)]">
+                        <h3 class="font-header text-3xl text-[var(--color-button-secondary)] mb-2">FLEXIBLE PAYMENTS</h3>
+                        <p>Business ebbs and flows, and Hank gets that. Payments are based on a percentage of your sales, so it always fits your cash flow.</p>
+                    </div>
+                    <div class="retro-panel bg-white p-6 text-[var(--color-text-dark)]">
+                        <h3 class="font-header text-3xl text-[var(--color-button-secondary)] mb-2">NO COLLATERAL</h3>
+                        <p>Hank is investing in you and your vision. Your business's future is the only collateral he needs, so your personal assets are never at risk.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-hank" class="py-20 bg-[var(--color-bg-light)]">
+            <div class="container mx-auto px-6 text-center max-w-3xl">
+                <h2 class="font-header text-5xl md:text-6xl text-[var(--color-text-dark)] mb-4">A WORD FROM HANK</h2>
+                <div class="retro-panel bg-white p-8 text-left">
+                    <p class="text-2xl font-body italic text-[var(--color-text-dark)] leading-relaxed">"I've been helping folks in this community for years. I believe in small business, and I believe in a square deal. When you work with us, you're not just a file on a desk—you're a partner. My door is always open. Let's build something great together."</p>
+                    <p class="text-right text-3xl font-header text-[var(--color-button-secondary)] mt-6 tracking-wider">- Hank</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="process" class="py-20 text-[var(--color-text-on-secondary)] hero-section">
+            <div class="container mx-auto px-6">
+                <h2 class="font-header text-5xl md:text-6xl text-[var(--color-accent)] text-center mb-16 hero-title-stroke">HOW IT WORKS</h2>
+                <div class="max-w-4xl mx-auto space-y-12">
+                    <div class="md:flex items-center gap-8">
+                        <div class="md:w-1/3 font-header text-4xl text-[var(--color-accent)] text-center md:text-right">STEP 1:<br>THE FIRST CHAT</div>
+                        <div class="md:w-2/3 retro-panel bg-[var(--color-bg-light)] text-[var(--color-text-dark)] p-6 text-lg">It all starts with our simple, secure online application. Think of it as the modern version of sitting down with Hank over a cup of coffee. Tell us what you need.</div>
+                    </div>
+                     <div class="md:flex flex-row-reverse items-center gap-8">
+                        <div class="md:w-1/3 font-header text-4xl text-[var(--color-accent)] text-center md:text-left">STEP 2:<br>HANK'S REVIEW</div>
+                        <div class="md:w-2/3 retro-panel bg-[var(--color-bg-light)] text-[var(--color-text-dark)] p-6 text-lg">Hank and his team get to work right away. They believe in your business and will review your performance to get you the best offer possible, often on the same day.</div>
+                    </div>
+                     <div class="md:flex items-center gap-8">
+                        <div class="md:w-1/3 font-header text-4xl text-[var(--color-accent)] text-center md:text-right">STEP 3:<br>THE HANDSHAKE</div>
+                        <div class="md:w-2/3 retro-panel bg-[var(--color-bg-light)] text-[var(--color-text-dark)] p-6 text-lg">Once you accept the offer, Hank gives the green light and the deal is sealed. We transfer the funds directly to your bank. The capital is yours to grow your business.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact" class="py-20 bg-[var(--color-primary-bg)]">
+            <div class="container mx-auto px-6 text-center">
+                 <h2 class="font-header text-6xl md:text-7xl text-[var(--color-text-on-primary)] mb-4 hero-title-stroke">READY FOR A PARTNER?</h2>
+                 <p class="text-2xl font-body max-w-2xl mx-auto mb-8 text-[var(--color-text-on-primary)]">Hank is ready to listen. If you're a small business owner looking for a financial partner who has your back, it's time to talk. Let's get to work.</p>
+                 <a href="https://www.suttonfunding.com/apply/" class="btn-secondary font-header px-10 py-5 rounded-md text-3xl transition-colors shadow-solid inline-block">TALK TO HANK</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[var(--color-bg-dark)] text-[var(--color-text-light)] py-6">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-4">
+                <p class="font-body">&copy; 2025 BANKWITHHANK.COM | Funding America's Businesses. Your Partner in Growth.</p>
+            </div>
+            <div class="flex justify-center items-center space-x-2">
+                <span class="font-body text-sm">Theme:</span>
+                <button data-theme="fireside" class="theme-button border-2 border-transparent p-1 rounded-md" title="Fireside Theme">
+                    <span class="block w-6 h-6 rounded bg-[#8b2e1b] border-2 border-[#f4a261]"></span>
+                </button>
+                <button data-theme="patriotic" class="theme-button border-2 border-transparent p-1 rounded-md" title="Patriotic Theme">
+                    <span class="block w-6 h-6 rounded bg-[#b22234] border-2 border-[#fdfdfd]"></span>
+                </button>
+                <button data-theme="kennedy" class="theme-button border-2 border-transparent p-1 rounded-md" title="Kennedy Theme">
+                    <span class="block w-6 h-6 rounded bg-[#1a237e] border-2 border-[#fdf6e3]"></span>
+                </button>
+                <button data-theme="lumberjack" class="theme-button border-2 border-transparent p-1 rounded-md" title="Lumberjack Theme">
+                    <span class="block w-6 h-6 rounded bg-[#a52a2a] border-2 border-[#f5e5c7]"></span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Theme switcher
+            const themeButtons = document.querySelectorAll('.theme-button');
+            const root = document.documentElement;
+            const activeClass = 'border-[var(--color-accent)]';
+
+            function setTheme(themeName) {
+                root.setAttribute('data-theme', themeName);
+                localStorage.setItem('hank-theme', themeName);
+                
+                themeButtons.forEach(btn => {
+                    if (btn.dataset.theme === themeName) {
+                        btn.classList.add(activeClass);
+                    } else {
+                        btn.classList.remove(activeClass);
+                    }
+                });
+            }
+
+            themeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    setTheme(button.dataset.theme);
+                });
+            });
+
+            // On page load, apply saved theme or default
+            const savedTheme = localStorage.getItem('hank-theme') || 'fireside';
+            setTheme(savedTheme);
+        });
+    </script>
+
+</body>
+</html>
+
+
