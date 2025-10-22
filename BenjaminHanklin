@@ -1,0 +1,188 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Bank of Benjamin Hanklin</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter for body, Playfair Display for headings -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Colors inspired by the logo
+                        'hank-navy': '#2c3e50',
+                        'hank-cream': '#f4f1e9',
+                        'hank-gold': '#d4a373',
+                        'hank-motto-blue': '#4a6982',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Simple scroll-behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-hank-cream font-sans text-hank-navy">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-3">
+                <!-- Logo -->
+                <img 
+                    src="hanklin.png" 
+                    alt="The Bank of Benjamin Hanklin Logo" 
+                    class="h-12 w-12 rounded-full border-2 border-hank-gold"
+                    onerror="this.onerror=null; const div = document.createElement('div'); div.className = 'h-12 w-12 rounded-full border-2 border-hank-gold bg-hank-navy text-hank-cream flex items-center justify-center font-bold text-sm'; div.innerHTML = 'BHBB'; this.replaceWith(div);"
+                >
+                <span class="font-serif text-xl font-bold text-hank-navy hidden sm:block">The Bank of Benjamin Hanklin</span>
+            </a>
+            
+            <!-- Navigation Links -->
+            <div class="space-x-4 md:space-x-6">
+                <a href="#services" class="text-gray-600 hover:text-hank-navy transition duration-200">Funding</a>
+                <a href="#about" class="text-gray-600 hover:text-hank-navy transition duration-200">About Hank</a>
+                <a href="https://www.suttonfunding.com/apply/" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-hank-gold text-hank-navy font-bold rounded-lg shadow-sm hover:bg-opacity-90 transition duration-200">Get Funded</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        
+        <!-- Hero Section -->
+        <section class="bg-hank-navy text-hank-cream py-20 md:py-32">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="font-serif text-4xl md:text-6xl font-black mb-4">In Good Credit We Trust.</h1>
+                <p class="text-lg md:text-xl text-hank-cream mb-8 max-w-2xl mx-auto">
+                    Welcome to the most beautiful MCA brokerage in history. Common sense capital solutions for your growing business.
+                </p>
+                <a href="https://www.suttonfunding.com/apply/" target="_blank" rel="noopener noreferrer" class="px-8 py-3 bg-hank-gold text-hank-navy font-bold text-lg rounded-lg shadow-lg hover:scale-105 transform transition duration-300">
+                    Get Funded Today
+                </a>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-center mb-12">Common Sense Capital Solutions</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    
+                    <!-- Service Card 1: MCA -->
+                    <div class="bg-hank-cream p-8 rounded-lg shadow-lg border border-gray-200">
+                        <h3 class="font-serif text-2xl font-bold mb-3 text-hank-motto-blue">Merchant Cash Advance</h3>
+                        <p class="text-gray-700 mb-4">
+                            Access capital quickly by leveraging your future sales. It's a flexible funding solution that works *with* your business's cash flow.
+                        </p>
+                        <a href="https://www.suttonfunding.com/apply/" target="_blank" rel="noopener noreferrer" class="font-bold text-hank-gold hover:underline">Learn More &rarr;</a>
+                    </div>
+                    
+                    <!-- Service Card 2: Working Capital -->
+                    <div class="bg-hank-cream p-8 rounded-lg shadow-lg border border-gray-200">
+                        <h3 class="font-serif text-2xl font-bold mb-3 text-hank-motto-blue">Working Capital</h3>
+                        <p class="text-gray-700 mb-4">
+                            Keep your operations running smoothly. Secure funding for inventory, payroll, or any other daily business need. A penny earned needs a penny to work with!
+                        </p>
+                        <a href="https://www.suttonfunding.com/apply/" target="_blank" rel="noopener noreferrer" class="font-bold text-hank-gold hover:underline">Explore Options &rarr;</a>
+                    </div>
+                    
+                    <!-- Service Card 3: Fast Funding -->
+                    <div class="bg-hank-cream p-8 rounded-lg shadow-lg border border-gray-200">
+                        <h3 class="font-serif text-2xl font-bold mb-3 text-hank-motto-blue">Fast Track Funding</h3>
+                        <p class="text-gray-700 mb-4">
+                            Time is money, friend. Our streamlined process is built for speed, getting you a decision (and your funds) with revolutionary quickness.
+                        </p>
+                        <a href="https://www.suttonfunding.com/apply/" target="_blank" rel="noopener noreferrer" class="font-bold text-hank-gold hover:underline">Apply Now &rarr;</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- About Hank Section -->
+        <section id="about" class="py-16 md:py-24 bg-hank-cream">
+            <div class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/3 text-center">
+                    <img 
+                        src="hanklin.png" 
+                        alt="A portrait of Benjamin Hanklin" 
+                        class="w-64 h-64 md:w-80 md:h-80 rounded-full mx-auto shadow-2xl border-4 border-white"
+                        onerror="this.onerror=null; this.src='https://placehold.co/320x320/2c3e50/f4f1e9?text=Hank'"
+                    >
+                </div>
+                <div class="md:w-2/3">
+                    <h2 class="font-serif text-3xl md:text-4xl font-bold mb-6 text-hank-navy">A Word From Our Founder</h2>
+                    <blockquote class="text-xl md:text-2xl font-serif italic text-hank-motto-blue border-l-4 border-hank-gold pl-6 mb-6">
+                        "An investment in knowledge pays the best interest. An investment in your business, with the right partner, isn't far behind."
+                    </blockquote>
+                    <p class="text-gray-800 text-lg mb-4">
+                        Hello, I'm Benjamin Hanklin, but my friends just call me Hank. After a long career in, well, many things... I realized good business owners needed capital that was as sensible as it was beautiful. Not a traditional bank, but a partner.
+                    </p>
+                    <p class="text-gray-800 text-lg">
+                        So, I founded this establishment. We believe in good credit, good business, and finding the right funding to help you write your own almanac of success.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CTA / Contact Section -->
+        <section id="contact" class="py-20 md:py-32 bg-hank-motto-blue text-white text-center">
+            <div class="container mx-auto px-6">
+                <h2 class="font-serif text-3xl md:text-4xl font-bold mb-6">Ready to Fund Your Venture?</h2>
+                <p class="text-lg md:text-xl text-hank-cream mb-8 max-w-xl mx-auto">
+                    Join us today. It's the wisest financial decision you'll make since you decided to invest in your own business.
+                </p>
+                <!-- A simple form placeholder -->
+                <form class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-2xl text-left">
+                    <h3 class="font-serif text-2xl font-bold mb-6 text-hank-navy">Get Funded</h3>
+                    <div class="mb-4">
+                        <label for="name" class="block text-gray-700 font-medium mb-2">Full Name</label>
+                        <input type="text" id="name" class="w-full px-4 py-2 border rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-hank-gold" placeholder="e.g., Thomas Jefferson">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-700 font-medium mb-2">Email Address</label>
+                        <input type="email" id="email" class="w-full px-4 py-2 border rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-hank-gold" placeholder="e.g., tommyj@monticello.com">
+                    </div>
+                    <a href="https://www.suttonfunding.com/apply/" target="_blank" rel="noopener noreferrer" class="block w-full text-center px-6 py-3 bg-hank-gold text-hank-navy font-bold text-lg rounded-lg shadow-lg hover:bg-opacity-90 transition duration-300">
+                        Apply for Funding
+                    </a>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-hank-navy text-hank-cream py-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="font-bold text-lg mb-2">BANKWITHHANK.COM</p>
+            <p class="text-gray-400">
+                &copy; 1776 - 2025 Benjamin Hanklin's Beautiful Brokerage. All Rights Reserved.
+            </p>
+            <p class="text-sm text-gray-500 mt-2">(This is a fictional website. We trust in good credit... and good business.)</p>
+        </div>
+    </footer>
+
+</body>
+</html>
+
+
+
+
+
