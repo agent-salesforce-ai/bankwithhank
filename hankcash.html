@@ -1,0 +1,268 @@
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HANK CASH | SHUT UP AND TAKE MY MONEY!</title>
+    <meta name="description" content="HANK CASH: Forget the rest! Get INSTANT cash advances. Seriously, SHUT UP AND TAKE MY MONEY!">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Permanent+Marker&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤑</text></svg>">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'scream': ['Bebas Neue', 'sans-serif'], // For loudest headlines
+                        'marker': ['Permanent Marker', 'cursive'], // For accent/handwritten feel
+                        'body': ['Roboto Condensed', 'sans-serif'], // For readable body text
+                    },
+                    colors: {
+                        'hank-red': '#E53E3E',       // Primary urgent red (Red 600)
+                        'hank-yellow': '#F6E05E',    // Bright accent yellow (Yellow 300)
+                        'hank-dark': '#2D3748',      // Dark charcoal/navy (Gray 800)
+                        'hank-light': '#F7FAFC',     // Off-white background (Gray 50)
+                        'hank-green': '#38A169',     // Secondary action green (Green 600)
+                    },
+                    keyframes: {
+                        'pulse-grow': {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' },
+                        },
+                        'shake': {
+                            '0%, 100%': { transform: 'translateX(0)' },
+                            '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-5px)' },
+                            '20%, 40%, 60%, 80%': { transform: 'translateX(5px)' },
+                        }
+                    },
+                    animation: {
+                        'pulse-grow': 'pulse-grow 1.5s ease-in-out infinite',
+                        'shake': 'shake 0.8s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* This starburst class is now just the background shape */
+        .starburst-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(
+                50% 0%, 
+                61% 35%, 
+                98% 35%, 
+                68% 57%, 
+                79% 91%, 
+                50% 70%, 
+                21% 91%, 
+                32% 57%, 
+                2% 35%, 
+                39% 35%
+            );
+            transform: rotate(-5deg); /* Slightly off-kilter for "crazy" effect */
+            z-index: 1; /* Ensure background is behind text */
+        }
+        /* New container for the starburst effect */
+        .starburst-button-container {
+            position: relative;
+            display: inline-flex; /* Use flex to center text */
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem 3rem; /* Adjust padding as needed for text size */
+            border-width: 4px;
+            border-color: #F6E05E; /* hank-yellow */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3); /* shadow-xl */
+            animation: pulse-grow 1.5s ease-in-out infinite;
+            overflow: hidden; /* Important to contain the starburst-bg */
+            z-index: 0; /* Ensure this container is behind the main content if needed */
+        }
+    </style>
+</head>
+<body class="bg-hank-light text-hank-dark font-body antialiased">
+
+    <!-- Header --><header class="bg-hank-red fixed top-0 left-0 right-0 z-50 shadow-lg border-b-4 border-hank-yellow">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="text-4xl md:text-5xl font-scream text-hank-yellow tracking-widest leading-none">HANK CASH!</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#how-it-works" class="text-hank-light hover:text-hank-yellow font-body font-bold text-lg">HOW IT WORKS!</a>
+                <a href="#why" class="text-hank-light hover:text-hank-yellow font-body font-bold text-lg">WHY HANK!</a>
+                <a href="https://www.suttonfunding.com/apply/" target="_blank" rel="noopener noreferrer" class="bg-hank-yellow text-hank-dark font-marker px-6 py-2 rounded-lg text-xl hover:bg-opacity-90 transition-colors shadow-md animate-pulse-grow">GET CASH NOW!</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-hank-yellow">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu --><div id="mobile-menu" class="hidden md:hidden bg-hank-red border-t-2 border-hank-yellow p-4">
+            <a href="#how-it-works" class="block py-2 text-hank-light font-body font-bold text-lg">HOW IT WORKS!</a>
+            <a href="#why" class="block py-2 text-hank-light font-body font-bold text-lg">WHY HANK!</a>
+            <a href="https://www.suttonfunding.com/apply/" target="_blank" rel="noopener noreferrer" id="mobile-cta" class="mt-4 block text-center bg-hank-yellow text-hank-dark font-marker py-3 rounded-lg text-xl hover:bg-opacity-90 transition-colors">GET CASH NOW!</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section --><section class="pt-40 pb-20 bg-hank-dark text-hank-light text-center relative overflow-hidden">
+            <div class="container mx-auto px-6 relative z-10 max-w-5xl">
+                <div class="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16">
+                    <div class="lg:w-1/2 flex justify-center lg:justify-end order-2 lg:order-1">
+                        <!-- Image of Hank with a brown paper bag of money --><img src="hank.png" alt="Hank, a JFK-type figure, holding out a brown paper bag overflowing with cash" 
+                             class="w-full max-w-sm md:max-w-md lg:max-w-lg rounded-lg shadow-2xl border-4 border-hank-yellow animate-pulse-grow">
+                    </div>
+                    <div class="lg:w-1/2 text-center lg:text-left order-1 lg:order-2">
+                        <h1 class="font-scream text-6xl md:text-8xl lg:text-9xl leading-tight text-hank-yellow animate-shake">
+                            <span class="block -mb-4">SHUT UP!</span> 
+                            <span class="block text-hank-red text-shadow-lg">AND TAKE MY MONEY!</span>
+                        </h1>
+                        <p class="font-body text-xl md:text-3xl text-hank-light mt-8 mb-12 italic">
+                            STOP WAITING! You need cash for your business RIGHT NOW! Hank's got it. NO GAMES, NO GIMMICKS!
+                        </p>
+                        <a href="https://www.suttonfunding.com/apply/" target="_blank" rel="noopener noreferrer" class="starburst-button-container bg-transparent text-hank-yellow hover:text-hank-dark transition-colors duration-200 group">
+                            <div class="starburst-bg bg-hank-red group-hover:bg-hank-light"></div>
+                            <span class="relative z-20 font-scream px-6 py-2 text-4xl hover:text-hank-dark transition-colors duration-200">
+                                GET HANK CASH <span class="text-hank-light group-hover:text-hank-red">INSTANTLY!</span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section --><section id="how-it-works" class="py-20 bg-hank-light text-center border-t-8 border-hank-yellow">
+            <div class="container mx-auto px-6">
+                <h2 class="font-scream text-5xl md:text-6xl text-hank-red mb-16">SO SIMPLE, IT'S CRIMINAL!</h2>
+                <div class="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+                    <a href="https://www.suttonfunding.com/apply/" target="_blank" rel="noopener noreferrer" class="block hover:scale-105 transition-transform duration-300">
+                        <div class="bg-white p-8 rounded-lg shadow-xl border-4 border-hank-red relative">
+                            <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-hank-yellow text-hank-dark font-scream text-4xl px-6 py-2 rounded-full border-4 border-hank-red shadow-lg">1</div>
+                            <h3 class="font-scream text-3xl text-hank-dark mt-8 mb-4">CLICK HERE!</h3>
+                            <p class="font-body text-lg text-gray-700 leading-relaxed">Fill out our super-fast, 1-minute application! Don't even think about it, just click!</p>
+                        </div>
+                    </a>
+                    <div class="bg-white p-8 rounded-lg shadow-xl border-4 border-hank-red relative hover:scale-105 transition-transform duration-300">
+                        <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-hank-yellow text-hank-dark font-scream text-4xl px-6 py-2 rounded-full border-4 border-hank-red shadow-lg">2</div>
+                        <h3 class="font-scream text-3xl text-hank-dark mt-8 mb-4">SEE YOUR CASH!</h3>
+                        <p class="font-body text-lg text-gray-700 leading-relaxed">No waiting! No games! Get an INSTANT offer. It's so good, you won't believe it!</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-xl border-4 border-hank-red relative hover:scale-105 transition-transform duration-300">
+                        <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-hank-yellow text-hank-dark font-scream text-4xl px-6 py-2 rounded-full border-4 border-hank-red shadow-lg">3</div>
+                        <h3 class="font-scream text-3xl text-hank-dark mt-8 mb-4">GRAB THE DOUGH!</h3>
+                        <p class="font-body text-lg text-gray-700 leading-relaxed">Funds hit your account FASTER than you can say "Hank's the Man!" What are you waiting for?!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Us Section --><section id="why" class="py-20 bg-hank-red text-hank-light text-center border-t-8 border-hank-yellow">
+            <div class="container mx-auto px-6">
+                <h2 class="font-scream text-5xl md:text-6xl text-hank-yellow mb-16">WHY HANK? BECAUSE HE'S CRAZY (ABOUT GETTING YOU CASH)!</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-hank-dark rounded-xl p-8 shadow-2xl border-4 border-hank-yellow transform rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300">
+                        <h3 class="font-marker text-3xl text-hank-yellow mb-3">INSTANT!</h3>
+                        <p class="font-body text-lg text-gray-300">Like, RIGHT NOW! Not later, NOW! Your money moves at the speed of light!</p>
+                    </div>
+                    <div class="bg-hank-dark rounded-xl p-8 shadow-2xl border-4 border-hank-yellow transform -rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300">
+                        <h3 class="font-marker text-3xl text-hank-yellow mb-3">NO BS!</h3>
+                        <p class="font-body text-lg text-gray-300">Forget confusing terms! One flat fee, simple as that. You know exactly what you're getting!</p>
+                    </div>
+                    <div class="bg-hank-dark rounded-xl p-8 shadow-2xl border-4 border-hank-yellow transform rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300">
+                        <h3 class="font-marker text-3xl text-hank-yellow mb-3">NO CREDIT CHECK!</h3>
+                        <p class="font-body text-lg text-gray-300">Your business is awesome, we believe in you! We don't care about dusty old scores!</p>
+                    </div>
+                    <div class="bg-hank-dark rounded-xl p-8 shadow-2xl border-4 border-hank-yellow transform -rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300">
+                        <h3 class="font-marker text-3xl text-hank-yellow mb-3">FLEXIBLE!</h3>
+                        <p class="font-body text-lg text-gray-300">Your business slows down? Your payments do too! Hank works WITH you, not against you!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section ("A MESSAGE FROM HANK") --><section id="about-hank" class="py-20 bg-hank-light text-center border-t-8 border-hank-yellow">
+            <div class="container mx-auto px-6 max-w-3xl">
+                <h2 class="font-scream text-5xl md:text-6xl text-hank-dark mb-8">A MESSAGE FROM HANK:</h2>
+                <div class="bg-white p-8 rounded-lg shadow-xl border-4 border-hank-red relative">
+                    <p class="font-marker text-3xl md:text-4xl text-hank-red leading-snug italic">"Listen up! I'm not here to waste your time! You need cash, and I've got it! My business is built on speed, honesty, and getting you what you need WHEN you need it! Stop thinking, start funding! Let's get this done! NOW! "</p>
+                    <p class="text-right text-4xl font-scream text-hank-dark mt-8 tracking-widest">- HANK!</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact/CTA Section --><section id="contact" class="py-24 bg-hank-yellow text-hank-dark text-center border-t-8 border-hank-red">
+            <div class="container mx-auto px-6">
+                 <h2 class="font-scream text-6xl md:text-7xl leading-none mb-6">WHAT ARE YOU WAITING FOR?!</h2>
+                 <p class="font-body text-xl md:text-3xl max-w-2xl mx-auto mb-12 italic">The cash is right here! Stop dilly-dallying! Click the button below and get funded FASTER than a speeding bullet!</p>
+                 <a href="https://www.suttonfunding.com/apply/" target="_blank" rel="noopener noreferrer" class="starburst-button-container bg-transparent text-hank-yellow hover:text-hank-dark transition-colors duration-200 group">
+                    <div class="starburst-bg bg-hank-green group-hover:bg-hank-light"></div>
+                    <span class="relative z-20 font-scream px-6 py-2 text-4xl md:text-5xl hover:text-hank-dark transition-colors duration-200">
+                        GET MY HANK CASH <span class="text-white group-hover:text-hank-red">RIGHT NOW!</span>
+                    </span>
+                 </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer --><footer class="bg-hank-dark text-hank-light py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p class="font-body font-bold text-lg">&copy; 2025 HANK CASH! | WE'RE CRAZY (ABOUT YOUR BUSINESS)! ALL RIGHTS RESERVED!</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu on external CTA click
+            const mobileCta = document.getElementById('mobile-cta');
+            if (mobileCta) {
+                mobileCta.addEventListener('click', () => {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                    // Allow default navigation
+                });
+            }
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    // Also close mobile menu if open
+                    if (!mobileMenu.classList.contains('hidden')) {
+                         mobileMenu.classList.add('hidden');
+                    }
+                    
+                    const targetElement = document.querySelector(this.getAttribute('href'));
+                    if (targetElement) {
+                        // Offset for fixed header
+                        const headerOffset = document.querySelector('header').offsetHeight;
+                        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - headerOffset - 20; // Added extra padding
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+
+
