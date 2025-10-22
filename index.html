@@ -1,0 +1,178 @@
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANKWITHHANK.COM | A Handshake You Can Bank On</title>
+    <meta name="description" content="BANKWITHHANK.COM: Fast, friendly, and fair merchant cash advances. With Hank, you're not just a client, you're a partner.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤝</text></svg>">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'header': ['Bebas Neue', 'sans-serif'],
+                        'body': ['Roboto Slab', 'serif'],
+                    },
+                    colors: {
+                        'hnb-green': '#22543d', // Forest Green
+                        'hnb-red': '#a52a2a',   // Buffalo Plaid Red
+                        'hnb-tan': '#f5e5c7',   // Warm Tan
+                        'hnb-gold': '#fdb813',  // Gold Accent
+                        'hnb-charcoal': '#2d3748',  // Charcoal Black
+                    },
+                    boxShadow: {
+                        'solid': '5px 5px 0px #2d3748',
+                    },
+                    backgroundImage: {
+                        'plaid': "linear-gradient(rgba(34, 84, 61, 0.9), rgba(34, 84, 61, 0.9)), repeating-linear-gradient(45deg, #2d3748, #2d3748 10px, #22543d 10px, #22543d 20px)",
+                        'red-plaid': "linear-gradient(rgba(165, 42, 42, 0.9), rgba(165, 42, 42, 0.9)), repeating-linear-gradient(45deg, #2d3748, #2d3748 10px, #a52a2a 10px, #a52a2a 20px)",
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        .retro-panel {
+            border: 4px solid #2d3748;
+            box-shadow: 5px 5px 0px #2d3748;
+        }
+        .hero-title-stroke {
+             -webkit-text-stroke: 2px #2d3748;
+        }
+    </style>
+</head>
+<body class="bg-hnb-tan text-hnb-charcoal font-body">
+
+    <header class="bg-red-plaid fixed top-0 left-0 right-0 z-50 retro-panel mb-4">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="text-3xl font-header text-hnb-tan tracking-wider">BANKWITHHANK.COM</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#services" class="text-hnb-tan hover:text-hnb-gold font-bold text-lg">Our Promise</a>
+                <a href="#process" class="text-hnb-tan hover:text-hnb-gold font-bold text-lg">How It Works</a>
+                <a href="#contact" class="bg-hnb-green text-white font-header px-5 py-2 rounded-md hover:bg-opacity-80 transition-colors shadow-solid text-lg">Talk to Hank</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-hnb-tan">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-red-plaid border-t-4 border-hnb-tan p-4">
+            <a href="#services" class="block py-2 text-hnb-tan font-bold text-lg">Our Promise</a>
+            <a href="#process" class="block py-2 text-hnb-tan font-bold text-lg">How It Works</a>
+            <a href="#contact" class="mt-4 block text-center bg-hnb-green text-white font-header py-2 rounded-md hover:bg-opacity-80 transition-colors text-lg">Talk to Hank</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="pt-32 pb-16 bg-plaid text-hnb-tan">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col lg:flex-row items-center gap-12">
+                    <div class="lg:w-1/2 w-full">
+                        <!-- 
+                          FIXED: Replaced broken image link with a placeholder.
+                          Please update the src attribute to the correct path for your "image_7894a9.jpg" file.
+                        -->
+                        <img src="https://placehold.co/600x500/f5e5c7/2d3748?text=Hank's+Logo+(image_7894a9.jpg)" alt="Logo for Hank n' Bank, featuring a friendly character named Hank extending his hand for a handshake." class="w-full h-full object-cover retro-panel bg-hnb-tan">
+                    </div>
+                    <div class="lg:w-1/2 text-center lg:text-left">
+                        <h1 class="font-header text-7xl md:text-8xl text-hnb-gold hero-title-stroke">A HANDSHAKE YOU CAN BANK ON.</h1>
+                        <p class="text-xl leading-relaxed my-8">Forget faceless lenders. Hank built this business on a handshake, offering fast, fair funding to partners, not numbers. Around here, you're a neighbor.</p>
+                        <a href="#contact" class="bg-red-plaid text-white font-header px-8 py-4 rounded-md text-2xl hover:bg-opacity-80 transition-colors shadow-solid">Let's Shake On It</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="py-20 bg-hnb-tan">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="font-header text-5xl md:text-6xl text-hnb-charcoal mb-12">HANK'S PROMISE TO YOU</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="retro-panel bg-white p-6">
+                        <h3 class="font-header text-3xl text-hnb-green mb-2">QUICK CAPITAL</h3>
+                        <p>Hank knows you're busy. That's why he gets you funded in as little as 24 hours. He moves at the speed of your business, not the other way around.</p>
+                    </div>
+                    <div class="retro-panel bg-white p-6">
+                        <h3 class="font-header text-3xl text-hnb-green mb-2">SIMPLE APPLICATION</h3>
+                        <p>No mountains of paperwork here. Hank's application is straightforward because he believes in your business's health, not just a credit score.</p>
+                    </div>
+                    <div class="retro-panel bg-white p-6">
+                        <h3 class="font-header text-3xl text-hnb-green mb-2">FLEXIBLE PAYMENTS</h3>
+                        <p>Business ebbs and flows, and Hank gets that. Payments are based on a percentage of your sales, so it always fits your cash flow.</p>
+                    </div>
+                    <div class="retro-panel bg-white p-6">
+                        <h3 class="font-header text-3xl text-hnb-green mb-2">NO COLLATERAL</h3>
+                        <p>Hank is investing in you and your vision. Your business's future is the only collateral he needs, so your personal assets are never at risk.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-hank" class="py-20 bg-hnb-tan">
+            <div class="container mx-auto px-6 text-center max-w-3xl">
+                <h2 class="font-header text-5xl md:text-6xl text-hnb-charcoal mb-4">A WORD FROM HANK</h2>
+                <div class="retro-panel bg-white p-8 text-left">
+                    <p class="text-2xl font-body italic text-hnb-charcoal leading-relaxed">"I've been helping folks in this community for years. I believe in small business, and I believe in a square deal. When you work with us, you're not just a file on a desk—you're a partner. My door is always open. Let's build something great together."</p>
+                    <p class="text-right text-3xl font-header text-hnb-green mt-6 tracking-wider">- Hank</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="process" class="py-20 bg-plaid text-hnb-tan">
+            <div class="container mx-auto px-6">
+                <h2 class="font-header text-5xl md:text-6xl text-hnb-gold text-center mb-16 hero-title-stroke">HOW IT WORKS</h2>
+                <div class="max-w-4xl mx-auto space-y-12">
+                    <div class="md:flex items-center gap-8">
+                        <div class="md:w-1/3 font-header text-4xl text-hnb-gold text-center md:text-right">STEP 1:<br>THE FIRST CHAT</div>
+                        <div class="md:w-2/3 retro-panel bg-hnb-tan text-hnb-charcoal p-6 text-lg">It all starts with our simple, secure online application. Think of it as the modern version of sitting down with Hank over a cup of coffee. Tell us what you need.</div>
+                    </div>
+                     <div class="md:flex flex-row-reverse items-center gap-8">
+                        <div class="md:w-1A-3 font-header text-4xl text-hnb-gold text-center md:text-left">STEP 2:<br>HANK'S REVIEW</div>
+                        <div class="md:w-2/3 retro-panel bg-hnb-tan text-hnb-charcoal p-6 text-lg">Hank and his team get to work right away. They believe in your business and will review your performance to get you the best offer possible, often on the same day.</div>
+                    </div>
+                     <div class="md:flex items-center gap-8">
+                        <div class="md:w-1/3 font-header text-4xl text-hnb-gold text-center md:text-right">STEP 3:<br>THE HANDSHAKE</div>
+                        <div class="md:w-2/3 retro-panel bg-hnb-tan text-hnb-charcoal p-6 text-lg">Once you accept the offer, Hank gives the green light and the deal is sealed. We transfer the funds directly to your bank. The capital is yours to grow your business.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact" class="py-20 bg-red-plaid">
+            <div class="container mx-auto px-6 text-center">
+                 <h2 class="font-header text-6xl md:text-7xl text-hnb-tan mb-4" style="-webkit-text-stroke: 2px #2d3748;">READY FOR A PARTNER?</h2>
+                 <p class="text-2xl font-body max-w-2xl mx-auto mb-8 text-hnb-tan">Hank is ready to listen. If you're a small business owner looking for a financial partner who has your back, it's time to talk. Let's get to work.</p>
+                 <a href="mailto:hank@bankwithhank.com" class="bg-hnb-green text-white font-header px-10 py-5 rounded-md text-3xl hover:bg-opacity-80 transition-colors shadow-solid inline-block">TALK TO HANK</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-hnb-charcoal text-hnb-tan py-6">
+        <div class="container mx-auto px-6 text-center">
+            <p class="font-body">&copy; 2025 BANKWITHHANK.COM | Funding America's Businesses. Your Partner in Growth.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        });
+    </SCriPt>
+
+</body>
+</html>
+
+
+
+
