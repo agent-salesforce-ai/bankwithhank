@@ -1,20 +1,36 @@
+<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BANKWITHHANK.COM | A Handshake You Can Bank On</title>
-    <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="hankbank.png">
-  <link rel="shortcut icon" href="hankbank.png">
+    <link rel="canonical" href="https://bankwithhank.com/">
     <meta name="description" content="BANKWITHHANK.COM: Fast, friendly, and fair merchant cash advances. With Hank, you're not just a client, you're a partner.">
-    
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!-- Open Graph / social link previews -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="BANKWITHHANK.COM">
+    <meta property="og:url" content="https://bankwithhank.com/">
+    <meta property="og:title" content="A Handshake You Can Bank On">
+    <meta property="og:description" content="Fast, fair small business funding from a partner, not a faceless lender. Get funded in as little as 24 hours.">
+    <meta property="og:image" content="https://bankwithhank.com/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="BANKWITHHANK.COM - A Handshake You Can Bank On">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="A Handshake You Can Bank On">
+    <meta name="twitter:description" content="Fast, fair small business funding from a partner, not a faceless lender. Get funded in as little as 24 hours.">
+    <meta name="twitter:image" content="https://bankwithhank.com/og-image.jpg">
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
-    
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤝</text></svg>">
 
     <script>
         tailwind.config = {
@@ -51,6 +67,26 @@
              -webkit-text-stroke: 2px #2d3748;
         }
     </style>
+
+    <!--
+      Analytics. Paste a GA4 Measurement ID (looks like G-XXXXXXXXXX) into
+      ANALYTICS_ID below to switch this on. While it is empty nothing loads
+      and no requests are made.
+    -->
+    <script>
+        window.ANALYTICS_ID = '';
+        (function () {
+            if (!window.ANALYTICS_ID) return;
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function () { dataLayer.push(arguments); };
+            gtag('js', new Date());
+            gtag('config', window.ANALYTICS_ID);
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.ANALYTICS_ID;
+            document.head.appendChild(s);
+        })();
+    </script>
 </head>
 <body class="bg-hnb-tan text-hnb-charcoal font-body">
 
@@ -60,7 +96,7 @@
             <div class="hidden md:flex items-center space-x-6">
                 <a href="#services" class="text-hnb-tan hover:text-hnb-gold font-bold text-lg">Our Promise</a>
                 <a href="#process" class="text-hnb-tan hover:text-hnb-gold font-bold text-lg">How It Works</a>
-                <a href="https://www.suttonfunding.com/apply/" class="bg-hnb-green text-white font-header px-5 py-2 rounded-md hover:bg-opacity-80 transition-colors shadow-solid text-lg">Talk to Hank</a>
+                <a href="https://apply.suttonfunding.com/?utm_source=bankwithhank&utm_medium=referral&utm_campaign=hank_site&utm_content=nav_desktop" class="bg-hnb-green text-white font-header px-5 py-2 rounded-md hover:bg-opacity-80 transition-colors shadow-solid text-lg">Talk to Hank</a>
             </div>
             <button id="mobile-menu-button" class="md:hidden text-hnb-tan">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
@@ -69,25 +105,28 @@
         <div id="mobile-menu" class="hidden md:hidden bg-red-plaid border-t-4 border-hnb-tan p-4">
             <a href="#services" class="block py-2 text-hnb-tan font-bold text-lg">Our Promise</a>
             <a href="#process" class="block py-2 text-hnb-tan font-bold text-lg">How It Works</a>
-            <a href="https://www.suttonfunding.com/apply/" class="mt-4 block text-center bg-hnb-green text-white font-header py-2 rounded-md hover:bg-opacity-80 transition-colors text-lg">Talk to Hank</a>
+            <a href="https://apply.suttonfunding.com/?utm_source=bankwithhank&utm_medium=referral&utm_campaign=hank_site&utm_content=nav_mobile" class="mt-4 block text-center bg-hnb-green text-white font-header py-2 rounded-md hover:bg-opacity-80 transition-colors text-lg">Talk to Hank</a>
         </div>
     </header>
 
     <main>
-        <section class="pt-32 pb-16 bg-plaid text-hnb-tan">
+        <section class="pt-24 lg:pt-32 pb-16 bg-plaid text-hnb-tan">
             <div class="container mx-auto px-6">
-                <div class="flex flex-col lg:flex-row items-center gap-12">
-                    <div class="lg:w-1/2 w-full">
-                        <!-- 
-                          FIXED: Replaced broken image link with a placeholder.
-                          Please update the src attribute to the correct path for your "image_7894a9.jpg" file.
-                        -->
-                        <img src="hankbank.png" alt="Logo for Hank n' Bank, featuring a friendly character named Hank extending his hand for a handshake." class="w-full h-full object-cover retro-panel bg-hnb-tan">
+                <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+                    <div class="lg:w-1/2 w-full order-2 lg:order-1">
+                        <picture>
+                            <source type="image/webp"
+                                    srcset="hankbank-660.webp 660w, hankbank.webp 1168w"
+                                    sizes="(min-width: 1024px) 584px, 280px">
+                            <img src="hankbank-fallback.jpg" width="1168" height="1168" fetchpriority="high"
+                                 alt="Logo for Hank n' Bank, featuring a friendly character named Hank extending his hand for a handshake."
+                                 class="w-3/5 max-w-[280px] mx-auto lg:w-full lg:max-w-none h-auto object-cover retro-panel bg-hnb-tan">
+                        </picture>
                     </div>
-                    <div class="lg:w-1/2 text-center lg:text-left">
-                        <h1 class="font-header text-7xl md:text-8xl text-hnb-gold hero-title-stroke">A HANDSHAKE YOU CAN BANK ON.</h1>
-                        <p class="text-xl leading-relaxed my-8">Forget faceless lenders. Hank built this business on a handshake, offering fast, fair funding to partners, not numbers. Around here, you're a neighbor.</p>
-                        <a href="https://www.suttonfunding.com/apply/" class="bg-red-plaid text-white font-header px-8 py-4 rounded-md text-2xl hover:bg-opacity-80 transition-colors shadow-solid">Let's Shake On It</a>
+                    <div class="lg:w-1/2 text-center lg:text-left order-1 lg:order-2">
+                        <h1 class="font-header text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-hnb-gold hero-title-stroke">A HANDSHAKE YOU CAN BANK ON.</h1>
+                        <p class="text-lg lg:text-xl leading-relaxed my-6 lg:my-8">Forget faceless lenders. Hank built this business on a handshake, offering fast, fair funding to partners, not numbers. Around here, you're a neighbor.</p>
+                        <a href="https://apply.suttonfunding.com/?utm_source=bankwithhank&utm_medium=referral&utm_campaign=hank_site&utm_content=hero" class="inline-block bg-red-plaid text-white font-header px-8 py-4 rounded-md text-2xl hover:bg-opacity-80 transition-colors shadow-solid">Let's Shake On It</a>
                     </div>
                 </div>
             </div>
@@ -169,6 +208,17 @@
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
+            });
+
+            document.querySelectorAll('a[href*="apply.suttonfunding.com"]').forEach((link) => {
+                link.addEventListener('click', () => {
+                    if (typeof window.gtag !== 'function') return;
+                    const params = new URL(link.href).searchParams;
+                    gtag('event', 'apply_click', {
+                        placement: params.get('utm_content') || 'unknown',
+                        link_url: link.href
+                    });
+                });
             });
         });
     </SCriPt>
