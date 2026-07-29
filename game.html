@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HANK'S DESK | Can You Fund Like Hank?</title>
+<link rel="canonical" href="https://bankwithhank.com/game.html">
+<meta name="description" content="Hank's Desk: 10 deal files hit your desk. Fund the good ones, pass on the bad ones. Think you can underwrite like Hank?">
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BANKWITHHANK.COM">
+<meta property="og:url" content="https://bankwithhank.com/game.html">
+<meta property="og:title" content="Hank's Desk — Can You Fund Like Hank?">
+<meta property="og:description" content="10 deal files. Fund the good ones, pass on the junk. Get your Hank Rating.">
+<meta property="og:image" content="https://bankwithhank.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --green: #22543d;
+    --red: #a52a2a;
+    --tan: #f5e5c7;
+    --gold: #fdb813;
+    --charcoal: #2d3748;
+    --paper: #fdf8ec;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Roboto Slab', serif;
+    color: var(--tan);
+    background-color: var(--green);
+    background-image:
+      linear-gradient(rgba(34,84,61,.92), rgba(34,84,61,.92)),
+      repeating-linear-gradient(45deg, #2d3748, #2d3748 10px, #22543d 10px, #22543d 20px);
+    min-height: 100vh;
+  }
+  .font-header { font-family: 'Bebas Neue', sans-serif; }
+  .retro-panel { border: 4px solid var(--charcoal); box-shadow: 5px 5px 0 var(--charcoal); }
+
+  header.bar {
+    background-image:
+      linear-gradient(rgba(165,42,42,.9), rgba(165,42,42,.9)),
+      repeating-linear-gradient(45deg, #2d3748, #2d3748 10px, #a52a2a 10px, #a52a2a 20px);
+    border-bottom: 4px solid var(--charcoal);
+    padding: 12px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 10;
+  }
+  header.bar a { color: var(--tan); text-decoration: none; }
+  header.bar .brand { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 2px; }
+  header.bar .ledger {
+    font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 1px;
+    background: var(--charcoal); padding: 6px 14px; border-radius: 4px;
+  }
+  header.bar .ledger .pnl.up { color: #7ce0ab; }
+  header.bar .ledger .pnl.down { color: #ff9b94; }
+  header.bar .ledger .pnl.flat { color: var(--tan); }
+
+  main { max-width: 660px; margin: 0 auto; padding: 28px 16px 60px; }
+
+  .screen { display: none; }
+  .screen.active { display: block; animation: slidein .25s ease; }
+  @keyframes slidein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  h1.title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(44px, 9vw, 72px); color: var(--gold);
+    -webkit-text-stroke: 2px var(--charcoal); line-height: 1.02; text-align: center; }
+  .sub { text-align: center; font-size: 17px; line-height: 1.65; margin: 18px auto 26px; max-width: 480px; }
+
+  .hank-note {
+    background: var(--paper); color: var(--charcoal); padding: 18px 20px;
+    font-style: italic; font-size: 15px; line-height: 1.6; margin-bottom: 26px;
+  }
+  .hank-note b { font-style: normal; }
+
+  .btn {
+    display: inline-block; cursor: pointer; border: 4px solid var(--charcoal);
+    box-shadow: 5px 5px 0 var(--charcoal);
+    font-family: 'Bebas Neue', sans-serif; letter-spacing: 1.5px;
+    font-size: 22px; padding: 14px 30px; border-radius: 6px;
+    color: #fff; background: var(--red); text-align: center;
+    transition: transform .08s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn:active { transform: translate(3px,3px); box-shadow: 2px 2px 0 var(--charcoal); }
+  .btn.green { background: var(--green); }
+  .btn.gold { background: var(--gold); color: var(--charcoal); }
+  .btn.block { display: block; width: 100%; }
+
+  /* Deal file */
+  .file {
+    background: var(--paper); color: var(--charcoal); border-radius: 4px;
+    position: relative; margin-top: 14px;
+  }
+  .file .tab {
+    position: absolute; top: -14px; left: 18px;
+    background: var(--gold); color: var(--charcoal); border: 3px solid var(--charcoal);
+    font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 1.5px;
+    padding: 3px 14px; border-radius: 4px 4px 0 0;
+  }
+  .file .inner { padding: 24px 20px 20px; }
+  .file h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(28px, 6vw, 38px); letter-spacing: 1px; line-height: 1.05; }
+  .file .industry { color: var(--red); font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 14px; }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #d8cbb0; border: 2px solid var(--charcoal); }
+  .stat { background: var(--paper); padding: 10px 12px; }
+  .stat .k { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #7a6f57; }
+  .stat .v { font-size: 17px; font-weight: 700; margin-top: 2px; }
+  .stat .v.warn { color: var(--red); }
+  .ask {
+    margin-top: 14px; border: 3px dashed var(--charcoal); padding: 12px 14px;
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  }
+  .ask .k { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 1.5px; }
+  .ask .v { font-family: 'Bebas Neue', sans-serif; font-size: 30px; color: var(--green); }
+  .memo { margin-top: 14px; font-style: italic; font-size: 14px; line-height: 1.55; color: #5a5142; }
+  .memo::before { content: "Note from the desk: "; font-style: normal; font-weight: 700; color: var(--charcoal); }
+
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 24px; }
+  .progress { text-align: center; font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; font-size: 16px; margin-top: 20px; color: var(--tan); opacity: .85; }
+
+  /* Outcome */
+  .stamp {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 8vw, 54px); letter-spacing: 3px;
+    text-align: center; padding: 10px 0; border: 4px solid; border-radius: 6px;
+    transform: rotate(-3deg); margin: 6px auto 20px; max-width: 420px; background: var(--paper);
+  }
+  .stamp.good { color: var(--green); border-color: var(--green); }
+  .stamp.bad { color: var(--red); border-color: var(--red); }
+  .stamp.neutral { color: #8a6d1a; border-color: #8a6d1a; }
+  .outcome-story { background: var(--paper); color: var(--charcoal); padding: 18px 20px; font-size: 15px; line-height: 1.65; }
+  .outcome-story .take { margin-top: 12px; padding-top: 12px; border-top: 2px solid #d8cbb0; font-style: italic; }
+  .outcome-story .take b { font-style: normal; }
+  .pnl-line { text-align: center; font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 2px; margin: 18px 0; }
+  .pnl-line.up { color: #7ce0ab; } .pnl-line.down { color: #ff9b94; } .pnl-line.flat { color: var(--tan); }
+
+  /* Results */
+  .rating-box { text-align: center; padding: 26px 18px; background: var(--paper); color: var(--charcoal); }
+  .rating-box .label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #7a6f57; }
+  .rating-box .rating { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 9vw, 60px); color: var(--red); line-height: 1.1; margin: 6px 0; }
+  .rating-box .total { font-family: 'Bebas Neue', sans-serif; font-size: 26px; }
+  .scorecard { margin-top: 18px; background: var(--paper); color: var(--charcoal); }
+  .scorecard .row { display: flex; justify-content: space-between; gap: 10px; padding: 9px 14px; border-bottom: 1px solid #d8cbb0; font-size: 13.5px; }
+  .scorecard .row:last-child { border-bottom: none; }
+  .scorecard .amt { font-weight: 700; white-space: nowrap; }
+  .scorecard .amt.up { color: var(--green); } .scorecard .amt.down { color: var(--red); } .scorecard .amt.flat { color: #7a6f57; }
+  .endcta { margin-top: 26px; text-align: center; }
+  .endcta p { margin: 14px auto 18px; max-width: 440px; line-height: 1.6; }
+  .end-buttons { display: grid; gap: 14px; margin-top: 18px; }
+  @media (min-width: 520px) { .end-buttons { grid-template-columns: 1fr 1fr; } }
+
+  footer { text-align: center; padding: 20px; color: var(--tan); opacity: .7; font-size: 12px; }
+  footer a { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand" href="index.html">BANKWITHHANK.COM</a>
+  <div class="ledger">LEDGER: <span id="pnl" class="pnl flat">$0</span></div>
+</header>
+
+<main>
+
+  <!-- INTRO -->
+  <section id="intro" class="screen active">
+    <h1 class="title">HANK'S DESK</h1>
+    <p class="sub">Ten deal files just hit your desk. Some of these businesses will pay back every dime. Some will take the money and vanish like a handshake in the dark.</p>
+    <div class="hank-note">
+      "Kid, the numbers tell a story if you know how to listen. Steady deposits, clean account, been around a while — that's music. Bounced payments, stacked advances, revenue that showed up overnight — that's a fire alarm. <b>Fund the good ones. Pass on the junk. Let's see what you've got.</b>" — Hank
+    </div>
+    <button class="btn gold block" id="startBtn">OPEN THE FIRST FILE &rarr;</button>
+  </section>
+
+  <!-- DEAL -->
+  <section id="deal" class="screen">
+    <div class="file retro-panel">
+      <div class="tab" id="fileTab">FILE #1</div>
+      <div class="inner">
+        <h2 id="bizName"></h2>
+        <div class="industry" id="bizIndustry"></div>
+        <div class="stats" id="stats"></div>
+        <div class="ask"><span class="k">THEY'RE ASKING FOR</span><span class="v" id="askAmt"></span></div>
+        <div class="memo" id="memo"></div>
+      </div>
+    </div>
+    <div class="choices">
+      <button class="btn green" id="fundBtn">&#10004; FUND IT</button>
+      <button class="btn" id="passBtn">&#10008; PASS</button>
+    </div>
+    <div class="progress" id="progress"></div>
+  </section>
+
+  <!-- OUTCOME -->
+  <section id="outcome" class="screen">
+    <div class="stamp" id="stamp"></div>
+    <div class="outcome-story retro-panel">
+      <div id="story"></div>
+      <div class="take" id="take"></div>
+    </div>
+    <div class="pnl-line" id="pnlLine"></div>
+    <button class="btn gold block" id="nextBtn">NEXT FILE &rarr;</button>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results" class="screen">
+    <h1 class="title" style="font-size:clamp(36px,7vw,54px);">CLOSING TIME</h1>
+    <div class="rating-box retro-panel" style="margin-top:18px;">
+      <div class="label">Your Hank Rating</div>
+      <div class="rating" id="finalRating"></div>
+      <div class="total" id="finalTotal"></div>
+    </div>
+    <div class="scorecard retro-panel" id="scorecard"></div>
+    <div class="endcta">
+      <p id="endLine"></p>
+      <div class="end-buttons">
+        <a class="btn gold" href="https://apply.suttonfunding.com/?utm_source=bankwithhank&utm_medium=referral&utm_campaign=hank_site&utm_content=game">GET REAL FUNDING &rarr;</a>
+        <button class="btn green" id="replayBtn">&#8635; RUN IT BACK</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>&copy; 2026 BANKWITHHANK.COM &middot; Hank's Desk is a game — real underwriting takes more than ten files. <a href="index.html">Back to the bank</a></footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var FACTOR = 1.4;
+  // outcome: 'pays' (+40% of ask), 'slow' (+15%), 'default' (-55%)
+  var DEALS = [
+    {
+      name: "Maria's Taqueria", industry: "Restaurant", tib: "6 years", rev: "$48,000/mo",
+      nsf: 0, positions: 0, ask: 20000, revTrend: "Steady, every single month",
+      memo: "Family-run. Same corner for six years. Deposits land like clockwork.",
+      outcome: "pays",
+      story: "Maria paid like a metronome. Sixteen weeks, never missed a debit, sent the office tamales when the balance hit zero.",
+      take: "Boring and steady is beautiful. Six years of clockwork deposits with a clean account is exactly what a daily-payment product wants."
+    },
+    {
+      name: "Apex Freight LLC", industry: "Trucking", tib: "2 years", rev: "$110,000/mo",
+      nsf: 4, positions: 1, ask: 40000, revTrend: "High but choppy",
+      memo: "Big top line. Fuel cards and factoring eat most of it before it settles.",
+      outcome: "slow",
+      story: "Apex paid — eventually. Two payment pauses, one renegotiation, a lot of phone calls about diesel prices. You got there nine months late.",
+      take: "Trucking revenue is big but the margins are diesel-thin. Not junk, but size it small and expect the term to stretch."
+    },
+    {
+      name: "Golden Coast Nails", industry: "Salon", tib: "8 years", rev: "$22,000/mo",
+      nsf: 1, positions: 0, ask: 10000, revTrend: "Flat and reliable",
+      memo: "Small ask, small shop, owner's been at it since 2018.",
+      outcome: "pays",
+      story: "Quietest deal on the books. Paid off early to grab the prepay discount and asked about a renewal.",
+      take: "A small ask against eight years of history barely moves the risk needle. These are the renewals that build a book."
+    },
+    {
+      name: "HypeDrip Apparel", industry: "E-commerce", tib: "8 months", rev: "$15k → $95k in 60 days",
+      nsf: 2, positions: 0, ask: 35000, revTrend: "Vertical spike", warnRev: true,
+      memo: "One TikTok went viral in March. Founder says it's 'just the beginning.'",
+      outcome: "default",
+      story: "The algorithm moved on. April did $11k, May did $6k, and the daily debit started bouncing in June. The hoodies are still in a garage in Reseda.",
+      take: "A revenue spike with no track record isn't a trend — it's one good month wearing a trench coat. Eight months old is the tell."
+    },
+    {
+      name: "Big Tony's Pizza & Wings", industry: "Restaurant", tib: "12 years", rev: "$61,000/mo",
+      nsf: 11, positions: 2, ask: 25000, revTrend: "Strong",
+      memo: "Twelve years, great revenue. Account's a little... lively. Tony says the bounces are 'a bank thing.'",
+      outcome: "default",
+      story: "The revenue was real. So were the eleven bounces — your debit joined them by week three. Two other funders were already in line when the account went dry.",
+      take: "Revenue doesn't repay advances — the bank account does. Eleven NSFs means the bucket leaks, and two existing positions means you're third in line at the drain."
+    },
+    {
+      name: "Precision Roofing Co", industry: "Contractor", tib: "9 years", rev: "$90k summers / $15k winters",
+      nsf: 2, positions: 0, ask: 30000, revTrend: "Seasonal, but it's April",
+      memo: "Lumpy deposits scare some desks. Nine years of the same lumps, though.",
+      outcome: "pays",
+      story: "Roofing season delivered like it always does. Big summer deposits cleared the balance by September, before the snow slowed anything down.",
+      take: "Lumpy isn't broke. Nine years of the same seasonal curve is a pattern, not a problem — you just fund it going INTO the busy season, not out of it."
+    },
+    {
+      name: "QuickCash Convenience", industry: "Retail", tib: "3 years", rev: "$70,000/mo",
+      nsf: 3, positions: 3, ask: 30000, revTrend: "Decent", warnPos: true,
+      memo: "Three advances already on the books, two debiting daily. Wants a fourth 'to consolidate.'",
+      outcome: "default",
+      story: "Fourth position behind two daily debits. The math never had room for you — the account was spoken for before your wire landed.",
+      take: "'Consolidate' from a triple-stacked merchant means 'pay Peter with Paul's money.' Whoever funds last takes the loss. That was you."
+    },
+    {
+      name: "Chen Family Dental", industry: "Medical", tib: "15 years", rev: "$130,000/mo",
+      nsf: 0, positions: 0, ask: 40000, revTrend: "Rock steady",
+      memo: "Expanding to a second operatory. Insurance receivables like a metronome.",
+      outcome: "pays",
+      story: "Fifteen years of insurance receivables did exactly what fifteen years of insurance receivables do. Paid without a single hiccup.",
+      take: "The no-brainer file. The only mistake possible here was passing — good desks fund the obvious ones fast before someone else does."
+    },
+    {
+      name: "Vibes Event Promotion", industry: "Events", tib: "18 months", rev: "$55,000/mo",
+      nsf: 5, positions: 1, ask: 25000, revTrend: "60% from ONE client", warnRev: true,
+      memo: "Throws great parties. One venue is most of the revenue. Five bounces this quarter.",
+      outcome: "default",
+      story: "The venue switched promoters in month two. Revenue fell off a cliff, the bounces multiplied, and the last debit that cleared was for $61.",
+      take: "Concentration is the silent killer — 60% from one client means you're really underwriting THEIR relationship, not the business. Add five NSFs and it's a pass all day."
+    },
+    {
+      name: "Steel City Machine Shop", industry: "Manufacturing", tib: "22 years", rev: "$85,000/mo",
+      nsf: 1, positions: 1, ask: 35000, revTrend: "Steady with defense contracts",
+      memo: "One position on the books — 80% paid down, perfect history on it.",
+      outcome: "pays",
+      story: "Paid the old advance off in week two, then yours right on schedule. Twenty-two years of machining doesn't miss.",
+      take: "An existing position isn't automatically a red flag — one that's 80% paid down with perfect history is actually PROOF they can carry an advance. Context beats checklists."
+    }
+  ];
+
+  var idx = 0, pnl = 0, results = [];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var money = function (n) {
+    var sign = n < 0 ? "-" : (n > 0 ? "+" : "");
+    return sign + "$" + Math.abs(Math.round(n)).toLocaleString("en-US");
+  };
+  var cls = function (n) { return n > 0 ? "up" : (n < 0 ? "down" : "flat"); };
+
+  function show(id) {
+    var s = document.querySelectorAll(".screen");
+    for (var i = 0; i < s.length; i++) s[i].classList.remove("active");
+    $(id).classList.add("active");
+    window.scrollTo(0, 0);
+  }
+
+  function updateLedger() {
+    var el = $("pnl");
+    el.textContent = money(pnl);
+    el.className = "pnl " + cls(pnl);
+  }
+
+  function renderDeal() {
+    var d = DEALS[idx];
+    $("fileTab").textContent = "FILE #" + (idx + 1);
+    $("bizName").textContent = d.name;
+    $("bizIndustry").textContent = d.industry + " · " + d.tib + " in business";
+    $("askAmt").textContent = "$" + d.ask.toLocaleString("en-US");
+    $("memo").textContent = d.memo;
+    $("progress").textContent = "FILE " + (idx + 1) + " OF " + DEALS.length;
+    $("stats").innerHTML =
+      stat("Monthly Revenue", d.rev, false) +
+      stat("Revenue Trend", d.revTrend, !!d.warnRev) +
+      stat("NSFs (90 days)", d.nsf, d.nsf >= 4) +
+      stat("Existing Positions", d.positions, d.positions >= 2 || !!d.warnPos);
+    show("deal");
+  }
+
+  function stat(k, v, warn) {
+    return '<div class="stat"><div class="k">' + k + '</div><div class="v' + (warn ? " warn" : "") + '">' + v + "</div></div>";
+  }
+
+  function outcomeDelta(d, funded) {
+    if (!funded) return 0;
+    if (d.outcome === "pays") return d.ask * (FACTOR - 1);
+    if (d.outcome === "slow") return d.ask * 0.15;
+    return -d.ask * 0.55;
+  }
+
+  function decide(funded) {
+    var d = DEALS[idx];
+    var delta = outcomeDelta(d, funded);
+    var missed = outcomeDelta(d, true);
+    pnl += delta;
+    updateLedger();
+    results.push({ name: d.name, funded: funded, delta: delta, missed: missed, outcome: d.outcome });
+
+    var stampEl = $("stamp"), pnlEl = $("pnlLine"), story = $("story"), take = $("take");
+    take.innerHTML = "<b>Hank's take:</b> " + d.take;
+
+    if (funded) {
+      story.textContent = d.story;
+      if (d.outcome === "pays") { stampEl.textContent = "PAID IN FULL"; stampEl.className = "stamp good"; }
+      else if (d.outcome === "slow") { stampEl.textContent = "PAID... SLOWLY"; stampEl.className = "stamp neutral"; }
+      else { stampEl.textContent = "DEFAULTED"; stampEl.className = "stamp bad"; }
+      pnlEl.textContent = money(delta) + " TO THE LEDGER";
+      pnlEl.className = "pnl-line " + cls(delta);
+    } else {
+      if (d.outcome === "default") {
+        stampEl.textContent = "BULLET DODGED"; stampEl.className = "stamp good";
+        story.textContent = "You slid the file into the pass pile. Word around town: " + d.story.charAt(0).toLowerCase() + d.story.slice(1);
+        pnlEl.textContent = "DODGED A " + money(missed).replace("+", "") + " LOSS";
+        pnlEl.className = "pnl-line up";
+      } else {
+        stampEl.textContent = "MISSED ONE"; stampEl.className = "stamp neutral";
+        story.textContent = "You passed. Another funder didn't. " + d.story;
+        pnlEl.textContent = "LEFT " + money(missed) + " ON THE TABLE";
+        pnlEl.className = "pnl-line flat";
+      }
+    }
+
+    $("nextBtn").textContent = (idx + 1 < DEALS.length) ? "NEXT FILE →" : "SEE YOUR RATING →";
+    show("outcome");
+  }
+
+  function rating(total) {
+    if (total < 0) return "REPO MAN BAIT";
+    if (total < 15000) return "ROOKIE TELLER";
+    if (total < 30000) return "JUNIOR UNDERWRITER";
+    if (total < 45000) return "DESK BOSS";
+    return "HANDSHAKE HANK";
+  }
+
+  function endLine(total) {
+    if (total < 0) return "The good news: it was only a game. The better news: Hank does this for real, and he's a lot better at it.";
+    if (total < 30000) return "Not bad, kid. You can smell the junk — now you know what Hank sees in a file. He does this all day, every day, with real money.";
+    return "All right, hotshot — you've got the eye. Imagine what a desk like that could do for YOUR business.";
+  }
+
+  function renderResults() {
+    $("finalRating").textContent = rating(pnl);
+    var totalEl = $("finalTotal");
+    totalEl.textContent = "LEDGER: " + money(pnl);
+    totalEl.style.color = pnl >= 0 ? "var(--green)" : "var(--red)";
+    $("endLine").textContent = endLine(pnl);
+
+    var html = "";
+    for (var i = 0; i < results.length; i++) {
+      var r = results[i], right, rc;
+      if (r.funded) { right = money(r.delta); rc = cls(r.delta); }
+      else if (r.outcome === "default") { right = "dodged " + money(r.missed).replace("+", "").replace("-", "-"); rc = "up"; }
+      else { right = "missed " + money(r.missed); rc = "flat"; }
+      html += '<div class="row"><span>' + (i + 1) + ". " + r.name + " — " + (r.funded ? "FUNDED" : "PASSED") +
+              '</span><span class="amt ' + rc + '">' + right + "</span></div>";
+    }
+    $("scorecard").innerHTML = html;
+    show("results");
+  }
+
+  $("startBtn").addEventListener("click", renderDeal);
+  $("fundBtn").addEventListener("click", function () { decide(true); });
+  $("passBtn").addEventListener("click", function () { decide(false); });
+  $("nextBtn").addEventListener("click", function () {
+    idx++;
+    if (idx < DEALS.length) renderDeal(); else renderResults();
+  });
+  $("replayBtn").addEventListener("click", function () {
+    idx = 0; pnl = 0; results = [];
+    updateLedger();
+    show("intro");
+  });
+})();
+</script>
+</body>
+</html>
