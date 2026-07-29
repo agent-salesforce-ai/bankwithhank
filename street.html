@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>HANK'S MAIN STREET | A 3D Stroll With Hank</title>
+<link rel="canonical" href="https://bankwithhank.com/street.html">
+<meta name="description" content="Walk Main Street as Hank in 3D. Ten businesses need funding decisions. Fund the good ones, pass on the junk.">
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BANKWITHHANK.COM">
+<meta property="og:url" content="https://bankwithhank.com/street.html">
+<meta property="og:title" content="Hank's Main Street — Walk the Block, Fund the Block">
+<meta property="og:description" content="Control Hank in 3D. Ten storefronts, ten funding decisions. Get your Hank Rating.">
+<meta property="og:image" content="https://bankwithhank.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --green: #22543d; --red: #a52a2a; --tan: #f5e5c7;
+    --gold: #fdb813; --charcoal: #2d3748; --paper: #fdf8ec;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Roboto Slab', serif; background: var(--green); color: var(--tan);
+         -webkit-user-select: none; user-select: none; touch-action: none; }
+  .font-header { font-family: 'Bebas Neue', sans-serif; }
+  #stage { position: fixed; inset: 0; display: block; }
+
+  /* HUD */
+  #hud {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 5;
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    padding: 10px 14px;
+    background-image:
+      linear-gradient(rgba(165,42,42,.92), rgba(165,42,42,.92)),
+      repeating-linear-gradient(45deg, #2d3748, #2d3748 10px, #a52a2a 10px, #a52a2a 20px);
+    border-bottom: 4px solid var(--charcoal);
+  }
+  #hud a { color: var(--tan); text-decoration: none; font-family: 'Bebas Neue', sans-serif;
+           font-size: 20px; letter-spacing: 1.5px; white-space: nowrap; }
+  .hud-right { display: flex; gap: 8px; }
+  .hud-chip { font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: 1px;
+              background: var(--charcoal); color: var(--tan); padding: 5px 12px; border-radius: 4px; white-space: nowrap; }
+  #hudPnl.up { color: #7ce0ab; } #hudPnl.down { color: #ff9b94; }
+
+  /* Interaction prompt + mobile action */
+  #prompt {
+    cursor: pointer; position: fixed; left: 50%; bottom: 132px; transform: translateX(-50%);
+    z-index: 5; display: none;
+    font-family: 'Bebas Neue', sans-serif; letter-spacing: 1.5px; font-size: 18px;
+    background: var(--paper); color: var(--charcoal); border: 3px solid var(--charcoal);
+    box-shadow: 4px 4px 0 var(--charcoal); border-radius: 6px; padding: 8px 16px;
+  }
+  #actionBtn {
+    position: fixed; left: 50%; bottom: 74px; transform: translateX(-50%); z-index: 6; display: none;
+    font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px;
+    background: var(--gold); color: var(--charcoal); border: 4px solid var(--charcoal);
+    box-shadow: 5px 5px 0 var(--charcoal); border-radius: 8px; padding: 12px 28px; cursor: pointer;
+  }
+  #actionBtn:active { transform: translateX(-50%) translate(2px,2px); box-shadow: 2px 2px 0 var(--charcoal); }
+
+  /* Touch joystick */
+  #stick { position: fixed; z-index: 6; width: 110px; height: 110px; border-radius: 50%;
+           border: 3px solid rgba(245,229,199,.55); background: rgba(45,55,72,.30); display: none; }
+  #knob { position: absolute; left: 50%; top: 50%; width: 48px; height: 48px; border-radius: 50%;
+          background: rgba(253,184,19,.85); border: 3px solid var(--charcoal); transform: translate(-50%,-50%); }
+
+  /* Bathroom emergency */
+  #urgency { position: fixed; left: 50%; bottom: 186px; transform: translateX(-50%); z-index: 6;
+             display: none; width: min(340px, 78vw);
+             background: var(--paper); border: 4px solid var(--charcoal); box-shadow: 5px 5px 0 var(--charcoal);
+             border-radius: 8px; padding: 8px 12px 10px; }
+  #urgency .lbl { font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; font-size: 18px;
+                  color: var(--red); text-align: center; margin-bottom: 6px; }
+  #urgencyTrack { height: 14px; border: 3px solid var(--charcoal); border-radius: 999px;
+                  background: #e8dcc0; overflow: hidden; }
+  #urgencyFill { height: 100%; width: 0%; background: #8a5a2b; border-radius: 999px; }
+  #urgencyHint { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1.4px; font-size: 15px;
+                 color: var(--charcoal); text-align: center; margin-top: 6px; }
+  #toast { position: fixed; left: 50%; top: 84px; transform: translateX(-50%) rotate(-2deg); z-index: 7;
+           display: none; font-family: 'Bebas Neue', sans-serif; font-size: clamp(20px, 4.5vw, 30px);
+           letter-spacing: 2px; background: var(--paper); color: var(--charcoal);
+           border: 4px solid var(--charcoal); box-shadow: 5px 5px 0 var(--charcoal);
+           border-radius: 8px; padding: 10px 20px; text-align: center; max-width: 88vw; }
+  #flash { position: fixed; inset: 0; z-index: 4; pointer-events: none; opacity: 0;
+           background: radial-gradient(circle, rgba(165,42,42,.0) 40%, rgba(165,42,42,.55) 100%); }
+
+  .stats.three { grid-template-columns: 1fr 1fr 1fr; }
+  .section-label { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1.5px; font-size: 14px;
+                   color: #7a6f57; margin: 14px 0 6px; }
+  .usebox { margin-top: 12px; background: #f3e8cd; border-left: 5px solid var(--gold); padding: 9px 12px;
+            font-size: 13.5px; line-height: 1.5; }
+  .usebox b { display: block; font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; font-size: 13px; color: #7a6f57; }
+  /* Lender submit */
+  .lender-head { padding: 16px 18px 0; }
+  .lender-head h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(24px,5.5vw,34px); letter-spacing: 1px; line-height: 1.05; }
+  .lender-head .tag { color: var(--red); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 8px; }
+  .lender-head .blurb { font-style: italic; font-size: 13.5px; line-height: 1.55; color: #5a5142; margin-bottom: 12px; }
+  .boxlist { padding: 0 18px 16px; }
+  .boxrow { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0;
+            border-bottom: 1px solid #d8cbb0; font-size: 13px; }
+  .boxrow:last-child { border-bottom: none; }
+  .boxrow .need { color: #7a6f57; }
+  .boxrow .got { font-weight: 700; }
+  .boxrow .got.ok { color: var(--green); } .boxrow .got.no { color: var(--red); }
+  .lender-list { display: grid; gap: 10px; margin-top: 14px; }
+  .lender-pick { display: block; text-align: left; background: var(--paper); color: var(--charcoal);
+                 border: 3px solid var(--charcoal); box-shadow: 4px 4px 0 var(--charcoal); border-radius: 6px;
+                 padding: 10px 12px; cursor: pointer; font-family: 'Roboto Slab', serif; }
+  .lender-pick .nm { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; font-size: 18px; }
+  .lender-pick .sm { font-size: 11.5px; color: #7a6f57; }
+  #seekBanner { position: fixed; left: 50%; top: 78px; transform: translateX(-50%); z-index: 5; display: none;
+                font-family: 'Bebas Neue', sans-serif; letter-spacing: 1.5px; font-size: 16px; text-align: center;
+                background: var(--gold); color: var(--charcoal); border: 3px solid var(--charcoal);
+                box-shadow: 4px 4px 0 var(--charcoal); border-radius: 6px; padding: 7px 16px; max-width: 90vw; }
+
+  /* Minimap + wayfinding */
+  #minimap { position: fixed; left: 50%; bottom: 8px; transform: translateX(-50%); z-index: 6;
+             width: min(560px, 94vw); background: rgba(45,55,72,.86);
+             border: 3px solid var(--charcoal); border-radius: 8px; padding: 5px 7px 4px; display: none; }
+  #mapCanvas { display: block; width: 100%; height: 46px; }
+  #mapLegend { display: flex; justify-content: center; gap: 12px; margin-top: 2px;
+               font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; font-size: 10.5px; color: var(--tan); }
+  #mapLegend i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 3px; }
+  .arrow { position: fixed; z-index: 6; display: none; font-family: 'Bebas Neue', sans-serif;
+           letter-spacing: 1px; font-size: 15px; background: var(--gold); color: var(--charcoal);
+           border: 3px solid var(--charcoal); box-shadow: 3px 3px 0 var(--charcoal);
+           border-radius: 6px; padding: 6px 10px; white-space: nowrap; top: 50%; }
+  #arrowL { left: 8px; } #arrowR { right: 8px; }
+
+  /* Modals */
+  .overlay { position: fixed; inset: 0; z-index: 10; display: none; overflow-y: auto;
+             background: rgba(20,32,26,.72); padding: 20px 14px 40px; }
+  .overlay.open { display: block; }
+  .modal { max-width: 560px; margin: 4vh auto 0; }
+  .panel { background: var(--paper); color: var(--charcoal); border: 4px solid var(--charcoal);
+           box-shadow: 6px 6px 0 var(--charcoal); border-radius: 6px; }
+  .btn {
+    display: inline-block; cursor: pointer; border: 4px solid var(--charcoal);
+    box-shadow: 5px 5px 0 var(--charcoal); font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1.5px; font-size: 22px; padding: 13px 26px; border-radius: 6px;
+    color: #fff; background: var(--red); text-align: center; text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn:active { transform: translate(3px,3px); box-shadow: 2px 2px 0 var(--charcoal); }
+  .btn.green { background: var(--green); } .btn.gold { background: var(--gold); color: var(--charcoal); }
+  .btn.block { display: block; width: 100%; }
+
+  /* Intro */
+  #intro h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(44px,9vw,72px); color: var(--gold);
+              -webkit-text-stroke: 2px var(--charcoal); text-align: center; line-height: 1.02; }
+  #intro .sub { text-align: center; font-size: 16px; line-height: 1.6; margin: 14px 0 18px; color: var(--tan); }
+  #intro .panel { padding: 18px 20px; font-style: italic; font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
+  #intro .panel b { font-style: normal; }
+  .controls-hint { text-align: center; font-family: 'Bebas Neue', sans-serif; letter-spacing: 1.5px;
+                   font-size: 16px; margin: 0 0 18px; color: var(--gold); }
+  .alt-link { display: block; text-align: center; margin-top: 16px; color: var(--tan); font-size: 13px; }
+  .alt-link a { color: var(--gold); }
+
+  /* Deal file */
+  .file-tab { display: inline-block; background: var(--gold); color: var(--charcoal); border: 3px solid var(--charcoal);
+              font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 1.5px;
+              padding: 3px 14px; border-radius: 4px 4px 0 0; margin-left: 14px; position: relative; top: 3px; }
+  .file-inner { padding: 20px 18px 18px; }
+  .file-inner h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(26px,6vw,36px); letter-spacing: 1px; line-height: 1.05; }
+  .industry { color: var(--red); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 2px 0 12px; }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #d8cbb0; border: 2px solid var(--charcoal); }
+  .stat { background: var(--paper); padding: 9px 11px; }
+  .stat .k { font-size: 9.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #7a6f57; }
+  .stat .v { font-size: 16px; font-weight: 700; margin-top: 2px; }
+  .stat .v.warn { color: var(--red); }
+  .ask { margin-top: 12px; border: 3px dashed var(--charcoal); padding: 10px 12px;
+         display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .ask .k { font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 1.5px; }
+  .ask .v { font-family: 'Bebas Neue', sans-serif; font-size: 27px; color: var(--green); }
+  .memo { margin-top: 12px; font-style: italic; font-size: 13.5px; line-height: 1.55; color: #5a5142; }
+  .memo::before { content: "Note from the desk: "; font-style: normal; font-weight: 700; color: var(--charcoal); }
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; }
+
+  /* Outcome */
+  .stamp { font-family: 'Bebas Neue', sans-serif; font-size: clamp(34px,8vw,50px); letter-spacing: 3px;
+           text-align: center; padding: 8px 0; border: 4px solid; border-radius: 6px;
+           transform: rotate(-3deg); margin: 0 auto 16px; max-width: 420px; background: var(--paper); }
+  .stamp.good { color: var(--green); border-color: var(--green); }
+  .stamp.bad { color: var(--red); border-color: var(--red); }
+  .stamp.neutral { color: #8a6d1a; border-color: #8a6d1a; }
+  .story { padding: 16px 18px; font-size: 14.5px; line-height: 1.6; }
+  .story .take { margin-top: 11px; padding-top: 11px; border-top: 2px solid #d8cbb0; font-style: italic; }
+  .story .take b { font-style: normal; }
+  .pnl-line { text-align: center; font-family: 'Bebas Neue', sans-serif; font-size: 27px; letter-spacing: 2px; margin: 16px 0; }
+  .pnl-line.up { color: #7ce0ab; } .pnl-line.down { color: #ff9b94; } .pnl-line.flat { color: var(--tan); }
+
+  /* Results */
+  .rating-box { text-align: center; padding: 22px 16px; }
+  .rating-box .label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #7a6f57; }
+  .rating-box .rating { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px,8vw,54px); color: var(--red); line-height: 1.1; margin: 4px 0; }
+  .rating-box .total { font-family: 'Bebas Neue', sans-serif; font-size: 24px; }
+  .scorecard { margin-top: 16px; }
+  .scorecard .row { display: flex; justify-content: space-between; gap: 10px; padding: 8px 13px;
+                    border-bottom: 1px solid #d8cbb0; font-size: 12.5px; }
+  .scorecard .row:last-child { border-bottom: none; }
+  .scorecard .amt { font-weight: 700; white-space: nowrap; }
+  .scorecard .amt.up { color: var(--green); } .scorecard .amt.down { color: var(--red); } .scorecard .amt.flat { color: #7a6f57; }
+  .end-buttons { display: grid; gap: 14px; margin-top: 18px; }
+  @media (min-width: 520px) { .end-buttons { grid-template-columns: 1fr 1fr; } }
+  .endline { text-align: center; margin: 14px 0 0; line-height: 1.6; color: var(--tan); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<canvas id="stage"></canvas>
+
+<div id="hud">
+  <a href="index.html">BANKWITHHANK.COM</a>
+  <div class="hud-right">
+    <span class="hud-chip">FILES <span id="hudFiles">0/10</span></span>
+    <span class="hud-chip">LEDGER <span id="hudPnl">$0</span></span>
+  </div>
+</div>
+
+<div id="prompt">PRESS E &mdash; OPEN THE FILE</div>
+<button id="actionBtn">OPEN THE FILE</button>
+<div id="stick"><div id="knob"></div></div>
+<div id="urgency"><div class="lbl">HANK'S GOTTA GO!!</div><div id="urgencyTrack"><div id="urgencyFill"></div></div><div id="urgencyHint"></div></div>
+<div id="toast"></div>
+<div id="flash"></div>
+<div id="seekBanner"></div>
+<div id="arrowL" class="arrow"></div>
+<div id="arrowR" class="arrow"></div>
+<div id="minimap">
+  <canvas id="mapCanvas" width="1120" height="92"></canvas>
+  <div id="mapLegend">
+    <span><i style="background:#fdb813"></i>FILE</span>
+    <span><i style="background:#7ce0ab"></i>DONE</span>
+    <span><i style="background:#5f8ff2"></i>LENDER</span>
+    <span><i style="background:#fdf8ec"></i>RESTROOM</span>
+    <span><i style="background:#a52a2a"></i>HANK</span>
+  </div>
+</div>
+
+
+<!-- INTRO -->
+<div id="intro" class="overlay open">
+  <div class="modal">
+    <h1>HANK'S<br>MAIN STREET</h1>
+    <p class="sub">Ten businesses on the block. Every one of them wants Hank's money. Walk the street, read the files, and decide who gets funded.</p>
+    <div class="panel">
+      "Around here we don't fund spreadsheets, kid — we walk the block and look folks in the eye. <b>Head to the glowing storefront, pull the file, and make the call.</b>" &mdash; Hank
+    </div>
+    <p class="controls-hint" id="controlsHint">WASD / ARROWS TO WALK &middot; E TO OPEN A FILE</p>
+    <button class="btn gold block" id="startBtn">HIT THE STREET &rarr;</button>
+    <span class="alt-link">Prefer paperwork? <a href="game.html">Play the classic desk version</a></span>
+  </div>
+</div>
+
+<!-- DEAL FILE -->
+<div id="deal" class="overlay">
+  <div class="modal">
+    <span class="file-tab" id="fileTab">FILE #1</span>
+    <div class="panel">
+      <div class="file-inner">
+        <h2 id="bizName"></h2>
+        <div class="industry" id="bizIndustry"></div>
+        <div class="stats" id="stats"></div>
+        <div class="usebox" id="useBox"></div>
+        <div class="ask"><span class="k">THEY'RE ASKING FOR</span><span class="v" id="askAmt"></span></div>
+        <div class="memo" id="memo"></div>
+      </div>
+    </div>
+    <div class="choices">
+      <button class="btn green" id="fundBtn">&#10004; FUND IT</button>
+      <button class="btn" id="passBtn">&#10008; PASS</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- LENDER SUBMIT -->
+<div id="lender" class="overlay">
+  <div class="modal">
+    <div class="panel">
+      <div class="lender-head">
+        <h2 id="lenderName"></h2>
+        <div class="tag" id="lenderTag"></div>
+        <div class="blurb" id="lenderBlurb"></div>
+        <div class="section-label">THEIR CREDIT BOX vs YOUR FILE</div>
+      </div>
+      <div class="boxlist" id="lenderBox"></div>
+    </div>
+    <div class="choices">
+      <button class="btn green" id="submitBtn">&#128228; SUBMIT FILE</button>
+      <button class="btn" id="backBtn">&#8592; KEEP LOOKING</button>
+    </div>
+  </div>
+</div>
+
+<!-- OUTCOME -->
+<div id="outcome" class="overlay">
+  <div class="modal">
+    <div class="stamp" id="stamp"></div>
+    <div class="panel story"><div id="storyText"></div><div class="take" id="takeText"></div></div>
+    <div class="pnl-line" id="pnlLine"></div>
+    <button class="btn gold block" id="nextBtn">BACK TO THE STREET &rarr;</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="overlay">
+  <div class="modal">
+    <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,7vw,54px);color:var(--gold);-webkit-text-stroke:2px var(--charcoal);text-align:center;">CLOSING TIME</h1>
+    <div class="panel rating-box" style="margin-top:14px;">
+      <div class="label">Your Hank Rating</div>
+      <div class="rating" id="finalRating"></div>
+      <div class="total" id="finalTotal"></div>
+    </div>
+    <div class="panel scorecard" id="scorecard"></div>
+    <p class="endline" id="endLine"></p>
+    <div class="end-buttons">
+      <a class="btn gold" href="https://apply.suttonfunding.com/?utm_source=bankwithhank&utm_medium=referral&utm_campaign=hank_site&utm_content=game3d">GET REAL FUNDING &rarr;</a>
+      <button class="btn green" id="replayBtn">&#8635; WALK IT AGAIN</button>
+    </div>
+  </div>
+</div>
+
+<script src="vendor/three.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // ---------- Deal data (identical to game.html) ----------
+  var FACTOR = 1.4;
+  var DEALS = [
+    { name: "Maria's Taqueria", industry: "Restaurant", ind: "food", tib: "6 years", tibMo: 72,
+      rev: "$48,000/mo", revNum: 48000, revTrend: "Steady, every single month",
+      nsf: 0, positions: 0, fico: 688, dailyBal: "$9,400", deposits: 92, negDays: 0,
+      state: "TX", use: "Second prep line and a walk-in cooler", ask: 20000,
+      memo: "Family-run. Same corner for six years. Deposits land like clockwork.",
+      outcome: "pays",
+      story: "Maria paid like a metronome. Sixteen weeks, never missed a debit, sent the office tamales when the balance hit zero.",
+      take: "Boring and steady is beautiful. Six years of clockwork deposits, zero NSFs and a real daily balance is exactly what a daily-payment product wants." },
+
+    { name: "Apex Freight LLC", industry: "Trucking", ind: "transport", tib: "2 years", tibMo: 26,
+      rev: "$110,000/mo", revNum: 110000, revTrend: "High but choppy",
+      nsf: 4, positions: 1, fico: 612, dailyBal: "$3,100", deposits: 41, negDays: 6,
+      state: "OH", use: "Two more tractors and fuel float", ask: 40000,
+      memo: "Big top line. Fuel cards and factoring eat most of it before it settles.",
+      outcome: "slow",
+      story: "Apex paid — eventually. Two payment pauses, one renegotiation, a lot of phone calls about diesel prices. You got there nine months late.",
+      take: "Trucking revenue is big but the margins are diesel-thin. A $3,100 daily balance against $110k of revenue is the tell — size it small and expect the term to stretch." },
+
+    { name: "Golden Coast Nails", industry: "Salon", ind: "retail", tib: "8 years", tibMo: 97,
+      rev: "$22,000/mo", revNum: 22000, revTrend: "Flat and reliable",
+      nsf: 1, positions: 0, fico: 701, dailyBal: "$6,800", deposits: 78, negDays: 0,
+      state: "CA", use: "Four new pedicure chairs", ask: 10000,
+      memo: "Small ask, small shop, owner's been at it since 2018.",
+      outcome: "pays",
+      story: "Quietest deal on the books. Paid off early to grab the prepay discount and asked about a renewal.",
+      take: "A small ask against eight years of history barely moves the risk needle. These are the renewals that build a book." },
+
+    { name: "HypeDrip Apparel", industry: "E-commerce", ind: "ecom", tib: "8 months", tibMo: 8,
+      rev: "$15k → $95k in 60 days", revNum: 95000, revTrend: "Vertical spike", warnRev: true,
+      nsf: 2, positions: 0, fico: 640, dailyBal: "$1,900", deposits: 210, negDays: 3,
+      state: "CA", use: "Inventory buy for 'the next drop'", ask: 35000,
+      memo: "One TikTok went viral in March. Founder says it's 'just the beginning.'",
+      outcome: "default",
+      story: "The algorithm moved on. April did $11k, May did $6k, and the daily debit started bouncing in June. The hoodies are still in a garage in Reseda.",
+      take: "A revenue spike with no track record isn't a trend — it's one good month wearing a trench coat. Eight months in business and a $1,900 daily balance on $95k of revenue is the whole story." },
+
+    { name: "Big Tony's Pizza & Wings", industry: "Restaurant", ind: "food", tib: "12 years", tibMo: 147,
+      rev: "$61,000/mo", revNum: 61000, revTrend: "Strong",
+      nsf: 11, positions: 2, fico: 561, dailyBal: "$820", deposits: 88, negDays: 19,
+      state: "NJ", use: "Payroll and 'catching up on a few things'", ask: 25000,
+      memo: "Twelve years, great revenue. Account's a little... lively. Tony says the bounces are 'a bank thing.'",
+      outcome: "default",
+      story: "The revenue was real. So were the eleven bounces — your debit joined them by week three. Two other funders were already in line when the account went dry.",
+      take: "Revenue doesn't repay advances — the bank account does. Eleven NSFs, nineteen negative days and an $820 daily balance means the bucket leaks. Two positions means you're third in line at the drain." },
+
+    { name: "Precision Roofing Co", industry: "Contractor", ind: "construction", tib: "9 years", tibMo: 112,
+      rev: "$90k summers / $15k winters", revNum: 52000, revTrend: "Seasonal, but it's April",
+      nsf: 2, positions: 0, fico: 664, dailyBal: "$14,200", deposits: 34, negDays: 1,
+      state: "MI", use: "Crew expansion before peak season", ask: 30000,
+      memo: "Lumpy deposits scare some desks. Nine years of the same lumps, though.",
+      outcome: "pays",
+      story: "Roofing season delivered like it always does. Big summer deposits cleared the balance by September, before the snow slowed anything down.",
+      take: "Lumpy isn't broke. Nine years of the same seasonal curve is a pattern, not a problem — and a $14,200 daily balance says he banks his summers. Fund it going INTO the season, not out of it." },
+
+    { name: "QuickCash Convenience", industry: "Retail", ind: "retail", tib: "3 years", tibMo: 38,
+      rev: "$70,000/mo", revNum: 70000, revTrend: "Decent", warnPos: true,
+      nsf: 3, positions: 3, fico: 598, dailyBal: "$2,400", deposits: 120, negDays: 8,
+      state: "FL", use: "\"Consolidate\" the three advances he already has", ask: 30000,
+      memo: "Three advances already on the books, two debiting daily. Wants a fourth 'to consolidate.'",
+      outcome: "default",
+      story: "Fourth position behind two daily debits. The math never had room for you — the account was spoken for before your wire landed.",
+      take: "'Consolidate' from a triple-stacked merchant means 'pay Peter with Paul's money.' Whoever funds last takes the loss. That was you." },
+
+    { name: "Chen Family Dental", industry: "Medical / Dental", ind: "medical", tib: "15 years", tibMo: 184,
+      rev: "$130,000/mo", revNum: 130000, revTrend: "Rock steady",
+      nsf: 0, positions: 0, fico: 742, dailyBal: "$38,600", deposits: 64, negDays: 0,
+      state: "WA", use: "Second operatory build-out", ask: 40000,
+      memo: "Expanding to a second operatory. Insurance receivables like a metronome.",
+      outcome: "pays",
+      story: "Fifteen years of insurance receivables did exactly what fifteen years of insurance receivables do. Paid without a single hiccup.",
+      take: "The no-brainer file — 742 FICO, zero NSFs, $38k daily balance. The only mistake possible here was passing, or handing it to a lender who'd overcharge for it." },
+
+    { name: "Vibes Event Promotion", industry: "Events", ind: "ecom", tib: "18 months", tibMo: 18,
+      rev: "$55,000/mo", revNum: 55000, revTrend: "60% from ONE client", warnRev: true,
+      nsf: 5, positions: 1, fico: 583, dailyBal: "$1,450", deposits: 22, negDays: 11,
+      state: "NV", use: "Deposits on next quarter's venues", ask: 25000,
+      memo: "Throws great parties. One venue is most of the revenue. Five bounces this quarter.",
+      outcome: "default",
+      story: "The venue switched promoters in month two. Revenue fell off a cliff, the bounces multiplied, and the last debit that cleared was for $61.",
+      take: "Concentration is the silent killer — 60% from one client means you're really underwriting THEIR relationship. Add five NSFs, eleven negative days and 22 deposits a month and it's a pass all day." },
+
+    { name: "Steel City Machine Shop", industry: "Manufacturing", ind: "construction", tib: "22 years", tibMo: 271,
+      rev: "$85,000/mo", revNum: 85000, revTrend: "Steady with defense contracts",
+      nsf: 1, positions: 1, fico: 715, dailyBal: "$21,900", deposits: 48, negDays: 0,
+      state: "PA", use: "A five-axis CNC mill", ask: 35000,
+      memo: "One position on the books — 80% paid down, perfect history on it.",
+      outcome: "pays",
+      story: "Paid the old advance off in week two, then yours right on schedule. Twenty-two years of machining doesn't miss.",
+      take: "An existing position isn't automatically a red flag — one that's 80% paid down with perfect history is PROOF they can carry an advance. Context beats checklists." }
+  ];
+
+  // ---------- Lenders (each has a credit box Hank must match against) ----------
+  var LENDERS = [
+    { id: "iron", name: "IRONCLAD CAPITAL", tag: "Prime paper only",
+      minTib: 60, minFico: 660, minRev: 40000, maxPos: 0, maxNsf: 2, maxNegDays: 2,
+      ind: null, range: [15000, 250000], winMult: 1.30, lossMult: 1.0,
+      blurb: "Cheapest money on the street — if you're spotless.", color: 0x1f3557 },
+    { id: "swift", name: "SWIFTLINE FUNDING", tag: "Bread and butter",
+      minTib: 24, minFico: 600, minRev: 25000, maxPos: 1, maxNsf: 5, maxNegDays: 8,
+      ind: null, range: [10000, 120000], winMult: 1.0, lossMult: 1.0,
+      blurb: "Middle of the fairway. Most real deals land here.", color: 0x50735f },
+    { id: "meridian", name: "MERIDIAN HEALTHCARE CAP", tag: "Medical & dental only",
+      minTib: 36, minFico: 640, minRev: 50000, maxPos: 1, maxNsf: 3, maxNegDays: 3,
+      ind: "medical", range: [20000, 400000], winMult: 1.45, lossMult: 1.0,
+      blurb: "Pays a premium for healthcare receivables. Won't look at anything else.", color: 0x7a3b6a },
+    { id: "last", name: "LAST CHANCE LENDING", tag: "Takes almost anything",
+      minTib: 6, minFico: 500, minRev: 10000, maxPos: 3, maxNsf: 12, maxNegDays: 22,
+      ind: null, range: [5000, 60000], winMult: 0.70, lossMult: 1.30,
+      blurb: "They'll fund it. You won't like the terms, and neither will the merchant.", color: 0x8a4a2a }
+  ];
+
+  // Why a lender said no — first failing rule, in plain English.
+  function declineReason(d, L) {
+    if (L.ind && d.ind !== L.ind) return "We only write " + L.tag.toLowerCase() + ".";
+    if (d.tibMo < L.minTib) return "Needs " + (L.minTib >= 12 ? (L.minTib / 12) + " yrs" : L.minTib + " mo") + " in business; this one has " + (d.tibMo >= 12 ? (Math.round(d.tibMo / 12 * 10) / 10) + " yrs" : d.tibMo + " mo") + ".";
+    if (d.fico < L.minFico) return "FICO floor is " + L.minFico + "; owner is " + d.fico + ".";
+    if (d.revNum < L.minRev) return "We need $" + L.minRev.toLocaleString("en-US") + "/mo; they do $" + d.revNum.toLocaleString("en-US") + ".";
+    if (d.positions > L.maxPos) return "We allow " + L.maxPos + " open position(s); they have " + d.positions + ".";
+    if (d.nsf > L.maxNsf) return "Max " + L.maxNsf + " NSFs; this file shows " + d.nsf + ".";
+    if (d.negDays > L.maxNegDays) return "Max " + L.maxNegDays + " negative days; this file shows " + d.negDays + ".";
+    if (d.ask < L.range[0]) return "Our minimum advance is $" + L.range[0].toLocaleString("en-US") + ".";
+    if (d.ask > L.range[1]) return "Our maximum advance is $" + L.range[1].toLocaleString("en-US") + ".";
+    return null;
+  }
+  function lenderFits(d, L) { return declineReason(d, L) === null; }
+
+  // ---------- Shared helpers ----------
+  var $ = function (id) { return document.getElementById(id); };
+  var money = function (n) { var s = n < 0 ? "-" : (n > 0 ? "+" : ""); return s + "$" + Math.abs(Math.round(n)).toLocaleString("en-US"); };
+  var cls = function (n) { return n > 0 ? "up" : (n < 0 ? "down" : "flat"); };
+  function outcomeDelta(d, funded) {
+    if (!funded) return 0;
+    if (d.outcome === "pays") return d.ask * (FACTOR - 1);
+    if (d.outcome === "slow") return d.ask * 0.15;
+    return -d.ask * 0.55;
+  }
+  function rating(total) {
+    if (total < 0) return "REPO MAN BAIT";
+    if (total < 15000) return "ROOKIE TELLER";
+    if (total < 30000) return "JUNIOR UNDERWRITER";
+    if (total < 45000) return "DESK BOSS";
+    return "HANDSHAKE HANK";
+  }
+  function endLine(total) {
+    if (total < 0) return "The good news: it was only a game. The better news: Hank does this for real, and he's a lot better at it.";
+    if (total < 30000) return "Not bad, kid. You can smell the junk — now you know what Hank sees on the block. He does this all day, with real money.";
+    return "All right, hotshot — you've got the eye. Imagine what a desk like that could do for YOUR business.";
+  }
+
+  // ---------- Game state ----------
+  var state = { idx: 0, pnl: 0, results: [], playing: false, modalOpen: true, near: false,
+              phase: 'roam', nearLender: null, declinedBy: [], pile: null,
+              playTime: 0, urgency: { active: false, level: 0, nextAt: 26 + Math.random() * 14, accidents: 0, saves: 0 } };
+
+  function updateHud() {
+    $("hudFiles").textContent = state.idx + "/" + DEALS.length;
+    var el = $("hudPnl");
+    el.textContent = money(state.pnl);
+    el.className = cls(state.pnl);
+  }
+
+  // ---------- three.js scene ----------
+  var C = { green: 0x22543d, red: 0xa52a2a, tan: 0xf5e5c7, gold: 0xfdb813, charcoal: 0x2d3748,
+            paper: 0xfdf8ec, road: 0x3a4454, brick: 0x9a3b2f, navy: 0x1f3557, skin: 0xe8b98a,
+            hair: 0x7a4a21, shoe: 0x4a3320 };
+
+  var renderer = new THREE.WebGLRenderer({ canvas: $("stage"), antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 0.98;
+
+  var scene = new THREE.Scene();
+
+  // Warm Americana sky: cream horizon fading to soft blue
+  var skyTex = (function () {
+    var c = document.createElement("canvas"); c.width = 16; c.height = 256;
+    var g = c.getContext("2d");
+    var grad = g.createLinearGradient(0, 0, 0, 256);
+    grad.addColorStop(0, "#8fbcd4");
+    grad.addColorStop(0.55, "#cfdfd2");
+    grad.addColorStop(1, "#f2e3c2");
+    g.fillStyle = grad; g.fillRect(0, 0, 16, 256);
+    var t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t;
+  })();
+  scene.background = skyTex;
+  scene.fog = new THREE.Fog(0xe8dcbe, 55, 130);
+
+  var camera = new THREE.PerspectiveCamera(48, 1, 0.1, 300);
+
+  scene.add(new THREE.HemisphereLight(0xfff2d8, 0x2f5b43, 0.45));
+  scene.add(new THREE.AmbientLight(0xfff3dd, 0.35));
+  var sun = new THREE.DirectionalLight(0xffedca, 1.05);
+  sun.position.set(22, 38, 16);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(2048, 2048);
+  sun.shadow.camera.left = -55; sun.shadow.camera.right = 55;
+  sun.shadow.camera.top = 55; sun.shadow.camera.bottom = -55;
+  sun.shadow.bias = -0.0004;
+  scene.add(sun);
+
+  // Gold glow that follows the active storefront
+  var activeGlow = new THREE.PointLight(0xfdb813, 1.1, 14, 2);
+  activeGlow.position.set(0, 3, 0);
+  scene.add(activeGlow);
+
+  function mat(color) { return new THREE.MeshLambertMaterial({ color: color }); }
+  function box(w, h, d, material) {
+    var m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), material);
+    m.castShadow = true; m.receiveShadow = true;
+    return m;
+  }
+  function canvasTexture(w, h, draw) {
+    var c = document.createElement("canvas"); c.width = w; c.height = h;
+    draw(c.getContext("2d"), w, h);
+    var t = new THREE.CanvasTexture(c);
+    t.anisotropy = 4; t.encoding = THREE.sRGBEncoding;
+    return t;
+  }
+
+  // Real buffalo plaid: red and black bands that overlap into a third tone.
+  function plaidTexture(repeat) {
+    var t = canvasTexture(256, 256, function (g) {
+      var CELL = 64;
+      g.fillStyle = "#8e2020"; g.fillRect(0, 0, 256, 256);          // red base
+      g.fillStyle = "rgba(20,24,31,.72)";                            // black verticals
+      for (var x = 0; x < 256; x += CELL * 2) g.fillRect(x, 0, CELL, 256);
+      for (var y = 0; y < 256; y += CELL * 2) g.fillRect(0, y, 256, CELL); // horizontals
+      // weave threads for texture at close range
+      g.strokeStyle = "rgba(255,255,255,.05)"; g.lineWidth = 1;
+      for (var i = 0; i < 256; i += 4) {
+        g.beginPath(); g.moveTo(i, 0); g.lineTo(i, 256); g.stroke();
+      }
+      g.strokeStyle = "rgba(0,0,0,.06)";
+      for (var j = 0; j < 256; j += 4) {
+        g.beginPath(); g.moveTo(0, j); g.lineTo(256, j); g.stroke();
+      }
+    });
+    if (repeat) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(repeat, repeat); }
+    return t;
+  }
+
+  // Gold tie with a subtle diamond motif
+  function tieTexture() {
+    return canvasTexture(64, 192, function (g) {
+      g.fillStyle = "#d9a01c"; g.fillRect(0, 0, 64, 192);
+      g.fillStyle = "rgba(255,255,255,.18)";
+      for (var y = 8; y < 192; y += 26) {
+        g.beginPath(); g.moveTo(32, y); g.lineTo(44, y + 13); g.lineTo(32, y + 26); g.lineTo(20, y + 13); g.closePath(); g.fill();
+      }
+      g.fillStyle = "rgba(0,0,0,.14)"; g.fillRect(0, 0, 6, 192); g.fillRect(58, 0, 6, 192);
+    });
+  }
+
+  // Hank's face, drawn to match the logo: strong brows, confident grin.
+  function faceTexture() {
+    return canvasTexture(256, 256, function (g) {
+      g.fillStyle = "#eec091"; g.fillRect(0, 0, 256, 256);
+      g.fillStyle = "#e3aa78";                                        // cheek warmth
+      g.beginPath(); g.arc(54, 150, 26, 0, 7); g.fill();
+      g.beginPath(); g.arc(202, 150, 26, 0, 7); g.fill();
+
+      g.fillStyle = "#2d3748";                                        // brows
+      g.beginPath(); g.moveTo(48, 92); g.lineTo(104, 84); g.lineTo(104, 100); g.lineTo(48, 106); g.closePath(); g.fill();
+      g.beginPath(); g.moveTo(208, 92); g.lineTo(152, 84); g.lineTo(152, 100); g.lineTo(208, 106); g.closePath(); g.fill();
+
+      g.fillStyle = "#fdf8ec";                                        // eye whites
+      g.beginPath(); g.ellipse(76, 122, 22, 15, 0, 0, 7); g.fill();
+      g.beginPath(); g.ellipse(180, 122, 22, 15, 0, 0, 7); g.fill();
+      g.fillStyle = "#3c6ea5";                                        // irises
+      g.beginPath(); g.arc(78, 122, 10, 0, 7); g.fill();
+      g.beginPath(); g.arc(182, 122, 10, 0, 7); g.fill();
+      g.fillStyle = "#141821";
+      g.beginPath(); g.arc(78, 122, 5, 0, 7); g.fill();
+      g.beginPath(); g.arc(182, 122, 5, 0, 7); g.fill();
+      g.fillStyle = "#ffffff";
+      g.beginPath(); g.arc(83, 117, 3, 0, 7); g.fill();
+      g.beginPath(); g.arc(187, 117, 3, 0, 7); g.fill();
+      g.strokeStyle = "#2d3748"; g.lineWidth = 4; g.lineCap = "round"; // lash lines
+      g.beginPath(); g.moveTo(54, 116); g.lineTo(98, 111); g.stroke();
+      g.beginPath(); g.moveTo(202, 116); g.lineTo(158, 111); g.stroke();
+
+      g.strokeStyle = "#cf9a6a"; g.lineWidth = 6;                     // nose shadow
+      g.beginPath(); g.moveTo(128, 128); g.lineTo(128, 166); g.stroke();
+      g.beginPath(); g.moveTo(128, 166); g.lineTo(140, 170); g.stroke();
+
+      g.strokeStyle = "#2d3748"; g.lineWidth = 7;                     // confident grin
+      g.beginPath(); g.arc(128, 176, 42, 0.16 * Math.PI, 0.84 * Math.PI); g.stroke();
+      g.fillStyle = "#fdf8ec";
+      g.beginPath(); g.moveTo(92, 190); g.quadraticCurveTo(128, 224, 164, 190); g.closePath(); g.fill();
+      g.strokeStyle = "rgba(45,55,72,.35)"; g.lineWidth = 3;
+      g.beginPath(); g.moveTo(110, 196); g.lineTo(110, 208); g.stroke();
+      g.beginPath(); g.moveTo(128, 199); g.lineTo(128, 213); g.stroke();
+      g.beginPath(); g.moveTo(146, 196); g.lineTo(146, 208); g.stroke();
+      g.strokeStyle = "#cf9a6a"; g.lineWidth = 5;                     // smile creases
+      g.beginPath(); g.moveTo(84, 158); g.quadraticCurveTo(78, 182, 92, 194); g.stroke();
+      g.beginPath(); g.moveTo(172, 158); g.quadraticCurveTo(178, 182, 164, 194); g.stroke();
+    });
+  }
+
+  function panicFaceTexture() {
+    return canvasTexture(256, 256, function (g) {
+      g.fillStyle = "#efb894"; g.fillRect(0, 0, 256, 256);
+      g.fillStyle = "#d9755a";                                         // flushed
+      g.beginPath(); g.arc(52, 152, 30, 0, 7); g.fill();
+      g.beginPath(); g.arc(204, 152, 30, 0, 7); g.fill();
+      g.strokeStyle = "#2d3748"; g.lineWidth = 12; g.lineCap = "round";
+      g.beginPath(); g.moveTo(50, 82); g.lineTo(106, 112); g.stroke();  // anguished brows
+      g.beginPath(); g.moveTo(206, 82); g.lineTo(150, 112); g.stroke();
+      g.lineWidth = 9;                                                  // eyes screwed shut
+      g.beginPath(); g.moveTo(56, 132); g.lineTo(104, 132); g.stroke();
+      g.beginPath(); g.moveTo(152, 132); g.lineTo(200, 132); g.stroke();
+      g.strokeStyle = "#cf9a6a"; g.lineWidth = 6;
+      g.beginPath(); g.moveTo(128, 138); g.lineTo(128, 168); g.stroke();
+      g.fillStyle = "#2d3748";                                          // gritted teeth
+      g.fillRect(84, 186, 88, 30);
+      g.fillStyle = "#fdf8ec";
+      for (var i = 0; i < 6; i++) g.fillRect(88 + i * 14, 190, 10, 22);
+      g.strokeStyle = "rgba(45,55,72,.5)"; g.lineWidth = 3;
+      g.beginPath(); g.moveTo(84, 201); g.lineTo(172, 201); g.stroke();
+      g.fillStyle = "#8fd0e8";                                          // sweat
+      g.beginPath(); g.ellipse(28, 84, 8, 12, 0, 0, 7); g.fill();
+      g.beginPath(); g.ellipse(226, 100, 7, 11, 0, 0, 7); g.fill();
+      g.beginPath(); g.ellipse(40, 40, 6, 9, 0, 0, 7); g.fill();
+    });
+  }
+
+  // ---------- Hank ----------
+  var plaid      = new THREE.MeshLambertMaterial({ map: plaidTexture() });
+  var plaidSleeve = new THREE.MeshLambertMaterial({ map: plaidTexture(0.6) });
+  var SKIN = 0xeec091, HAIR = 0x5a3316, TROUSER = 0x232a36, SHOE = 0x2a1c0e;
+  var hank = new THREE.Group();
+  var parts = {};
+
+  function cyl(rt, rb, h, seg, material) {
+    var m = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, seg), material);
+    m.castShadow = true; m.receiveShadow = true; return m;
+  }
+
+  (function buildHank() {
+    // ---- Legs: tapered trousers with cuffs and proper dress shoes ----
+    function leg(sign) {
+      var g = new THREE.Group();
+      var thigh = cyl(0.21, 0.18, 0.62, 10, mat(TROUSER)); thigh.position.y = -0.31; g.add(thigh);
+      var shin  = cyl(0.18, 0.155, 0.55, 10, mat(TROUSER)); shin.position.y = -0.88; g.add(shin);
+      var cuff  = cyl(0.175, 0.175, 0.09, 10, mat(0x1b212b)); cuff.position.y = -1.15; g.add(cuff);
+      var shoe  = box(0.30, 0.14, 0.52, mat(SHOE)); shoe.position.set(0, -1.26, 0.10); g.add(shoe);
+      var toe   = cyl(0.15, 0.15, 0.30, 10, mat(SHOE)); toe.rotation.x = Math.PI / 2;
+      toe.position.set(0, -1.26, 0.30); g.add(toe);
+      var heel  = box(0.24, 0.10, 0.14, mat(0x160e05)); heel.position.set(0, -1.32, -0.11); g.add(heel);
+      g.position.set(sign * 0.24, 1.06, 0);
+      return g;
+    }
+    parts.legL = leg(-1); parts.legR = leg(1);
+    hank.add(parts.legL); hank.add(parts.legR);
+    parts.shoeL = parts.legL; parts.shoeR = parts.legR;   // tick() nudges these; group is fine
+
+    // ---- Torso: jacket body, shirt V, lapels, collar ----
+    var hips = box(0.74, 0.30, 0.46, mat(TROUSER)); hips.position.y = 1.16; hank.add(hips);
+
+    var jacket = box(0.98, 1.02, 0.56, plaid); jacket.position.y = 1.80; hank.add(jacket);
+    var skirt  = box(1.02, 0.26, 0.58, plaid); skirt.position.y = 1.30; hank.add(skirt);
+    var chest  = box(0.90, 0.34, 0.58, plaid); chest.position.y = 2.22; hank.add(chest);
+
+    var shirt = box(0.34, 0.66, 0.10, mat(0xfdf8ec)); shirt.position.set(0, 1.94, 0.29); hank.add(shirt);
+    var tie = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.62, 0.07),
+                             new THREE.MeshLambertMaterial({ map: tieTexture() }));
+    tie.castShadow = true; tie.position.set(0, 1.90, 0.335); hank.add(tie);
+    var knot = box(0.13, 0.12, 0.09, new THREE.MeshLambertMaterial({ map: tieTexture() }));
+    knot.position.set(0, 2.26, 0.33); hank.add(knot);
+
+    var lapL = box(0.30, 0.62, 0.07, plaid);
+    lapL.position.set(-0.24, 2.02, 0.30); lapL.rotation.z = -0.20; hank.add(lapL);
+    var lapR = box(0.30, 0.62, 0.07, plaid);
+    lapR.position.set(0.24, 2.02, 0.30); lapR.rotation.z = 0.20; hank.add(lapR);
+
+    var collar = box(0.56, 0.14, 0.20, mat(0xfdf8ec)); collar.position.set(0, 2.36, 0.22); hank.add(collar);
+    var pocket = box(0.17, 0.12, 0.05, mat(0xffffff)); pocket.position.set(0.32, 2.10, 0.30); hank.add(pocket);
+
+    var shoulderL = box(0.22, 0.20, 0.54, plaid); shoulderL.position.set(-0.56, 2.30, 0); hank.add(shoulderL);
+    var shoulderR = box(0.22, 0.20, 0.54, plaid); shoulderR.position.set(0.56, 2.30, 0); hank.add(shoulderR);
+
+    // ---- Arms: sleeves + cuff + hand, pivoting from the shoulder ----
+    function arm(sign) {
+      var g = new THREE.Group();
+      var upper = cyl(0.155, 0.14, 0.60, 10, plaidSleeve); upper.position.y = -0.30; g.add(upper);
+      var fore  = cyl(0.14, 0.125, 0.52, 10, plaidSleeve); fore.position.y = -0.86; g.add(fore);
+      var cuff  = cyl(0.13, 0.13, 0.07, 10, mat(0xfdf8ec)); cuff.position.y = -1.14; g.add(cuff);
+      var hand  = box(0.20, 0.24, 0.16, mat(SKIN)); hand.position.y = -1.28; g.add(hand);
+      var thumb = box(0.07, 0.12, 0.07, mat(SKIN)); thumb.position.set(sign * -0.11, -1.24, 0.04); g.add(thumb);
+      g.position.set(sign * 0.62, 2.24, 0);
+      return g;
+    }
+    parts.armL = arm(-1); parts.armR = arm(1);
+    hank.add(parts.armL); hank.add(parts.armR);
+    parts.handL = parts.armL; parts.handR = parts.armR;
+
+    // ---- Head: neck, jaw, ears, 3D nose, face material in slot 4 ----
+    var neck = cyl(0.19, 0.21, 0.20, 10, mat(SKIN)); neck.position.y = 2.50; hank.add(neck);
+
+    parts.faceCalm  = new THREE.MeshLambertMaterial({ map: faceTexture() });
+    parts.facePanic = new THREE.MeshLambertMaterial({ map: panicFaceTexture() });
+    var skinM = mat(SKIN);
+    var headMats = [skinM, skinM, skinM, skinM, parts.faceCalm, skinM];
+    var head = new THREE.Mesh(new THREE.BoxGeometry(0.82, 0.86, 0.76), headMats);
+    head.castShadow = true; head.position.y = 3.00; hank.add(head); parts.head = head;
+
+    var jaw = box(0.70, 0.20, 0.70, mat(0xe6b184)); jaw.position.y = 2.62; hank.add(jaw);
+    var nose = box(0.13, 0.20, 0.13, mat(0xe6b184)); nose.position.set(0, 2.98, 0.40); hank.add(nose);
+    var earL = box(0.09, 0.22, 0.16, mat(0xe6b184)); earL.position.set(-0.43, 3.00, -0.02); hank.add(earL);
+    var earR = box(0.09, 0.22, 0.16, mat(0xe6b184)); earR.position.set(0.43, 3.00, -0.02); hank.add(earR);
+
+    // ---- Hair: swept pompadour in layers ----
+    var hairM = mat(HAIR);
+    var cap   = box(0.86, 0.26, 0.80, hairM); cap.position.y = 3.40; hank.add(cap);
+    var back  = box(0.86, 0.42, 0.16, hairM); back.position.set(0, 3.16, -0.34); hank.add(back);
+    var sideL = box(0.10, 0.34, 0.66, hairM); sideL.position.set(-0.41, 3.20, -0.06); hank.add(sideL);
+    var sideR = box(0.10, 0.34, 0.66, hairM); sideR.position.set(0.41, 3.20, -0.06); hank.add(sideR);
+    var quiff = box(0.62, 0.30, 0.34, hairM);
+    quiff.position.set(0, 3.56, 0.24); quiff.rotation.x = -0.28; hank.add(quiff);
+    var wave  = box(0.44, 0.20, 0.24, hairM);
+    wave.position.set(0.06, 3.70, 0.10); wave.rotation.z = 0.14; hank.add(wave);
+    var part  = box(0.06, 0.10, 0.58, mat(0x543014)); part.position.set(-0.18, 3.53, 0.02); hank.add(part);
+  })();
+  // Hank was authored at a comfortable modelling scale, which left him 4.25
+  // units tall with his shoes 0.37 below the pavement. Re-parent everything
+  // into one group and normalise it: 2.45 units tall, feet exactly at y=0.
+  // Doing it here means the part coordinates above never have to change.
+  (function normaliseHank() {
+    var body = new THREE.Group();
+    while (hank.children.length) body.add(hank.children[0]);
+    hank.add(body);
+    var bb = new THREE.Box3().setFromObject(body);
+    var k = 2.45 / (bb.max.y - bb.min.y);
+    body.scale.setScalar(k);
+    body.position.y = -bb.min.y * k;
+    parts.body = body;
+  })();
+  scene.add(hank);
+  var ARM_HOME = { lx: -0.62, rx: 0.62, y: 2.24 };
+
+  // ---------- Environment textures ----------
+  function speckle(g, w, h, base, dots, n, size) {
+    g.fillStyle = base; g.fillRect(0, 0, w, h);
+    for (var i = 0; i < n; i++) {
+      g.fillStyle = dots[i % dots.length];
+      g.fillRect(Math.random() * w, Math.random() * h, size, size);
+    }
+  }
+  function grassTexture() {
+    var t = canvasTexture(256, 256, function (g) {
+      speckle(g, 256, 256, "#2f6a4a", ["#27593e", "#3a7b56", "#245138", "#448a60"], 900, 3);
+    });
+    t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(28, 14); t.encoding = THREE.sRGBEncoding;
+    return t;
+  }
+  function roadTexture() {
+    var t = canvasTexture(256, 256, function (g) {
+      speckle(g, 256, 256, "#434c5c", ["#3a4250", "#4c5668", "#39404d"], 700, 2);
+    });
+    t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(28, 1); t.encoding = THREE.sRGBEncoding;
+    return t;
+  }
+  function pavementTexture() {
+    var t = canvasTexture(256, 128, function (g) {
+      speckle(g, 256, 128, "#d3c29e", ["#c6b48f", "#ddccaa", "#c0ad86"], 350, 2);
+      g.strokeStyle = "#b3a07a"; g.lineWidth = 3;
+      for (var x = 0; x <= 256; x += 64) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, 128); g.stroke(); }
+    });
+    t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(30, 1); t.encoding = THREE.sRGBEncoding;
+    return t;
+  }
+  function brickTexture(wallHex) {
+    var wall = "#" + wallHex.toString(16).padStart(6, "0");
+    var t = canvasTexture(128, 128, function (g) {
+      g.fillStyle = wall; g.fillRect(0, 0, 128, 128);
+      g.strokeStyle = "rgba(0,0,0,.22)"; g.lineWidth = 2;
+      for (var y = 0; y <= 128; y += 16) { g.beginPath(); g.moveTo(0, y); g.lineTo(128, y); g.stroke(); }
+      for (var row = 0; row < 8; row++) {
+        var off = row % 2 ? 16 : 0;
+        for (var x = off; x <= 128; x += 32) {
+          g.beginPath(); g.moveTo(x, row * 16); g.lineTo(x, row * 16 + 16); g.stroke();
+        }
+      }
+    });
+    t.encoding = THREE.sRGBEncoding;
+    return t;
+  }
+
+  // ---------- Street ----------
+  var lawn = new THREE.Mesh(new THREE.PlaneGeometry(260, 120), new THREE.MeshLambertMaterial({ map: grassTexture() }));
+  lawn.rotation.x = -Math.PI / 2; lawn.receiveShadow = true; scene.add(lawn);
+
+  var road = new THREE.Mesh(new THREE.PlaneGeometry(260, 7), new THREE.MeshLambertMaterial({ map: roadTexture() }));
+  road.rotation.x = -Math.PI / 2; road.position.y = 0.01; road.receiveShadow = true; scene.add(road);
+
+  for (var s2 = -1; s2 <= 1; s2 += 2) {
+    var walk = new THREE.Mesh(new THREE.PlaneGeometry(260, 3.2), new THREE.MeshLambertMaterial({ map: pavementTexture() }));
+    walk.rotation.x = -Math.PI / 2; walk.position.set(0, 0.02, s2 * 5.1); walk.receiveShadow = true; scene.add(walk);
+    var curb = box(260, 0.18, 0.24, mat(0xb9a678));
+    curb.position.set(0, 0.09, s2 * 3.6); curb.receiveShadow = true; scene.add(curb);
+  }
+  for (var di = -10; di <= 10; di++) {
+    var dash = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 0.28), mat(C.gold));
+    dash.rotation.x = -Math.PI / 2; dash.position.set(di * 5, 0.03, 0); scene.add(dash);
+  }
+
+  var wallColors = [C.brick, C.navy, 0xb98a3c, 0x50735f, 0x6e4a2f];
+
+  function storefrontTexture(name, wallHex) {
+    var wall = "#" + wallHex.toString(16).padStart(6, "0");
+    return canvasTexture(256, 320, function (g) {
+      g.fillStyle = wall; g.fillRect(0, 0, 256, 320);
+      g.fillStyle = "rgba(0,0,0,.10)";                                // upper floor shading
+      for (var y = 8; y < 96; y += 20) g.fillRect(0, y, 256, 2);
+      g.fillStyle = "#17263d";                                        // upper windows
+      for (var wx = 0; wx < 3; wx++) {
+        g.fillRect(30 + wx * 74, 22, 48, 58);
+        g.strokeStyle = "#fdf8ec"; g.lineWidth = 4;
+        g.strokeRect(30 + wx * 74, 22, 48, 58);
+        g.fillStyle = "rgba(253,184,19,.20)"; g.fillRect(34 + wx * 74, 26, 16, 50);
+        g.fillStyle = "#17263d";
+      }
+      g.fillStyle = "#2d3748"; g.fillRect(0, 96, 256, 8);             // cornice
+      for (var i = 0; i < 8; i++) {                                   // awning
+        g.fillStyle = i % 2 ? "#f5e5c7" : "#a52a2a";
+        g.fillRect(i * 32, 148, 32, 30);
+      }
+      g.fillStyle = "rgba(0,0,0,.25)"; g.fillRect(0, 178, 256, 6);    // awning shadow
+      g.fillStyle = "#fdf8ec"; g.fillRect(10, 106, 236, 40);          // sign
+      g.strokeStyle = "#2d3748"; g.lineWidth = 5; g.strokeRect(10, 106, 236, 40);
+      g.fillStyle = "#2d3748";
+      g.font = "26px 'Bebas Neue', sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
+      var label = name.toUpperCase();
+      if (g.measureText(label).width > 220) g.font = "21px 'Bebas Neue', sans-serif";
+      g.fillText(label, 128, 127);
+      g.fillStyle = "#17263d"; g.fillRect(24, 196, 140, 116);         // shop window
+      g.strokeStyle = "#fdb813"; g.lineWidth = 6; g.strokeRect(24, 196, 140, 116);
+      g.fillStyle = "rgba(253,184,19,.25)"; g.fillRect(32, 204, 44, 100);
+      g.fillStyle = "#5a3a22"; g.fillRect(186, 196, 52, 116);         // door
+      g.fillStyle = "#fdb813"; g.fillRect(228, 252, 7, 7);
+    });
+  }
+
+  var buildings = [];
+  function buildStreet() {
+    for (var i = 0; i < DEALS.length; i++) {
+      var side = -1;                    // single-sided street: shops north, park south,
+      var x = (i - 4.5) * 9.2;         // camera looks north over Hank — nothing can block it
+      var h = 6.5 + (i % 3) * 1.1;
+      var wallHex = wallColors[i % wallColors.length];
+      var frontTex = storefrontTexture(DEALS[i].name, wallHex);
+      frontTex.encoding = THREE.sRGBEncoding;
+      var front = new THREE.MeshLambertMaterial({ map: frontTex });
+      var brick = new THREE.MeshLambertMaterial({ map: brickTexture(wallHex) });
+      var mats = side === -1
+        ? [brick, brick, brick, brick, front, brick]
+        : [brick, brick, brick, brick, brick, front];
+      var b = new THREE.Mesh(new THREE.BoxGeometry(9, h, 6), mats);
+      b.castShadow = true; b.receiveShadow = true;
+      b.position.set(x, h / 2, side * 10.6);
+      scene.add(b);
+
+      var cornice = box(9.6, 0.5, 6.6, mat(C.charcoal));
+      cornice.position.set(x, h + 0.25, side * 10.6); scene.add(cornice);
+      var parapet = box(9.6, 0.35, 0.4, mat(0xfdf8ec));
+      parapet.position.set(x, h + 0.6, -7.5); scene.add(parapet);
+
+      var marker = new THREE.Group();
+      var folder = box(0.9, 0.65, 0.12, mat(C.gold));
+      var tab = box(0.4, 0.18, 0.12, mat(C.gold)); tab.position.set(-0.25, 0.4, 0);
+      marker.add(folder); marker.add(tab);
+      marker.position.set(x, 2.8, side * 6.2);
+      scene.add(marker);
+
+      var ring = new THREE.Mesh(new THREE.TorusGeometry(1.35, 0.09, 10, 40),
+                                new THREE.MeshBasicMaterial({ color: C.gold, transparent: true, opacity: 0.9 }));
+      ring.rotation.x = -Math.PI / 2; ring.position.set(x, 0.07, side * 6.2);
+      scene.add(ring);
+
+      buildings.push({ x: x, z: side * 6.2, side: side, marker: marker, ring: ring, done: false, mesh: b });
+    }
+  }
+
+  var RESTROOM = { x: 7.5, z: 6.0 };
+  var restroomRing;
+  function buildOuthouse() {
+    var g = new THREE.Group();
+    var body = box(2.4, 3.0, 2.2, mat(0x8a6a3d)); body.position.y = 1.5; g.add(body);
+    var roof = box(2.9, 0.4, 2.7, mat(C.red)); roof.position.y = 3.2; g.add(roof);
+    var door = box(1.0, 2.0, 0.12, mat(0x5a3a22)); door.position.set(0, 1.1, 1.12); g.add(door);
+    var knob = box(0.12, 0.12, 0.14, mat(C.gold)); knob.position.set(0.32, 1.1, 1.16); g.add(knob);
+    var signTex = canvasTexture(128, 64, function (gg) {
+      gg.fillStyle = "#fdf8ec"; gg.fillRect(0, 0, 128, 64);
+      gg.strokeStyle = "#2d3748"; gg.lineWidth = 6; gg.strokeRect(0, 0, 128, 64);
+      gg.fillStyle = "#2d3748"; gg.font = "28px 'Bebas Neue', sans-serif";
+      gg.textAlign = "center"; gg.textBaseline = "middle"; gg.fillText("RESTROOM", 64, 33);
+    });
+    var sign = new THREE.Mesh(new THREE.PlaneGeometry(1.7, 0.85),
+                              new THREE.MeshLambertMaterial({ map: signTex }));
+    sign.position.set(0, 2.55, 1.14); g.add(sign);
+    g.position.set(RESTROOM.x, 0, 9.4);
+    g.rotation.y = Math.PI;
+    scene.add(g);
+
+    restroomRing = new THREE.Mesh(new THREE.TorusGeometry(1.35, 0.09, 10, 40),
+                                  new THREE.MeshBasicMaterial({ color: 0xfdf8ec, transparent: true, opacity: 0.9 }));
+    restroomRing.rotation.x = -Math.PI / 2;
+    restroomRing.position.set(RESTROOM.x, 0.07, RESTROOM.z);
+    restroomRing.visible = false;
+    scene.add(restroomRing);
+  }
+
+  // Lender kiosks: south side of the street. Capped at 2.8 units tall — the
+  // camera sits at y=7.8 looking down at Hank, so a ray from lens to head
+  // clears anything this short. Verified by the occlusion raycast test.
+  var lenderSpots = [];
+  function buildLenders() {
+    for (var i = 0; i < LENDERS.length; i++) {
+      var L = LENDERS[i];
+      var x = (i - 1.5) * 15;
+      var z = 8.4;
+      var g = new THREE.Group();
+
+      var desk = box(5.2, 2.2, 2.6, mat(L.color)); desk.position.y = 1.1; g.add(desk);
+      var counter = box(5.6, 0.28, 3.0, mat(0xfdf8ec)); counter.position.y = 2.32; g.add(counter);
+      var roof = box(6.0, 0.3, 3.4, mat(C.charcoal)); roof.position.y = 2.62; g.add(roof);
+
+      var signTex = canvasTexture(320, 96, function (gg) {
+        gg.fillStyle = "#fdf8ec"; gg.fillRect(0, 0, 320, 96);
+        gg.strokeStyle = "#2d3748"; gg.lineWidth = 8; gg.strokeRect(0, 0, 320, 96);
+        gg.fillStyle = "#2d3748"; gg.textAlign = "center"; gg.textBaseline = "middle";
+        gg.font = "30px 'Bebas Neue', sans-serif";
+        var lab = L.name;
+        if (gg.measureText(lab).width > 290) gg.font = "22px 'Bebas Neue', sans-serif";
+        gg.fillText(lab, 160, 36);
+        gg.fillStyle = "#a52a2a"; gg.font = "18px 'Bebas Neue', sans-serif";
+        gg.fillText(L.tag.toUpperCase(), 160, 68);
+      });
+      var sign = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 1.56),
+                                new THREE.MeshLambertMaterial({ map: signTex, transparent: true }));
+      sign.position.set(0, 1.5, -1.33); sign.rotation.y = Math.PI; g.add(sign);
+      // face the street
+      g.rotation.y = Math.PI;
+      g.position.set(x, 0, z);
+      scene.add(g);
+
+      var ring = new THREE.Mesh(new THREE.TorusGeometry(1.5, 0.09, 10, 40),
+                                new THREE.MeshBasicMaterial({ color: C.gold, transparent: true, opacity: 0.9 }));
+      ring.rotation.x = -Math.PI / 2; ring.position.set(x, 0.07, 5.7); ring.visible = false;
+      scene.add(ring);
+
+      lenderSpots.push({ L: L, x: x, z: 5.7, ring: ring });
+    }
+  }
+
+  // ---------- Set dressing ----------
+  function tree(x, z, s3) {
+    var g = new THREE.Group();
+    var trunk = box(0.35 * s3, 1.1 * s3, 0.35 * s3, mat(0x6e4a2f)); trunk.position.y = 0.55 * s3; g.add(trunk);
+    var c1 = new THREE.Mesh(new THREE.ConeGeometry(1.15 * s3, 1.7 * s3, 7), mat(0x2c6146));
+    c1.castShadow = true; c1.position.y = 1.9 * s3; g.add(c1);
+    var c2 = new THREE.Mesh(new THREE.ConeGeometry(0.85 * s3, 1.4 * s3, 7), mat(0x37795a));
+    c2.castShadow = true; c2.position.y = 2.8 * s3; g.add(c2);
+    g.position.set(x, 0, z); scene.add(g);
+  }
+  function lamp(x, z) {
+    var g = new THREE.Group();
+    var pole = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.12, 3.6, 8), mat(C.charcoal));
+    pole.castShadow = true; pole.position.y = 1.8; g.add(pole);
+    var arm = box(0.8, 0.1, 0.1, mat(C.charcoal)); arm.position.set(0.35, 3.55, 0); g.add(arm);
+    var bulb = new THREE.Mesh(new THREE.SphereGeometry(0.22, 10, 10),
+                              new THREE.MeshBasicMaterial({ color: 0xffe9a8 }));
+    bulb.position.set(0.72, 3.45, 0); g.add(bulb);
+    g.position.set(x, 0, z); scene.add(g);
+  }
+  var cars = [];
+  function car(x, z, colorHex, flip) {
+    var g = new THREE.Group();
+    var bodyM = mat(colorHex);
+    var body = box(3.4, 0.75, 1.5, bodyM); body.position.y = 0.65; g.add(body);
+    var hood = box(1.0, 0.5, 1.4, bodyM); hood.position.set(1.55, 0.6, 0); g.add(hood);
+    var trunk = box(0.8, 0.55, 1.4, bodyM); trunk.position.set(-1.6, 0.62, 0); g.add(trunk);
+    var cabin = box(1.8, 0.65, 1.3, mat(0xfdf8ec)); cabin.position.set(-0.1, 1.32, 0); g.add(cabin);
+    var glass = box(1.82, 0.4, 1.1, mat(0x9cc4d8)); glass.position.set(-0.1, 1.35, 0); g.add(glass);
+    for (var wi = 0; wi < 4; wi++) {
+      var wheel = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.3, 12), mat(0x22262e));
+      wheel.rotation.x = Math.PI / 2;
+      wheel.position.set(wi < 2 ? 1.15 : -1.15, 0.42, wi % 2 ? 0.78 : -0.78);
+      wheel.castShadow = true; g.add(wheel);
+      var hub = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.32, 10), mat(0xd8d2c2));
+      hub.rotation.x = Math.PI / 2; hub.position.copy(wheel.position); g.add(hub);
+    }
+    var bumperF = box(0.25, 0.25, 1.6, mat(0xd8d2c2)); bumperF.position.set(2.1, 0.45, 0); g.add(bumperF);
+    var bumperB = box(0.25, 0.25, 1.6, mat(0xd8d2c2)); bumperB.position.set(-2.05, 0.45, 0); g.add(bumperB);
+    if (flip) g.rotation.y = Math.PI;
+    g.position.set(x, 0, z); scene.add(g);
+    cars.push({ x: x, z: z });
+  }
+  function cloud(x, y, z, s4) {
+    var g = new THREE.Group();
+    var m = new THREE.MeshLambertMaterial({ color: 0xffffff });
+    var a = new THREE.Mesh(new THREE.SphereGeometry(1.4 * s4, 8, 8), m); a.scale.y = 0.6; g.add(a);
+    var b2 = new THREE.Mesh(new THREE.SphereGeometry(1.0 * s4, 8, 8), m); b2.scale.y = 0.6; b2.position.set(1.3 * s4, 0.2, 0); g.add(b2);
+    var c3 = new THREE.Mesh(new THREE.SphereGeometry(0.9 * s4, 8, 8), m); c3.scale.y = 0.6; c3.position.set(-1.2 * s4, 0.15, 0); g.add(c3);
+    g.position.set(x, y, z); scene.add(g);
+    clouds.push(g);
+  }
+  var clouds = [];
+  function skyline() {
+    var tones = [0x5d7186, 0x6b8095, 0x54677b, 0x76889b];
+    for (var i = 0; i < 14; i++) {
+      var w = 6 + (i * 7) % 9, hh = 9 + (i * 5) % 12;
+      var bx = -84 + i * 13 + ((i * 13) % 5);
+      var bz = -(30 + (i * 7) % 12);
+      var bm = new THREE.Mesh(new THREE.BoxGeometry(w, hh, 6), mat(tones[i % tones.length]));
+      bm.position.set(bx, hh / 2, bz);
+      scene.add(bm);
+    }
+  }
+  function dress() {
+    var i;
+    for (i = -4; i <= 4; i++) tree(i * 9.2 + 4.6, -8.4, 1.0 + (Math.abs(i) % 2) * 0.25);   // between shops
+    for (i = -5; i <= 5; i++) { var tx = i * 9.5 + 2; if (Math.abs(tx % 15) > 6) tree(tx, 12.5 + (Math.abs(i) % 3), 1.1 + (Math.abs(i) % 3) * 0.22); } // the park, clear of the kiosks
+    tree(-54, 10, 1.5); tree(55, 11, 1.4); tree(-56, -10, 1.3); tree(56, -11, 1.35);
+    for (i = -4; i <= 4; i++) { lamp(i * 12, -7.0); lamp(i * 12 + 6, 11.4); }   // south lamps sit BEHIND the kiosks: a 3.6-tall pole at z=7 cuts the camera's sightline when Hank stands at a lender
+    car(-36, -8.2, 0x1f3557, false);
+    car(-12, 8.0, 0xa52a2a, true);
+    car(14, -8.2, 0xb98a3c, false);
+    car(38, 8.0, 0x50735f, true);
+    buildLenders();
+    buildOuthouse();
+    cloud(-30, 20, -18, 2.2); cloud(6, 24, -26, 3.0); cloud(38, 21, -14, 1.8); cloud(-52, 23, -22, 2.6); cloud(24, 26, -30, 2.4);
+    skyline();
+  }
+
+  function stampTexture(good) {
+    return canvasTexture(128, 128, function (g) {
+      g.fillStyle = good ? "#22543d" : "#a52a2a"; g.fillRect(0, 0, 128, 128);
+      g.strokeStyle = "#fdf8ec"; g.lineWidth = 16; g.lineCap = "round";
+      g.beginPath();
+      if (good) { g.moveTo(28, 66); g.lineTo(56, 94); g.lineTo(102, 36); }
+      else { g.moveTo(34, 34); g.lineTo(94, 94); g.moveTo(94, 34); g.lineTo(34, 94); }
+      g.stroke();
+    });
+  }
+  var stampGood = new THREE.MeshLambertMaterial({ map: stampTexture(true) });
+  var stampBad = new THREE.MeshLambertMaterial({ map: stampTexture(false) });
+
+  function resolveMarker(b, positive) {
+    b.done = true;
+    b.marker.clear();
+    var cube = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), positive ? stampGood : stampBad);
+    cube.castShadow = true;
+    b.marker.add(cube);
+  }
+
+  // ---------- Movement & camera ----------
+  var keys = {};
+  var joy = { active: false, dx: 0, dz: 0 };
+  var facing = 0;
+  var walkT = 0;
+  var BOUNDS = { x: 46, z: 6.0 };   // 6.0 not 6.4: at the very edge Hank tucks under the
+                                  // kiosk roofline and the camera loses him. Lender rings
+                                  // sit at z=5.7 with a 3.4 radius, so they stay reachable.
+  var SPEED = 7.5;
+  var clock = new THREE.Clock();
+
+  hank.position.set(-41, 0, 2.5);
+
+  window.addEventListener("keydown", function (e) {
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].indexOf(e.key) >= 0) e.preventDefault();
+    keys[e.key.toLowerCase()] = true;
+    if ((e.key === "e" || e.key === "E" || e.key === "Enter") && state.near && state.playing && !state.modalOpen) interact();
+  });
+  window.addEventListener("keyup", function (e) { keys[e.key.toLowerCase()] = false; });
+
+  // Floating touch joystick (left side of screen)
+  var stick = $("stick"), knob = $("knob"), touchId = null, stickCX = 0, stickCY = 0;
+  window.addEventListener("touchstart", function (e) {
+    if (state.modalOpen) return;
+    var t = e.changedTouches[0];
+    if (t.target.closest && t.target.closest("#actionBtn, .overlay, #hud")) return;
+    touchId = t.identifier; stickCX = t.clientX; stickCY = t.clientY;
+    stick.style.display = "block";
+    stick.style.left = (stickCX - 55) + "px"; stick.style.top = (stickCY - 55) + "px";
+    joy.active = true;
+    e.preventDefault();
+  }, { passive: false });
+  window.addEventListener("touchmove", function (e) {
+    if (!joy.active) return;
+    for (var i = 0; i < e.changedTouches.length; i++) {
+      var t = e.changedTouches[i];
+      if (t.identifier !== touchId) continue;
+      var dx = t.clientX - stickCX, dy = t.clientY - stickCY;
+      var len = Math.hypot(dx, dy), max = 46;
+      if (len > max) { dx = dx / len * max; dy = dy / len * max; }
+      knob.style.transform = "translate(-50%,-50%) translate(" + dx + "px," + dy + "px)";
+      joy.dx = dx / max; joy.dz = dy / max;
+      e.preventDefault();
+    }
+  }, { passive: false });
+  function endTouch(e) {
+    for (var i = 0; i < e.changedTouches.length; i++) {
+      if (e.changedTouches[i].identifier === touchId) {
+        joy.active = false; joy.dx = 0; joy.dz = 0; touchId = null;
+        stick.style.display = "none";
+        knob.style.transform = "translate(-50%,-50%)";
+      }
+    }
+  }
+  window.addEventListener("touchend", endTouch);
+  window.addEventListener("touchcancel", endTouch);
+
+  var isTouch = ("ontouchstart" in window) || navigator.maxTouchPoints > 0;
+  if (isTouch) $("controlsHint").textContent = "DRAG TO WALK · TAP THE BUTTON TO OPEN A FILE";
+
+  function activeBuilding() { return state.idx < DEALS.length ? buildings[state.idx] : null; }
+
+  function tick() {
+    var dt = Math.min(clock.getDelta(), 0.05);
+    var t = clock.elapsedTime;
+    urgencyTick(dt);
+    pileTick(dt, t);
+    var enthroned = !!state.pile;
+    var panicking = state.urgency.active;
+
+    // Face + posture react to the emergency
+    if (parts.head) parts.head.material[4] = (panicking || enthroned) ? parts.facePanic : parts.faceCalm;
+    if (enthroned) {
+      parts.armL.rotation.set(-2.5, 0, 0.4);      // arms flung skyward
+      parts.armR.rotation.set(-2.5, 0, -0.4);
+      parts.legL.rotation.x = 0; parts.legR.rotation.x = 0;
+    }
+    if (panicking && !enthroned) {
+      var squirm = Math.sin(t * 9) * 0.06;
+      parts.armL.rotation.set(1.15 + squirm, 0, 0.55);           // both hands clamped behind
+      parts.armR.rotation.set(1.15 - squirm, 0, -0.55);
+      parts.armL.position.set(-0.50, 2.20, -0.10);
+      parts.armR.position.set(0.50, 2.20, -0.10);
+      parts.legL.position.x = -0.15; parts.legR.position.x = 0.15;   // knees pressed together
+      hank.rotation.z = Math.sin(t * 7) * 0.05;                       // squirm
+    } else if (!enthroned) {
+      parts.armL.position.set(ARM_HOME.lx, ARM_HOME.y, 0);
+      parts.armR.position.set(ARM_HOME.rx, ARM_HOME.y, 0);
+      parts.armL.rotation.z = 0; parts.armR.rotation.z = 0;
+      parts.legL.position.x = -0.24; parts.legR.position.x = 0.24;
+      hank.rotation.z = 0;
+    }
+
+    if (state.playing && !state.modalOpen && !enthroned) {
+      var mx = 0, mz = 0;
+      if (keys["w"] || keys["arrowup"]) mz -= 1;
+      if (keys["s"] || keys["arrowdown"]) mz += 1;
+      if (keys["a"] || keys["arrowleft"]) mx -= 1;
+      if (keys["d"] || keys["arrowright"]) mx += 1;
+      mx += joy.dx; mz += joy.dz;
+      var len = Math.hypot(mx, mz);
+      if (len > 1) { mx /= len; mz /= len; }
+
+      if (len > 0.08) {
+        var spd = panicking ? SPEED * 1.3 : SPEED;
+        hank.position.x = Math.max(-BOUNDS.x, Math.min(BOUNDS.x, hank.position.x + mx * spd * dt));
+        hank.position.z = Math.max(-BOUNDS.z, Math.min(BOUNDS.z, hank.position.z + mz * spd * dt));
+        facing = Math.atan2(mx, mz);
+        walkT += dt * (panicking ? 16 : 10);
+        var sw = Math.sin(walkT) * (panicking ? 0.22 : 0.55);   // clenched shuffle when panicking
+        parts.legL.rotation.x = sw; parts.legR.rotation.x = -sw;
+        if (!panicking) { parts.armL.rotation.x = -sw * 0.7; parts.armR.rotation.x = sw * 0.7; }
+        hank.position.y = Math.abs(Math.sin(walkT)) * 0.05;
+      } else {
+        parts.legL.rotation.x *= 0.8; parts.legR.rotation.x *= 0.8;
+        if (!panicking) { parts.armL.rotation.x *= 0.8; parts.armR.rotation.x *= 0.8; }
+        hank.position.y *= 0.8;
+      }
+      var da = facing - hank.rotation.y;
+      da = Math.atan2(Math.sin(da), Math.cos(da));
+      hank.rotation.y += da * Math.min(1, dt * 12);
+
+      // Proximity to the active marker
+      // keep Hank out of the parked cars
+      for (var ci = 0; ci < cars.length; ci++) {
+        var cdx = hank.position.x - cars[ci].x, cdz = hank.position.z - cars[ci].z;
+        if (Math.abs(cdx) < 2.5 && Math.abs(cdz) < 1.6) {
+          if (Math.abs(cdx) / 2.5 > Math.abs(cdz) / 1.6) hank.position.x = cars[ci].x + (cdx > 0 ? 2.5 : -2.5);
+          else hank.position.z = cars[ci].z + (cdz > 0 ? 1.6 : -1.6);
+        }
+      }
+
+      var wasNear = state.near;
+      state.near = false; state.nearLender = null;
+      if (state.phase === "roam") {
+        var b = activeBuilding();
+        if (b && !b.done) state.near = Math.hypot(hank.position.x - b.x, hank.position.z - b.z) < 3.4;
+      } else if (state.phase === "seeking_lender") {
+        for (var li = 0; li < lenderSpots.length; li++) {
+          var sp = lenderSpots[li];
+          if (Math.hypot(hank.position.x - sp.x, hank.position.z - sp.z) < 3.4) {
+            state.near = true; state.nearLender = sp; break;
+          }
+        }
+      }
+      if (state.near !== wasNear) {
+        var label = state.phase === "seeking_lender" ? "SUBMIT THE FILE" : "OPEN THE FILE";
+        $("prompt").textContent = isTouch ? label : "PRESS E — " + label;
+        $("actionBtn").textContent = label;
+        $("prompt").style.display = state.near ? "block" : "none";
+        $("actionBtn").style.display = state.near && isTouch ? "block" : "none";
+      }
+    }
+
+    // Marker + ring animation, glow follows the active storefront
+    for (var i = 0; i < buildings.length; i++) {
+      var bb = buildings[i];
+      var isActive = i === state.idx && !bb.done;
+      bb.ring.visible = isActive;
+      if (bb.done) { bb.marker.rotation.y = 0; bb.marker.position.y = 2.5; continue; }
+      bb.marker.visible = isActive;
+      if (isActive) {
+        bb.marker.rotation.y = t * 2;
+        bb.marker.position.y = 2.8 + Math.sin(t * 3) * 0.25;
+        var pulse = 1 + Math.sin(t * 4) * 0.12;
+        bb.ring.scale.set(pulse, pulse, 1);
+        bb.ring.material.opacity = 0.55 + Math.sin(t * 4) * 0.3;
+        activeGlow.position.set(bb.x, 3, bb.z);
+      }
+    }
+    activeGlow.visible = state.idx < DEALS.length && state.phase === "roam";
+
+    for (var ls = 0; ls < lenderSpots.length; ls++) {
+      var sp2 = lenderSpots[ls];
+      var lit = state.phase === "seeking_lender" && state.declinedBy.indexOf(sp2.L.id) < 0;
+      sp2.ring.visible = true;
+      sp2.ring.material.color.setHex(lit ? 0xfdb813 : 0x6b7280);
+      if (!lit) { sp2.ring.material.opacity = 0.28; sp2.ring.scale.set(1, 1, 1); }
+      if (lit) {
+        var lp = 1 + Math.sin(t * 4 + ls) * 0.12;
+        sp2.ring.scale.set(lp, lp, 1);
+        sp2.ring.material.opacity = 0.55 + Math.sin(t * 4 + ls) * 0.3;
+      }
+    }
+
+    if (restroomRing) {
+      restroomRing.visible = true;
+      if (state.urgency.active) {
+        var up = 1 + Math.sin(t * 6) * 0.15;
+        restroomRing.scale.set(up, up, 1);
+        restroomRing.material.opacity = 0.95; restroomRing.material.color.setHex(0xfdf8ec);
+      } else {
+        restroomRing.scale.set(1, 1, 1);
+        restroomRing.material.opacity = 0.25; restroomRing.material.color.setHex(0xbfc6d0);
+      }
+    }
+
+    // Clouds drift
+    for (var kc = 0; kc < clouds.length; kc++) {
+      clouds[kc].position.x += dt * 0.5;
+      if (clouds[kc].position.x > 60) clouds[kc].position.x = -60;
+    }
+
+    // Follow camera
+    var cx = hank.position.x, cz = hank.position.z;
+    camera.position.lerp(new THREE.Vector3(cx, 6.4, cz + 8.6), 0.09);
+    camera.lookAt(cx, 1.15, cz - 1.6);
+
+    drawMinimap();
+    drawArrows();
+    renderer.render(scene, camera);
+    requestAnimationFrame(tick);
+  }
+
+  function resize() {
+    var w = window.innerWidth, h = window.innerHeight;
+    renderer.setSize(w, h);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener("resize", resize);
+
+  // ---------- Wayfinding: minimap + off-screen arrows ----------
+  var mapCtx = $("mapCanvas").getContext("2d");
+  var MAP_MIN = -50, MAP_MAX = 50;
+  function mapX(worldX, w) { return ((worldX - MAP_MIN) / (MAP_MAX - MAP_MIN)) * w; }
+
+  function drawMinimap() {
+    var W = 1120, Hh = 92;
+    mapCtx.clearRect(0, 0, W, Hh);
+    // road band
+    mapCtx.fillStyle = "#4a5468"; mapCtx.fillRect(0, 40, W, 14);
+    mapCtx.fillStyle = "#cdbb96"; mapCtx.fillRect(0, 32, W, 6); mapCtx.fillRect(0, 56, W, 6);
+
+    // shops (north row, above the road)
+    for (var i = 0; i < buildings.length; i++) {
+      var b = buildings[i];
+      var x = mapX(b.x, W);
+      var isActive = (i === state.idx && !b.done && state.phase === "roam");
+      mapCtx.fillStyle = b.done ? "#7ce0ab" : (i === state.idx ? "#fdb813" : "#8b93a6");
+      var sw = isActive ? 20 : 14, sh = isActive ? 22 : 16;
+      mapCtx.fillRect(x - sw / 2, 26 - sh, sw, sh);
+      if (isActive) { mapCtx.strokeStyle = "#fdf8ec"; mapCtx.lineWidth = 3; mapCtx.strokeRect(x - sw / 2, 26 - sh, sw, sh); }
+      mapCtx.fillStyle = "#fdf8ec"; mapCtx.font = "bold 15px sans-serif"; mapCtx.textAlign = "center";
+      mapCtx.fillText(String(i + 1), x, 24);
+    }
+    // lenders (south row, below the road)
+    for (var li = 0; li < lenderSpots.length; li++) {
+      var sp = lenderSpots[li];
+      var lx = mapX(sp.x, W);
+      var lit = state.phase === "seeking_lender" && state.declinedBy.indexOf(sp.L.id) < 0;
+      mapCtx.fillStyle = lit ? "#5f8ff2" : "#5a6475";
+      mapCtx.fillRect(lx - 16, 62, 32, 16);
+      if (lit) { mapCtx.strokeStyle = "#fdf8ec"; mapCtx.lineWidth = 3; mapCtx.strokeRect(lx - 16, 62, 32, 16); }
+      mapCtx.fillStyle = "#fdf8ec"; mapCtx.font = "bold 13px sans-serif"; mapCtx.textAlign = "center";
+      mapCtx.fillText(sp.L.name.split(" ")[0].slice(0, 5).toUpperCase(), lx, 75);
+    }
+    // restroom
+    var rx = mapX(RESTROOM.x, W);
+    mapCtx.fillStyle = state.urgency.active ? "#fdf8ec" : "#8b93a6";
+    mapCtx.fillRect(rx - 11, 80, 22, 12);      // own lane, clear of the lender row
+    mapCtx.fillStyle = "#2d3748"; mapCtx.font = "bold 11px sans-serif";
+    mapCtx.fillText("WC", rx, 89);
+
+    // Hank
+    var hx = mapX(hank.position.x, W);
+    mapCtx.fillStyle = "#a52a2a";
+    mapCtx.beginPath(); mapCtx.arc(hx, 47, 9, 0, 7); mapCtx.fill();
+    mapCtx.strokeStyle = "#fdf8ec"; mapCtx.lineWidth = 3; mapCtx.stroke();
+  }
+
+  // Current objective, as a world position + label
+  function objective() {
+    if (state.urgency.active) return { x: RESTROOM.x, z: RESTROOM.z, label: "RESTROOM" };
+    if (state.phase === "seeking_lender") {
+      var best = null, bd = 1e9;
+      for (var i = 0; i < lenderSpots.length; i++) {
+        var sp = lenderSpots[i];
+        if (state.declinedBy.indexOf(sp.L.id) >= 0) continue;
+        var d = Math.abs(sp.x - hank.position.x);
+        if (d < bd) { bd = d; best = sp; }
+      }
+      if (best) return { x: best.x, z: best.z, label: best.L.name.split(" ")[0] };
+      return null;
+    }
+    var b = activeBuilding();
+    if (b && !b.done) return { x: b.x, z: b.z, label: "FILE #" + (state.idx + 1) };
+    return null;
+  }
+
+  function drawArrows() {
+    var o = objective();
+    var L = $("arrowL"), R = $("arrowR");
+    if (!o || !state.playing || state.modalOpen) { L.style.display = "none"; R.style.display = "none"; return; }
+    var dx = o.x - hank.position.x;
+    var dist = Math.round(Math.hypot(dx, o.z - hank.position.z));
+    if (dx < -9) {
+      L.style.display = "block"; R.style.display = "none";
+      L.textContent = "◀ " + o.label + "  " + dist + "m";
+    } else if (dx > 9) {
+      R.style.display = "block"; L.style.display = "none";
+      R.textContent = o.label + "  " + dist + "m ▶";
+    } else { L.style.display = "none"; R.style.display = "none"; }
+  }
+
+  // ---------- The pile ----------
+  var piles = [];
+  function makePile(x, z) {
+    var g = new THREE.Group();
+    var browns = [0x4a2c14, 0x5c3a1a, 0x3d2410];
+    var tiers = [
+      { r: 1.55, h: 0.55, y: 0.27 },
+      { r: 1.15, h: 0.50, y: 0.76 },
+      { r: 0.78, h: 0.44, y: 1.20 },
+      { r: 0.42, h: 0.36, y: 1.56 }
+    ];
+    for (var i = 0; i < tiers.length; i++) {
+      var t3 = tiers[i];
+      var m = new THREE.Mesh(new THREE.ConeGeometry(t3.r, t3.h, 12), mat(browns[i % 3]));
+      m.castShadow = true; m.receiveShadow = true;
+      m.position.y = t3.y; m.rotation.y = i * 0.4;
+      g.add(m);
+    }
+    var swirl = new THREE.Mesh(new THREE.TorusGeometry(0.22, 0.09, 8, 14), mat(0x33200d));
+    swirl.rotation.x = -Math.PI / 2; swirl.position.y = 1.74; g.add(swirl);
+    // stink lines
+    var stink = [];
+    for (var j = 0; j < 3; j++) {
+      var sq = new THREE.Mesh(new THREE.TorusGeometry(0.30 + j * 0.12, 0.045, 6, 12),
+                              new THREE.MeshBasicMaterial({ color: 0x8fa86a, transparent: true, opacity: 0.5 }));
+      sq.rotation.x = -Math.PI / 2; sq.position.y = 1.95 + j * 0.42;
+      g.add(sq); stink.push(sq);
+    }
+    g.position.set(x, 0, z);
+    g.scale.setScalar(0.01);
+    scene.add(g);
+    var rec = { g: g, stink: stink, t: 0, x: x, z: z };
+    piles.push(rec);
+    return rec;
+  }
+
+  // Grow the pile, lift Hank onto the summit, hold, then let him climb down.
+  function pileTick(dt, t) {
+    var p = state.pile;
+    if (p) {
+      p.t += dt;
+      var grow = Math.min(1, p.t / 0.7);
+      p.rec.g.scale.setScalar(0.01 + grow * 0.99);
+      var summit = 1.95 * grow;
+      if (p.t < 3.1) {
+        hank.position.y = summit;
+        hank.position.x += (p.rec.x - hank.position.x) * Math.min(1, dt * 6);
+        hank.position.z += (p.rec.z - hank.position.z) * Math.min(1, dt * 6);
+        hank.rotation.y += (0 - hank.rotation.y) * Math.min(1, dt * 4);   // model front is +Z = toward camera
+      } else {
+        hank.position.y += (0 - hank.position.y) * Math.min(1, dt * 4);
+        if (hank.position.y < 0.06) { hank.position.y = 0; state.pile = null; }
+      }
+    }
+    for (var i = 0; i < piles.length; i++) {
+      var rec = piles[i];
+      for (var j = 0; j < rec.stink.length; j++) {
+        var sq = rec.stink[j];
+        sq.position.y = 1.95 + j * 0.42 + Math.sin(t * 1.6 + j) * 0.14;
+        sq.rotation.z = t * (0.6 + j * 0.2);
+        sq.material.opacity = 0.22 + Math.abs(Math.sin(t * 1.2 + j)) * 0.3;
+      }
+    }
+  }
+
+  // Live directional hint while Hank is desperate
+  function bathroomHint() {
+    var dx = RESTROOM.x - hank.position.x, dz = RESTROOM.z - hank.position.z;
+    var dist = Math.hypot(dx, dz);
+    var dir;
+    if (Math.abs(dx) > 4) dir = dx > 0 ? "EAST →" : "← WEST";
+    else dir = dz > 0 ? "SOUTH ↓ (cross the street)" : "NORTH ↑";
+    if (dist < 6) return "OUTHOUSE RIGHT THERE — " + Math.round(dist) + "m";
+    return "OUTHOUSE " + dir + " · " + Math.round(dist) + "m";
+  }
+
+  // ---------- Bathroom emergency ----------
+  var toastTimer = null;
+  function toast(msg, ms) {
+    var el = $("toast");
+    el.textContent = msg;
+    el.style.display = "block";
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.style.display = "none"; }, ms || 2400);
+  }
+  function startUrgency() {
+    state.urgency.active = true;
+    state.urgency.level = 0;
+    $("urgency").style.display = "block";
+    $("urgencyHint").textContent = bathroomHint();
+    toast("HANK'S GOTTA GO! " + bathroomHint(), 3200);
+  }
+  function endUrgency(made) {
+    state.urgency.active = false;
+    $("urgency").style.display = "none";
+    state.urgency.nextAt = state.playTime + 55 + Math.random() * 25;
+    if (made) {
+      state.urgency.saves++;
+      toast("MADE IT. CRISIS AVERTED.");
+    } else {
+      state.urgency.accidents++;
+      state.pnl -= 2000;
+      updateHud();
+      var rec = makePile(hank.position.x, hank.position.z);
+      state.pile = { rec: rec, t: 0 };
+      toast("HE DIDN'T MAKE IT. BEHOLD. -$2,000", 3600);
+      var f = $("flash");
+      f.style.transition = "none"; f.style.opacity = "1";
+      setTimeout(function () { f.style.transition = "opacity 1.1s ease"; f.style.opacity = "0"; }, 60);
+    }
+  }
+  function urgencyTick(dt) {
+    if (!state.playing || state.idx >= DEALS.length) return;
+    if (!state.modalOpen) state.playTime += dt;
+    var u = state.urgency;
+    if (!u.active) {
+      if (state.playTime >= u.nextAt && !state.modalOpen) startUrgency();
+      return;
+    }
+    if (state.modalOpen) return;   // reading a file pauses the clock (small mercies)
+    u.level += dt * (100 / 20);    // 20 seconds to disaster
+    $("urgencyFill").style.width = Math.min(100, u.level) + "%";
+    $("urgencyFill").style.background = u.level > 70 ? "#a52a2a" : u.level > 40 ? "#b5701f" : "#8a5a2b";
+    $("urgencyHint").textContent = bathroomHint();
+    var d = Math.hypot(hank.position.x - RESTROOM.x, hank.position.z - RESTROOM.z);
+    if (d < 2.7) { endUrgency(true); return; }
+    if (u.level >= 100) endUrgency(false);
+  }
+
+  // ---------- Flow ----------
+  function openModal(id) { $(id).classList.add("open"); state.modalOpen = true;
+    $("prompt").style.display = "none"; $("actionBtn").style.display = "none"; }
+  function closeModal(id) { $(id).classList.remove("open"); state.modalOpen = false; }
+
+  function statHtml(k, v, warn) {
+    return '<div class="stat"><div class="k">' + k + '</div><div class="v' + (warn ? " warn" : "") + '">' + v + "</div></div>";
+  }
+
+  function interact() {
+    if (state.phase === "seeking_lender") { if (state.nearLender) openLender(state.nearLender); }
+    else openFile();
+  }
+
+  function openFile() {
+    var d = DEALS[state.idx];
+    $("fileTab").textContent = "FILE #" + (state.idx + 1);
+    $("bizName").textContent = d.name;
+    $("bizIndustry").textContent = d.industry + " · " + d.tib + " in business";
+    $("askAmt").textContent = "$" + d.ask.toLocaleString("en-US");
+    $("memo").textContent = d.memo;
+    $("stats").innerHTML =
+      statHtml("Monthly Revenue", d.rev, false) +
+      statHtml("Revenue Trend", d.revTrend, !!d.warnRev) +
+      statHtml("Owner FICO", d.fico, d.fico < 600) +
+      statHtml("Time in Business", d.tib, d.tibMo < 12) +
+      statHtml("Avg Daily Balance", d.dailyBal, parseInt(String(d.dailyBal).replace(/[^0-9]/g, ""), 10) < 2500) +
+      statHtml("Deposits / Month", d.deposits, d.deposits < 25) +
+      statHtml("NSFs (90 days)", d.nsf, d.nsf >= 4) +
+      statHtml("Negative Days", d.negDays, d.negDays >= 8) +
+      statHtml("Existing Positions", d.positions, d.positions >= 2 || !!d.warnPos) +
+      statHtml("State", d.state, false);
+    $("useBox").innerHTML = "<b>Use of funds</b>" + d.use;
+    openModal("deal");
+  }
+
+  // FUND no longer settles the deal — Hank has to place it with a lender first.
+  function decide(funded) {
+    if (funded) {
+      state.phase = "seeking_lender";
+      state.declinedBy = [];
+      closeModal("deal");
+      $("seekBanner").style.display = "block";
+      $("seekBanner").textContent = "FIND A LENDER FOR " + DEALS[state.idx].name.toUpperCase();
+      toast("NOW FIND A LENDER WHO'LL TAKE IT");
+      return;
+    }
+    settle(false, null);
+  }
+
+  function lenderBoxRow(label, need, got, ok) {
+    return '<div class="boxrow"><span class="need">' + label + ": " + need + '</span>' +
+           '<span class="got ' + (ok ? "ok" : "no") + '">' + got + (ok ? " ✓" : " ✗") + "</span></div>";
+  }
+
+  function openLender(spot) {
+    var L = spot.L, d = DEALS[state.idx];
+    state.activeLender = spot;
+    $("lenderName").textContent = L.name;
+    $("lenderTag").textContent = L.tag;
+    $("lenderBlurb").textContent = L.blurb;
+    var rows = "";
+    if (L.ind) rows += lenderBoxRow("Industry", L.tag.replace(" only", ""), d.industry, d.ind === L.ind);
+    rows += lenderBoxRow("Min time in business", (L.minTib >= 12 ? (L.minTib / 12) + " yrs" : L.minTib + " mo"), d.tib, d.tibMo >= L.minTib);
+    rows += lenderBoxRow("Min FICO", L.minFico, d.fico, d.fico >= L.minFico);
+    rows += lenderBoxRow("Min monthly revenue", "$" + L.minRev.toLocaleString("en-US"), "$" + d.revNum.toLocaleString("en-US"), d.revNum >= L.minRev);
+    rows += lenderBoxRow("Max open positions", L.maxPos, d.positions, d.positions <= L.maxPos);
+    rows += lenderBoxRow("Max NSFs", L.maxNsf, d.nsf, d.nsf <= L.maxNsf);
+    rows += lenderBoxRow("Max negative days", L.maxNegDays, d.negDays, d.negDays <= L.maxNegDays);
+    rows += lenderBoxRow("Advance range", "$" + L.range[0].toLocaleString("en-US") + "–$" + L.range[1].toLocaleString("en-US"), "$" + d.ask.toLocaleString("en-US"), d.ask >= L.range[0] && d.ask <= L.range[1]);
+    $("lenderBox").innerHTML = rows;
+    var pricing = L.winMult > 1 ? "Pays " + Math.round((L.winMult - 1) * 100) + "% above book on a good deal."
+                : L.winMult < 1 ? "Pays " + Math.round((1 - L.winMult) * 100) + "% below book, and losses hit harder." : "Standard terms.";
+    $("lenderBox").innerHTML += '<div class="boxrow"><span class="need">Terms</span><span class="got">' + pricing + "</span></div>";
+    openModal("lender");
+  }
+
+  function submitToLender() {
+    var spot = state.activeLender, L = spot.L, d = DEALS[state.idx];
+    var why = declineReason(d, L);
+    closeModal("lender");
+    if (why) {
+      if (state.declinedBy.indexOf(L.id) < 0) state.declinedBy.push(L.id);
+      if (state.declinedBy.length >= LENDERS.length) { settle(true, null); return; }
+      toast(L.name + " PASSED: " + why, 3600);
+      state.phase = "seeking_lender";
+      $("seekBanner").textContent = "DECLINED " + state.declinedBy.length + "/" + LENDERS.length + " — KEEP LOOKING";
+      $("seekBanner").style.display = "block";
+      return;
+    }
+    settle(true, L);
+  }
+
+  // Resolves the file. lender === null with funded=true means nobody would take it.
+  function settle(funded, L) {
+    var d = DEALS[state.idx];
+    var base = outcomeDelta(d, funded && !!L);
+    var mult = L ? (base >= 0 ? L.winMult : L.lossMult) : 1;
+    var delta = base * mult;
+    var missed = outcomeDelta(d, true);
+    state.pnl += delta;
+    state.results.push({ name: d.name, funded: funded && !!L, delta: delta, missed: missed,
+                         outcome: d.outcome, lender: L ? L.name : (funded ? "NO LENDER" : null) });
+
+    state.phase = "roam";
+    state.declinedBy = [];
+    $("seekBanner").style.display = "none";
+
+    var b = activeBuilding();
+    var positive = (funded && L) ? d.outcome !== "default" : d.outcome === "default";
+    if (b) resolveMarker(b, positive);
+
+    var stampEl = $("stamp"), pnlEl = $("pnlLine");
+    $("takeText").innerHTML = "<b>Hank's take:</b> " + d.take;
+    if (funded && !L) {
+      stampEl.textContent = "NO LENDER TOOK IT"; stampEl.className = "stamp neutral";
+      $("storyText").textContent = "You walked the whole block and every desk said no. Some files just aren't fundable — and knowing that fast is its own skill.";
+      pnlEl.textContent = "NO DEAL — $0";
+      pnlEl.className = "pnl-line flat";
+    } else if (funded) {
+      $("storyText").textContent = "Placed with " + L.name + ". " + d.story;
+      if (d.outcome === "pays") { stampEl.textContent = "PAID IN FULL"; stampEl.className = "stamp good"; }
+      else if (d.outcome === "slow") { stampEl.textContent = "PAID... SLOWLY"; stampEl.className = "stamp neutral"; }
+      else { stampEl.textContent = "DEFAULTED"; stampEl.className = "stamp bad"; }
+      pnlEl.textContent = money(delta) + " TO THE LEDGER" + (mult !== 1 ? "  (" + L.name.split(" ")[0] + " terms)" : "");
+      pnlEl.className = "pnl-line " + cls(delta);
+    } else {
+      if (d.outcome === "default") {
+        stampEl.textContent = "BULLET DODGED"; stampEl.className = "stamp good";
+        $("storyText").textContent = "You waved it off and kept walking. Word around town: " + d.story.charAt(0).toLowerCase() + d.story.slice(1);
+        pnlEl.textContent = "DODGED A " + money(missed).replace("+", "") + " LOSS";
+        pnlEl.className = "pnl-line up";
+      } else {
+        stampEl.textContent = "MISSED ONE"; stampEl.className = "stamp neutral";
+        $("storyText").textContent = "You passed. Another funder didn't. " + d.story;
+        pnlEl.textContent = "LEFT " + money(missed) + " ON THE TABLE";
+        pnlEl.className = "pnl-line flat";
+      }
+    }
+    state.idx++;
+    updateHud();
+    $("nextBtn").textContent = state.idx < DEALS.length ? "BACK TO THE STREET →" : "SEE YOUR RATING →";
+    closeModal("deal");
+    openModal("outcome");
+  }
+
+  function renderResults() {
+    $("finalRating").textContent = rating(state.pnl);
+    var totalEl = $("finalTotal");
+    totalEl.textContent = "LEDGER: " + money(state.pnl);
+    totalEl.style.color = state.pnl >= 0 ? "#22543d" : "#a52a2a";
+    $("endLine").textContent = endLine(state.pnl);
+    var html = "";
+    for (var i = 0; i < state.results.length; i++) {
+      var r = state.results[i], right, rc;
+      if (r.funded) { right = money(r.delta); rc = cls(r.delta); }
+      else if (r.outcome === "default") { right = "dodged " + money(r.missed).replace("+", ""); rc = "up"; }
+      else { right = "missed " + money(r.missed); rc = "flat"; }
+      var label = r.funded ? "FUNDED via " + r.lender : (r.lender === "NO LENDER" ? "NO LENDER TOOK IT" : "PASSED");
+      html += '<div class="row"><span>' + (i + 1) + ". " + r.name + " — " + label +
+              '</span><span class="amt ' + rc + '">' + right + "</span></div>";
+    }
+    var u = state.urgency;
+    if (u.accidents + u.saves > 0) {
+      var note = u.accidents === 0
+        ? "Bathroom emergencies survived: " + u.saves + " for " + u.saves + ". Iron discipline."
+        : "Bathroom record: " + u.saves + " made it, " + u.accidents + " didn't (-$" + (u.accidents * 2000).toLocaleString("en-US") + " in plaid suits)";
+      html += '<div class="row"><span>' + note + '</span><span class="amt ' + (u.accidents ? "down" : "up") + '">' +
+              (u.accidents ? money(-2000 * u.accidents) : "+$0") + "</span></div>";
+    }
+    $("scorecard").innerHTML = html;
+    openModal("results");
+  }
+
+  function resetGame() {
+    state.idx = 0; state.pnl = 0; state.results = []; state.near = false;
+    for (var i = 0; i < buildings.length; i++) {
+      var b = buildings[i];
+      b.done = false;
+      b.marker.clear();
+      var folder = box(0.9, 0.65, 0.12, mat(C.gold));
+      var tab = box(0.4, 0.18, 0.12, mat(C.gold)); tab.position.set(-0.25, 0.4, 0);
+      b.marker.add(folder); b.marker.add(tab);
+    }
+    hank.position.set(-41, 0, 2.5);
+    state.playTime = 0;
+    state.phase = "roam"; state.declinedBy = []; state.nearLender = null;
+    $("seekBanner").style.display = "none";
+    for (var pi = 0; pi < piles.length; pi++) scene.remove(piles[pi].g);
+    piles.length = 0; state.pile = null; hank.position.y = 0;
+    state.urgency.active = false; state.urgency.level = 0;
+    state.urgency.accidents = 0; state.urgency.saves = 0;
+    state.urgency.nextAt = 26 + Math.random() * 14;
+    $("urgency").style.display = "none";
+    updateHud();
+  }
+
+  $("startBtn").addEventListener("click", function () {
+    closeModal("intro"); state.playing = true;
+    $("minimap").style.display = "block";
+  });
+  $("actionBtn").addEventListener("click", function () { if (state.near && !state.modalOpen) interact(); });
+  // The prompt is tappable too. Touch sniffing is unreliable (hybrid laptops,
+  // in-app webviews), so never let it be the only route to interacting.
+  $("prompt").addEventListener("click", function () { if (state.near && !state.modalOpen) interact(); });
+  $("fundBtn").addEventListener("click", function () { decide(true); });
+  $("submitBtn").addEventListener("click", submitToLender);
+  $("backBtn").addEventListener("click", function () { closeModal("lender"); state.phase = "seeking_lender"; $("seekBanner").style.display = "block"; });
+  $("passBtn").addEventListener("click", function () { decide(false); });
+  $("nextBtn").addEventListener("click", function () {
+    closeModal("outcome");
+    if (state.idx >= DEALS.length) renderResults();
+  });
+  $("replayBtn").addEventListener("click", function () { closeModal("results"); resetGame(); });
+
+  // Test hook (used by automated verification; harmless in production)
+  window.__hank = {
+    state: state, buildings: buildings, hank: hank,
+    teleport: function (x, z) { hank.position.set(x, 0, z); },
+    goToActive: function () { var b = activeBuilding(); if (b) hank.position.set(b.x, 0, b.z + 1); },
+    openFile: openFile, decide: decide,
+    gotta: startUrgency, relieve: endUrgency, piles: piles,
+    DEALS: DEALS, LENDERS: LENDERS, lenderFits: lenderFits, declineReason: declineReason,
+    lenderSpots: lenderSpots, openLender: openLender, submitToLender: submitToLender,
+    scene: scene, camera: camera, hankGroup: hank,
+    goToLender: function (i) { var sp = lenderSpots[i]; hank.position.set(sp.x, 0, sp.z); return sp; }
+  };
+
+  // ---------- Boot (wait for Bebas so canvas signs render in-brand) ----------
+  function boot() { buildStreet(); dress(); resize(); updateHud(); tick(); }
+  if (document.fonts && document.fonts.load) {
+    Promise.all([document.fonts.load("26px 'Bebas Neue'"), document.fonts.load("20px 'Bebas Neue'")])
+      .then(boot).catch(boot);
+  } else { boot(); }
+})();
+</script>
+</body>
+</html>
