@@ -345,10 +345,18 @@ h1 > span { display: block; }
 
 @media (max-width: 1100px) {
   :root { --shell: min(100% - 44px, 820px); }
-  body { padding-bottom: 116px; }
-  .desk { padding: 10px 0 0; }
+  body { padding-top: calc(82px + env(safe-area-inset-top)); padding-bottom: 116px; }
+  .desk { padding: 0; }
   .field-guide { width: calc(100% - 20px); border-width: 8px; border-radius: 12px 12px 0 0; animation: none; }
   .binder-rings { display: none; }
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 130;
+    padding-top: env(safe-area-inset-top);
+  }
   .guide-tabs {
     position: fixed;
     left: 0;
@@ -366,7 +374,7 @@ h1 > span { display: block; }
   .guide-tabs a b { margin: 0; font-size: .92rem; }
   .guide-tabs a:hover, .guide-tabs a:focus-visible { transform: translateY(-3px); }
   .menu-button { display: block; }
-  .nav-links { position: absolute; top: 82px; left: 0; right: 0; display: none; flex-direction: column; align-items: stretch; padding: 22px; background: var(--green-dark); border-bottom: 4px solid var(--gold); }
+  .nav-links { position: absolute; top: 100%; left: 0; right: 0; display: none; flex-direction: column; align-items: stretch; padding: 22px; background: var(--green-dark); border-bottom: 4px solid var(--gold); }
   .nav-links.is-open { display: flex; }
   .nav-links > a { padding: 8px 0; }
   .nav-links .button { padding: 12px; }
@@ -410,13 +418,13 @@ h1 > span { display: block; }
 @media (max-width: 650px) {
   :root { --shell: calc(100% - 30px); }
   html { scroll-padding-top: 74px; }
+  body { padding-top: calc(70px + env(safe-area-inset-top)); }
   .field-guide { width: 100%; border-inline: 0; border-radius: 0; }
   .nav { min-height: 70px; }
   .wordmark-main { font-size: 1.72rem; }
   .wordmark-sub { font-size: .49rem; }
   .wordmark { gap: 8px; }
   .wordmark-portrait { width: 42px; height: 42px; }
-  .nav-links { top: 70px; }
   .section { padding: 64px 0; }
   .hero-grid { padding: 48px 0 22px; }
   .eyebrow { font-size: .6rem; letter-spacing: .1em; }
