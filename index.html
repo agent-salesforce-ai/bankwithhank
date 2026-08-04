@@ -1,229 +1,266 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BANKWITHHANK.COM | A Handshake You Can Bank On</title>
-    <link rel="canonical" href="https://bankwithhank.com/">
-    <meta name="description" content="BANKWITHHANK.COM: Fast, friendly, and fair merchant cash advances. With Hank, you're not just a client, you're a partner.">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hank Bank | Hank Knows a Guy</title>
+  <meta name="description" content="Tell Hank what your business needs. One straightforward application connects you with available business funding options through Sutton Funding.">
+  <link rel="canonical" href="https://bankwithhank.com/">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Slab:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 
-    <!-- Open Graph / social link previews -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="BANKWITHHANK.COM">
-    <meta property="og:url" content="https://bankwithhank.com/">
-    <meta property="og:title" content="A Handshake You Can Bank On">
-    <meta property="og:description" content="Fast, fair small business funding from a partner, not a faceless lender. Get funded in as little as 24 hours.">
-    <meta property="og:image" content="https://bankwithhank.com/og-image.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="BANKWITHHANK.COM - A Handshake You Can Bank On">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="A Handshake You Can Bank On">
-    <meta name="twitter:description" content="Fast, fair small business funding from a partner, not a faceless lender. Get funded in as little as 24 hours.">
-    <meta name="twitter:image" content="https://bankwithhank.com/og-image.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Hank Bank">
+  <meta property="og:url" content="https://bankwithhank.com/">
+  <meta property="og:title" content="Hank Knows a Guy">
+  <meta property="og:description" content="A straightforward way to explore available business funding options through Sutton Funding.">
+  <meta property="og:image" content="https://bankwithhank.com/og-image-v2.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Hank in his red flannel suit at the Hank Bank deal desk beside the words Hank Knows a Guy.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hank Knows a Guy">
+  <meta name="twitter:description" content="A straightforward way to explore available business funding options through Sutton Funding.">
+  <meta name="twitter:image" content="https://bankwithhank.com/og-image-v2.jpg">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'header': ['Bebas Neue', 'sans-serif'],
-                        'body': ['Roboto Slab', 'serif'],
-                    },
-                    colors: {
-                        'hnb-green': '#22543d', // Forest Green
-                        'hnb-red': '#a52a2a',   // Buffalo Plaid Red
-                        'hnb-tan': '#f5e5c7',   // Warm Tan
-                        'hnb-gold': '#fdb813',  // Gold Accent
-                        'hnb-charcoal': '#2d3748',  // Charcoal Black
-                    },
-                    boxShadow: {
-                        'solid': '5px 5px 0px #2d3748',
-                    },
-                    backgroundImage: {
-                        'plaid': "linear-gradient(rgba(34, 84, 61, 0.9), rgba(34, 84, 61, 0.9)), repeating-linear-gradient(45deg, #2d3748, #2d3748 10px, #22543d 10px, #22543d 20px)",
-                        'red-plaid': "linear-gradient(rgba(165, 42, 42, 0.9), rgba(165, 42, 42, 0.9)), repeating-linear-gradient(45deg, #2d3748, #2d3748 10px, #a52a2a 10px, #a52a2a 20px)",
-                    },
-                }
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "Hank Bank",
+        "url": "https://bankwithhank.com/",
+        "description": "A marketing brand that connects business owners with a Sutton Funding application."
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Who processes my application?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Applications started through BankWithHank are processed by Sutton Funding."
             }
-        }
-    </script>
-    <style>
-        .retro-panel {
-            border: 4px solid #2d3748;
-            box-shadow: 5px 5px 0px #2d3748;
-        }
-        .hero-title-stroke {
-             -webkit-text-stroke: 2px #2d3748;
-        }
-    </style>
-
-    <!--
-      Analytics. Paste a GA4 Measurement ID (looks like G-XXXXXXXXXX) into
-      ANALYTICS_ID below to switch this on. While it is empty nothing loads
-      and no requests are made.
-    -->
-    <script>
-        window.ANALYTICS_ID = '';
-        (function () {
-            if (!window.ANALYTICS_ID) return;
-            window.dataLayer = window.dataLayer || [];
-            window.gtag = function () { dataLayer.push(arguments); };
-            gtag('js', new Date());
-            gtag('config', window.ANALYTICS_ID);
-            var s = document.createElement('script');
-            s.async = true;
-            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.ANALYTICS_ID;
-            document.head.appendChild(s);
-        })();
-    </script>
+          },
+          {
+            "@type": "Question",
+            "name": "Does applying guarantee funding?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Funding is subject to underwriting, approval, availability, and provider terms. Not all applicants qualify."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens after I submit?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The Sutton Funding team reviews the application and may contact you for more information. If options are available, you can review the actual terms before deciding."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
-<body class="bg-hnb-tan text-hnb-charcoal font-body">
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <header class="bg-red-plaid fixed top-0 left-0 right-0 z-50 retro-panel mb-4">
-        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="#" class="text-3xl font-header text-hnb-tan tracking-wider">BANKWITHHANK.COM</a>
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="#services" class="text-hnb-tan hover:text-hnb-gold font-bold text-lg">Our Promise</a>
-                <a href="#process" class="text-hnb-tan hover:text-hnb-gold font-bold text-lg">How It Works</a>
-                <a href="https://apply.suttonfunding.com/apply?utm_source=bankwithhank&utm_medium=referral&utm_campaign=hank_site&utm_content=nav_desktop" class="bg-hnb-green text-white font-header px-5 py-2 rounded-md hover:bg-opacity-80 transition-colors shadow-solid text-lg">Talk to Hank</a>
-            </div>
-            <button id="mobile-menu-button" class="md:hidden text-hnb-tan">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
-        </nav>
-        <div id="mobile-menu" class="hidden md:hidden bg-red-plaid border-t-4 border-hnb-tan p-4">
-            <a href="#services" class="block py-2 text-hnb-tan font-bold text-lg">Our Promise</a>
-            <a href="#process" class="block py-2 text-hnb-tan font-bold text-lg">How It Works</a>
-            <a href="https://apply.suttonfunding.com/apply?utm_source=bankwithhank&utm_medium=referral&utm_campaign=hank_site&utm_content=nav_mobile" class="mt-4 block text-center bg-hnb-green text-white font-header py-2 rounded-md hover:bg-opacity-80 transition-colors text-lg">Talk to Hank</a>
+  <header class="site-header" id="top">
+    <nav class="nav shell" aria-label="Primary navigation">
+      <a class="wordmark" href="#top" aria-label="Hank Bank home">
+        <img class="wordmark-portrait" src="hank-bank-logo-v2-660.webp" width="54" height="54" alt="">
+        <span class="wordmark-copy">
+          <span class="wordmark-main">HANK BANK</span>
+          <span class="wordmark-sub">BANKWITHHANK.COM</span>
+        </span>
+      </a>
+      <button class="menu-button" id="menu-button" type="button" aria-controls="nav-links" aria-expanded="false" aria-label="Open navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="nav-links">
+        <a href="#uses">What Hank Handles</a>
+        <a href="#process">How It Works</a>
+        <a href="#advice">Hank's Advice</a>
+        <a class="button button-small" href="https://apply.suttonfunding.com/apply?utm_source=bankwithhank&utm_medium=referral&utm_campaign=hank_site&utm_content=nav_desktop">Start My Application</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="hero-grid shell">
+        <div class="hero-copy">
+          <p class="eyebrow">BROKER <span>•</span> FUNDER <span>•</span> NEIGHBOR</p>
+          <h1>HANK KNOWS<br>A GUY.</h1>
+          <p class="hero-lede">Tell Hank what your business needs. One straightforward application connects you with available funding options through Sutton Funding.</p>
+          <div class="hero-actions">
+            <a class="button" href="https://apply.suttonfunding.com/apply?utm_source=bankwithhank&utm_medium=referral&utm_campaign=hank_site&utm_content=hero_primary">Start My Application</a>
+            <a class="text-link" href="#process">See how Hank works <span aria-hidden="true">→</span></a>
+          </div>
+          <p class="microcopy">Offers are subject to underwriting and availability. Terms vary by provider.</p>
         </div>
-    </header>
-
-    <main>
-        <section class="pt-24 lg:pt-32 pb-16 bg-plaid text-hnb-tan">
-            <div class="container mx-auto px-6">
-                <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-                    <div class="lg:w-1/2 w-full order-2 lg:order-1">
-                        <picture>
-                            <source type="image/webp"
-                                    srcset="hank-bank-logo-v2-660.webp 660w, hank-bank-logo-v2.webp 1168w"
-                                    sizes="(min-width: 1024px) 584px, 280px">
-                            <img src="hank-bank-logo-v2-fallback.jpg" width="1168" height="1168" fetchpriority="high"
-                                 alt="Hank Bank logo featuring Hank in his red flannel suit extending a hand for a handshake."
-                                 class="w-3/5 max-w-[280px] mx-auto lg:w-full lg:max-w-none h-auto object-cover retro-panel bg-hnb-tan">
-                        </picture>
-                    </div>
-                    <div class="lg:w-1/2 text-center lg:text-left order-1 lg:order-2">
-                        <h1 class="font-header text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-hnb-gold hero-title-stroke">A HANDSHAKE YOU CAN BANK ON.</h1>
-                        <p class="text-lg lg:text-xl leading-relaxed my-6 lg:my-8">Forget faceless lenders. Hank built this business on a handshake, offering fast, fair funding to partners, not numbers. Around here, you're a neighbor.</p>
-                        <a href="https://apply.suttonfunding.com/apply?utm_source=bankwithhank&utm_medium=referral&utm_campaign=hank_site&utm_content=hero" class="inline-block bg-red-plaid text-white font-header px-8 py-4 rounded-md text-2xl hover:bg-opacity-80 transition-colors shadow-solid">Let's Shake On It</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="services" class="py-20 bg-hnb-tan">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="font-header text-5xl md:text-6xl text-hnb-charcoal mb-12">HANK'S PROMISE TO YOU</h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="retro-panel bg-white p-6">
-                        <h3 class="font-header text-3xl text-hnb-green mb-2">QUICK CAPITAL</h3>
-                        <p>Hank knows you're busy. That's why he gets you funded in as little as 24 hours. He moves at the speed of your business, not the other way around.</p>
-                    </div>
-                    <div class="retro-panel bg-white p-6">
-                        <h3 class="font-header text-3xl text-hnb-green mb-2">SIMPLE APPLICATION</h3>
-                        <p>No mountains of paperwork here. Hank's application is straightforward because he believes in your business's health, not just a credit score.</p>
-                    </div>
-                    <div class="retro-panel bg-white p-6">
-                        <h3 class="font-header text-3xl text-hnb-green mb-2">FLEXIBLE PAYMENTS</h3>
-                        <p>Business ebbs and flows, and Hank gets that. Payments are based on a percentage of your sales, so it always fits your cash flow.</p>
-                    </div>
-                    <div class="retro-panel bg-white p-6">
-                        <h3 class="font-header text-3xl text-hnb-green mb-2">NO COLLATERAL</h3>
-                        <p>Hank is investing in you and your vision. Your business's future is the only collateral he needs, so your personal assets are never at risk.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about-hank" class="py-20 bg-hnb-tan">
-            <div class="container mx-auto px-6 text-center max-w-3xl">
-                <h2 class="font-header text-5xl md:text-6xl text-hnb-charcoal mb-4">A WORD FROM HANK</h2>
-                <div class="retro-panel bg-white p-8 text-left">
-                    <p class="text-2xl font-body italic text-hnb-charcoal leading-relaxed">"I've been helping folks in this community for years. I believe in small business, and I believe in a square deal. When you work with us, you're not just a file on a desk—you're a partner. My door is always open. Let's build something great together."</p>
-                    <p class="text-right text-3xl font-header text-hnb-green mt-6 tracking-wider">- Hank</p>
-                </div>
-            </div>
-        </section>
-        
-        <section id="process" class="py-20 bg-plaid text-hnb-tan">
-            <div class="container mx-auto px-6">
-                <h2 class="font-header text-5xl md:text-6xl text-hnb-gold text-center mb-16 hero-title-stroke">HOW IT WORKS</h2>
-                <div class="max-w-4xl mx-auto space-y-12">
-                    <div class="md:flex items-center gap-8">
-                        <div class="md:w-1/3 font-header text-4xl text-hnb-gold text-center md:text-right">STEP 1:<br>THE FIRST CHAT</div>
-                        <div class="md:w-2/3 retro-panel bg-hnb-tan text-hnb-charcoal p-6 text-lg">It all starts with our simple, secure online application. Think of it as the modern version of sitting down with Hank over a cup of coffee. Tell us what you need.</div>
-                    </div>
-                     <div class="md:flex flex-row-reverse items-center gap-8">
-                        <div class="md:w-1A-3 font-header text-4xl text-hnb-gold text-center md:text-left">STEP 2:<br>HANK'S REVIEW</div>
-                        <div class="md:w-2/3 retro-panel bg-hnb-tan text-hnb-charcoal p-6 text-lg">Hank and his team get to work right away. They believe in your business and will review your performance to get you the best offer possible, often on the same day.</div>
-                    </div>
-                     <div class="md:flex items-center gap-8">
-                        <div class="md:w-1/3 font-header text-4xl text-hnb-gold text-center md:text-right">STEP 3:<br>THE HANDSHAKE</div>
-                        <div class="md:w-2/3 retro-panel bg-hnb-tan text-hnb-charcoal p-6 text-lg">Once you accept the offer, Hank gives the green light and the deal is sealed. We transfer the funds directly to your bank. The capital is yours to grow your business.</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="contact" class="py-20 bg-red-plaid">
-            <div class="container mx-auto px-6 text-center">
-                 <h2 class="font-header text-6xl md:text-7xl text-hnb-tan mb-4" style="-webkit-text-stroke: 2px #2d3748;">READY FOR A PARTNER?</h2>
-                 <p class="text-2xl font-body max-w-2xl mx-auto mb-8 text-hnb-tan">Hank is ready to listen. If you're a small business owner looking for a financial partner who has your back, it's time to talk. Let's get to work.</p>
-                 <a href="mailto:hank@bankwithhank.com" class="bg-hnb-green text-white font-header px-10 py-5 rounded-md text-3xl hover:bg-opacity-80 transition-colors shadow-solid inline-block">TALK TO HANK</a>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="bg-hnb-charcoal text-hnb-tan py-6">
-        <div class="container mx-auto px-6 text-center">
-            <p class="font-body">&copy; 2025 BANKWITHHANK.COM | Funding America's Businesses. Your Partner in Growth.</p>
+        <div class="hero-art">
+          <div class="hero-halo" aria-hidden="true"></div>
+          <picture>
+            <source type="image/webp" srcset="hank-bank-logo-v2-660.webp 660w, hank-bank-logo-v2.webp 1168w" sizes="(min-width: 900px) 560px, 88vw">
+            <img src="hank-bank-logo-v2-fallback.jpg" width="1168" height="1168" fetchpriority="high" alt="Hank smiling in his red flannel suit and extending his hand for a handshake.">
+          </picture>
+          <div class="deal-stamp" aria-hidden="true">HANK'S<br>DEAL DESK</div>
         </div>
-    </footer>
+      </div>
+      <div class="hero-rule" aria-hidden="true"><span>STRAIGHT ANSWERS</span><span>SIMPLE APPLICATION</span><span>REAL TERMS</span></div>
+    </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
+    <section class="intro section" id="uses">
+      <div class="shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="kicker">THE REQUEST LEDGER</p>
+            <h2>WHAT'S THE MONEY FOR?</h2>
+          </div>
+          <p>Hank doesn't need a ten-page pitch deck. Start with the reason your business needs capital and Sutton Funding will review the application.</p>
+        </div>
+        <div class="ledger-grid" role="list" aria-label="Common business funding uses">
+          <article class="ledger-card" role="listitem"><span class="ledger-no">01</span><h3>Working Capital</h3><p>Bridge everyday operating needs and cash-flow timing.</p></article>
+          <article class="ledger-card" role="listitem"><span class="ledger-no">02</span><h3>Expansion</h3><p>Prepare for a new location, team, or growth opportunity.</p></article>
+          <article class="ledger-card" role="listitem"><span class="ledger-no">03</span><h3>Inventory</h3><p>Stock up ahead of a busy season or large order.</p></article>
+          <article class="ledger-card" role="listitem"><span class="ledger-no">04</span><h3>Equipment</h3><p>Purchase or replace the tools your business relies on.</p></article>
+          <article class="ledger-card" role="listitem"><span class="ledger-no">05</span><h3>Project Costs</h3><p>Cover materials, labor, or expenses tied to new work.</p></article>
+          <article class="ledger-card" role="listitem"><span class="ledger-no">06</span><h3>Marketing & Payroll</h3><p>Support customer acquisition or keep the team moving.</p></article>
+        </div>
+      </div>
+    </section>
 
-            document.querySelectorAll('a[href*="apply.suttonfunding.com"]').forEach((link) => {
-                link.addEventListener('click', () => {
-                    if (typeof window.gtag !== 'function') return;
-                    const params = new URL(link.href).searchParams;
-                    gtag('event', 'apply_click', {
-                        placement: params.get('utm_content') || 'unknown',
-                        link_url: link.href
-                    });
-                });
-            });
-        });
-    </SCriPt>
+    <section class="process section" id="process">
+      <div class="shell">
+        <div class="section-heading centered">
+          <p class="kicker light">HANK'S THREE-STEP HANDSHAKE</p>
+          <h2>ONE APPLICATION. NO MYSTERY.</h2>
+        </div>
+        <div class="process-grid">
+          <article class="process-card">
+            <span class="step">01</span>
+            <h3>Tell Hank What You Need</h3>
+            <p>Complete the secure Sutton Funding application with your business and funding details.</p>
+          </article>
+          <article class="process-card">
+            <span class="step">02</span>
+            <h3>Sutton Reviews the File</h3>
+            <p>The Sutton Funding team reviews the application and may request additional information.</p>
+          </article>
+          <article class="process-card">
+            <span class="step">03</span>
+            <h3>Review the Actual Terms</h3>
+            <p>If options are available, look at the provider, amount, payment structure, and cost before deciding.</p>
+          </article>
+        </div>
+        <div class="process-cta">
+          <a class="button button-cream" href="https://apply.suttonfunding.com/apply?utm_source=bankwithhank&utm_medium=referral&utm_campaign=hank_site&utm_content=process">Put It On Hank's Desk</a>
+        </div>
+      </div>
+    </section>
 
+    <section class="advice section" id="advice">
+      <div class="shell">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="kicker">HANK'S ADVICE DESK</p>
+            <h2>THE BUSINESS LESSONS NOBODY ASKED FOR.</h2>
+          </div>
+          <p>Field notes from a man who has a desk phone, a firm handshake, and an answer for absolutely everything.</p>
+        </div>
+        <div class="advice-grid">
+          <figure class="advice-card">
+            <img src="hank-advice-wire.webp" width="900" height="900" loading="lazy" alt="A yellow Wire Transfers for Dummies book cover featuring Hank.">
+            <figcaption><span>LESSON 01</span> The wire is always “on its way.”</figcaption>
+          </figure>
+          <figure class="advice-card">
+            <img src="hank-advice-imaginary-bank.webp" width="900" height="900" loading="lazy" alt="Hank consulting with an imaginary bank friend at his desk.">
+            <figcaption><span>LESSON 02</span> Hank's bank contact is very exclusive.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq section" id="faq">
+      <div class="shell faq-layout">
+        <div class="faq-intro">
+          <p class="kicker">THE FINE PRINT, PLAINLY</p>
+          <h2>ASK HANK.</h2>
+          <p>No smoke-filled back room required. Here are the answers that matter before you apply.</p>
+        </div>
+        <div class="faq-list">
+          <details open>
+            <summary>Who processes my application?</summary>
+            <p>Applications started through BankWithHank are processed by Sutton Funding.</p>
+          </details>
+          <details>
+            <summary>Does applying guarantee funding?</summary>
+            <p>No. Funding is subject to underwriting, approval, availability, and provider terms. Not all applicants qualify.</p>
+          </details>
+          <details>
+            <summary>What happens after I submit?</summary>
+            <p>The Sutton Funding team reviews the application and may contact you for more information. If options are available, you can review the actual terms before deciding.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="shell final-cta-inner">
+        <div>
+          <p class="kicker light">HANK'S DOOR IS OPEN</p>
+          <h2>PUT YOUR REQUEST<br>ON THE DESK.</h2>
+        </div>
+        <div class="final-cta-action">
+          <a class="button button-cream" href="https://apply.suttonfunding.com/apply?utm_source=bankwithhank&utm_medium=referral&utm_campaign=hank_site&utm_content=final_cta">Start My Application</a>
+          <p>Secure application processed by Sutton Funding.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <div>
+        <p class="footer-brand">HANK BANK</p>
+        <p>A handshake you can bank on.</p>
+      </div>
+      <div class="footer-disclosure">
+        <p>BankWithHank is a marketing brand. Applications are processed by Sutton Funding. Funding is subject to underwriting, approval, and provider terms. Not all applicants qualify. This website is not an offer of financing.</p>
+        <p><a href="https://suttonfunding.com/privacy-policy">Privacy</a><span>•</span><a href="https://suttonfunding.com/terms">Terms</a><span>•</span>© 2026 BankWithHank.com</p>
+      </div>
+    </div>
+  </footer>
+
+  <a class="mobile-apply" href="https://apply.suttonfunding.com/apply?utm_source=bankwithhank&utm_medium=referral&utm_campaign=hank_site&utm_content=mobile_sticky">Start My Application</a>
+
+  <script>
+    const menuButton = document.getElementById('menu-button');
+    const navLinks = document.getElementById('nav-links');
+
+    menuButton.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('is-open');
+      menuButton.setAttribute('aria-expanded', String(open));
+      menuButton.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+    });
+
+    navLinks.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('is-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Open navigation menu');
+      });
+    });
+  </script>
 </body>
 </html>
-
-
