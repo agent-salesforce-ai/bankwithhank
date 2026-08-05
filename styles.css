@@ -380,8 +380,8 @@ h1 > span { display: block; }
 }
 .field-guide { animation: guide-open .62s ease-out both; transform-origin: center top; }
 
-@media (min-width: 1241px) and (max-width: 1500px) {
-  .hero-copy { padding-left: 24px; }
+@media (min-width: 1241px) and (max-width: 1600px) {
+  .hero-copy { padding-left: 20px; }
 }
 
 @media (max-width: 1240px) {
