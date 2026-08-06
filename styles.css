@@ -372,6 +372,8 @@ h1 > span { display: block; }
 .footer-brand { margin-bottom: 4px; color: var(--gold); font: 2.4rem/1 "Bebas Neue", sans-serif; }
 .footer-grid p { margin-bottom: 10px; }
 .footer-disclosure { max-width: 780px; font-size: .75rem; opacity: .84; }
+.footer-link { color: var(--gold); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.footer-link:hover { color: var(--cream); }
 .mobile-apply { display: none; }
 
 @keyframes guide-open {
